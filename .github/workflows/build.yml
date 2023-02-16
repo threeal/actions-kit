@@ -1,0 +1,18 @@
+name: build
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v3.3.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build this project
+        run: npm run build
