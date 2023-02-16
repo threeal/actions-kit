@@ -1,0 +1,20 @@
+{
+  "name": "@actions-kit/io",
+  "version": "0.1.0",
+  "description": "An actions-kit IO library",
+  "keywords": [
+    "github",
+    "actions",
+    "io"
+  ],
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/io",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "packages/io"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

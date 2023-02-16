@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "declaration": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "target": "es2021"
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ]
+}
