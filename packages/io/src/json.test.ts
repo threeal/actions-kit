@@ -16,7 +16,7 @@ expect.extend({
       message: () => `expected path '${received}' to be exist`,
       pass: false,
     };
-  }
+  },
 });
 
 describe("test write and read JSON", () => {
