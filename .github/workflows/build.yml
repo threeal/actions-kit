@@ -24,11 +24,29 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build this project
+      - name: Run unit tests
         run: npm test
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v3.3.0
+
+      - name: Cache dependencies
+        uses: actions/cache@v3.2.5
+        with:
+          path: node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run static analysis
+        run: npm run lint
+
   build:
-    needs: test
+    needs: [test, lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
