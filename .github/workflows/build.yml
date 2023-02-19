@@ -5,6 +5,27 @@ on:
   push:
     branches: [main]
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v3.3.0
+
+      - name: Cache dependencies
+        uses: actions/cache@v3.2.5
+        with:
+          path: node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run formatter
+        run: npm run format
+
+      - name: Check diff
+        run: git diff --exit-code HEAD
+
   test:
     runs-on: ${{ matrix.os }}-latest
     strategy:
