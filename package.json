@@ -4,7 +4,6 @@
   "scripts": {
     "build": "lerna run build",
     "format": "prettier --write packages/**/*.ts",
-    "format-check": "prettier --check packages/**/*.ts",
     "lint": "eslint packages/**/*.ts",
     "lint-fix": "eslint packages/**/*.ts --fix",
     "test": "jest --runInBand"
