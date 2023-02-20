@@ -1,10 +1,18 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
+    "strict": true,
+    "module": "commonjs",
     "rootDir": "./src",
-    "outDir": "./lib"
+    "declaration": true,
+    "outDir": "./lib",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "target": "es2021"
   },
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ],
   "include": [
     "./src"
   ]
