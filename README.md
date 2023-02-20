@@ -6,6 +6,7 @@ An Additional [GitHub ToolKit](https://github.com/actions/toolkit) for developin
 
 ## Packages
 
+- [@actions-kit/deps-pip](./packages/deps-pip/README.md).
 - [@actions-kit/io](./packages/io/README.md).
 
 ## License
