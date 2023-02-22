@@ -1,0 +1,22 @@
+{
+  "name": "@actions-kit/log",
+  "version": "0.1.0",
+  "description": "An actions-kit log library",
+  "keywords": [
+    "github",
+    "actions",
+    "log"
+  ],
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/log",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "packages/log"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}
