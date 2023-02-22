@@ -6,7 +6,7 @@
     "format": "prettier --write packages/**/*.ts",
     "lint": "eslint packages/**/*.ts",
     "lint-fix": "eslint packages/**/*.ts --fix",
-    "test": "jest --runInBand"
+    "test": "jest --coverage --runInBand"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
