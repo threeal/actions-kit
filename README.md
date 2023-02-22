@@ -7,6 +7,7 @@ An Additional [GitHub ToolKit](https://github.com/actions/toolkit) for developin
 ## Packages
 
 - [@actions-kit/io](./packages/io/README.md).
+- [@actions-kit/log](./packages/log/README.md).
 
 ## License
 
