@@ -17,6 +17,7 @@
     "directory": "packages/log"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -rf lib"
   }
 }
