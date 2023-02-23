@@ -92,3 +92,17 @@ jobs:
 
       - name: Build this project
         run: npm run build
+
+  deps-by:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: [io]
+    steps:
+      - name: Init project
+        run: npm init --yes
+
+      - name: Install package
+        run: npm install 'https://gitpkg.now.sh/${{ github.repository }}/packages/${{ matrix.pkg }}?${{ github.sha }}&scripts.postinstall=npm%20run%20build'
