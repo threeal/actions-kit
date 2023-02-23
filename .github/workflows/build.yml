@@ -95,3 +95,23 @@ jobs:
 
       - name: Check diff
         run: git diff --exit-code HEAD
+
+  deps-by:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: [io]
+    steps:
+      - name: Init project
+        run: npm init --yes
+
+      - name: Install package
+        run: npm install 'https://gitpkg.now.sh/${{ github.repository }}/packages/${{ matrix.pkg }}?${{ github.sha }}'
+
+      - name: Import package
+        run: node -e 'const pkg = require("@actions-kit/${{ matrix.pkg }}");'
+
+      - name: Import package in TypeScript
+        run: npx --yes ts-node -e 'import * as pkg from "@actions-kit/${{ matrix.pkg }}";'
