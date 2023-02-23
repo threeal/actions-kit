@@ -112,3 +112,6 @@ jobs:
 
       - name: Import package
         run: node -e 'const pkg = require("@actions-kit/${{ matrix.pkg }}");'
+
+      - name: Import package in TypeScript
+        run: npx --yes ts-node -e 'import * as pkg from "@actions-kit/${{ matrix.pkg }}";'
