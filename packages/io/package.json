@@ -17,6 +17,7 @@
     "directory": "packages/io"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -rf lib"
   }
 }
