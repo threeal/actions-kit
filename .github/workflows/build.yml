@@ -108,4 +108,4 @@ jobs:
         run: npm init --yes
 
       - name: Install package
-        run: npm install 'https://gitpkg.now.sh/${{ github.repository }}/packages/${{ matrix.pkg }}?${{ github.sha }}&scripts.postinstall=npm%20run%20build'
+        run: npm install 'https://gitpkg.now.sh/${{ github.repository }}/packages/${{ matrix.pkg }}?${{ github.sha }}'
