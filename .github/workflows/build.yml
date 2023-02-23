@@ -91,4 +91,7 @@ jobs:
         run: npm install
 
       - name: Build this project
-        run: npm run build
+        run: npm run clean-build
+
+      - name: Check diff
+        run: git diff --exit-code HEAD
