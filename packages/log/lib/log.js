@@ -22,23 +22,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.error = exports.warning = exports.info = void 0;
 const core = __importStar(require("@actions/core"));
-const ansi_styles_1 = __importDefault(require("ansi-styles"));
 var core_1 = require("@actions/core");
 Object.defineProperty(exports, "info", { enumerable: true, get: function () { return core_1.info; } });
 function warning(message) {
-    const label = `${ansi_styles_1.default.yellow.open}Warning:${ansi_styles_1.default.yellow.close}`;
-    core.info(`${label} ${message}`);
+    core.info(`\u001b[33mWarning:\u001b[39m ${message}`);
 }
 exports.warning = warning;
 function error(message) {
-    const label = `${ansi_styles_1.default.red.open}Error:${ansi_styles_1.default.red.close}`;
-    core.info(`${label} ${message}`);
+    core.info(`\u001b[31mError:\u001b[39m ${message}`);
 }
 exports.error = error;
 //# sourceMappingURL=log.js.map

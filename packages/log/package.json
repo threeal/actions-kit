@@ -21,7 +21,6 @@
     "clean": "rm -rf lib"
   },
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "ansi-styles": "^6.2.1"
+    "@actions/core": "^1.10.0"
   }
 }

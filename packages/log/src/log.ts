@@ -1,14 +1,11 @@
 import * as core from "@actions/core";
-import styles from "ansi-styles";
 
 export { info } from "@actions/core";
 
 export function warning(message: string) {
-  const label = `${styles.yellow.open}Warning:${styles.yellow.close}`;
-  core.info(`${label} ${message}`);
+  core.info(`\u001b[33mWarning:\u001b[39m ${message}`);
 }
 
 export function error(message: string) {
-  const label = `${styles.red.open}Error:${styles.red.close}`;
-  core.info(`${label} ${message}`);
+  core.info(`\u001b[31mError:\u001b[39m ${message}`);
 }
