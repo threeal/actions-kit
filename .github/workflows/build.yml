@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm run bootstrap
 
       - name: Run formatter
         run: npm run format
@@ -47,7 +47,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm run bootstrap
 
       - name: Run unit tests
         run: npm test
@@ -67,7 +67,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm run bootstrap
 
       - name: Run static analysis
         run: npm run lint
@@ -88,7 +88,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm run bootstrap
 
       - name: Build this project
         run: npm run clean-build
