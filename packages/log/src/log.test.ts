@@ -1,19 +1,22 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
+import { beforeAll, describe, test } from "@jest/globals";
 import { error, info, warning } from "./log";
-
-function expectStdout() {
-  return expect(process.env.TEST_STDOUT);
-}
+import { expectStdout, flushStdout } from "./utils.test";
 
 describe("test writes info to log", () => {
-  beforeAll(() => info("some message"));
+  beforeAll(() => {
+    flushStdout();
+    info("some message");
+  });
   test("message should be written", () => {
     expectStdout().toBe("some message");
   });
 });
 
 describe("test writes warning to log", () => {
-  beforeAll(() => warning("some message"));
+  beforeAll(() => {
+    flushStdout();
+    warning("some message");
+  });
   test("message should be written", () => {
     expectStdout().toMatch(/some message/);
   });
@@ -23,7 +26,10 @@ describe("test writes warning to log", () => {
 });
 
 describe("test writes error to log", () => {
-  beforeAll(() => error("some message"));
+  beforeAll(() => {
+    flushStdout();
+    error("some message");
+  });
   test("message should be written", () => {
     expectStdout().toMatch(/some message/);
   });
