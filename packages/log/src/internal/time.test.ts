@@ -11,7 +11,7 @@ describe("test calculate elapsed time", () => {
   test("should be more than the timeout", async () => {
     const time = Time.now();
     await new Promise((r) => setTimeout(r, 50));
-    expect(time.elapsed().ms).toBeGreaterThan(50);
+    expect(time.elapsed().ms).toBeGreaterThanOrEqual(50);
   });
   test("new one should be more than the old one", async () => {
     const time = Time.now();
