@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { error, warning } from "./log";
-import { flushStdout, stdout } from "./utils.test";
+import { flushStdout, stdout } from "./internal/stdout.test";
 
 describe("test writes warning to log", () => {
   beforeAll(() => {

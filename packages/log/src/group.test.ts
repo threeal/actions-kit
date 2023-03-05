@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { group } from "./group";
 import { info } from "./log";
-import { flushStdout, stdout } from "./utils.test";
+import { flushStdout, stdout } from "./internal/stdout.test";
 
 describe("test output grouping of an async function", () => {
   let res = false;
