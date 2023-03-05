@@ -25,6 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.group = void 0;
 const core = __importStar(require("@actions/core"));
+const internal_1 = require("./internal");
+const log_1 = require("./log");
 /**
  * Wrap an asynchronous function call in a group.
  *
@@ -34,8 +36,18 @@ const core = __importStar(require("@actions/core"));
  * @param fn The function to wrap in the group
  */
 async function group(name, fn) {
+    const time = internal_1.Time.now();
     core.startGroup(name);
-    const res = await fn();
+    let res;
+    try {
+        res = await fn();
+    }
+    catch (err) {
+        (0, log_1.error)(`Failed in ${time.elapsed()}`);
+        core.endGroup();
+        throw err;
+    }
+    (0, log_1.info)(`Done in ${time.elapsed()}`);
     core.endGroup();
     return res;
 }

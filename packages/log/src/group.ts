@@ -1,4 +1,6 @@
 import * as core from "@actions/core";
+import { Time } from "./internal";
+import { info, error } from "./log";
 
 /**
  * Wrap an asynchronous function call in a group.
@@ -9,8 +11,17 @@ import * as core from "@actions/core";
  * @param fn The function to wrap in the group
  */
 export async function group<T>(name: string, fn: () => Promise<T>): Promise<T> {
+  const time = Time.now();
   core.startGroup(name);
-  const res = await fn();
+  let res: T;
+  try {
+    res = await fn();
+  } catch (err) {
+    error(`Failed in ${time.elapsed()}`);
+    core.endGroup();
+    throw err;
+  }
+  info(`Done in ${time.elapsed()}`);
   core.endGroup();
   return res;
 }
