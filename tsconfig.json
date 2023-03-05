@@ -1,4 +1,7 @@
 {
+  "include": [
+    "mocks"
+  ],
   "compilerOptions": {
     "strict": true,
     "module": "commonjs",

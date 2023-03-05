@@ -9,6 +9,9 @@ module.exports = {
     },
   },
   moduleFileExtensions: ['js', 'ts'],
+  moduleNameMapper: {
+    'actions/core': '<rootDir>/mocks/actions-core.js',
+  },
   roots: ['<rootDir>/packages'],
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
