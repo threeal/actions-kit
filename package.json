@@ -9,9 +9,10 @@
     "format": "prettier --write packages/**/*.ts",
     "lint": "eslint packages/**/*.ts",
     "lint-fix": "eslint packages/**/*.ts --fix",
-    "test": "jest --coverage --runInBand"
+    "test": "tsc && jest --coverage --runInBand"
   },
   "devDependencies": {
+    "@actions/core": "^1.10.0",
     "@types/node": "^18.13.0",
     "@types/tmp": "^0.2.3",
     "eslint": "^8.34.0",
