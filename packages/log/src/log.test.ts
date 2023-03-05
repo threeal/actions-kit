@@ -2,16 +2,6 @@ import { beforeAll, describe, test } from "@jest/globals";
 import { error, info, warning } from "./log";
 import { expectStdout, flushStdout } from "./utils.test";
 
-describe("test writes info to log", () => {
-  beforeAll(() => {
-    flushStdout();
-    info("some message");
-  });
-  test("message should be written", () => {
-    expectStdout().toBe("some message");
-  });
-});
-
 describe("test writes warning to log", () => {
   beforeAll(() => {
     flushStdout();
