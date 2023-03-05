@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "all": "run-s format lint test clean-build",
     "bootstrap": "npm install && lerna bootstrap",
     "build": "lerna run build",
     "clean": "lerna run clean",
