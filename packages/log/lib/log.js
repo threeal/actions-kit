@@ -27,10 +27,18 @@ exports.error = exports.warning = exports.info = void 0;
 const core = __importStar(require("@actions/core"));
 var core_1 = require("@actions/core");
 Object.defineProperty(exports, "info", { enumerable: true, get: function () { return core_1.info; } });
+/**
+ * Writes warning to log with console.log.
+ * @param message warning message
+ */
 function warning(message) {
     core.info(`\u001b[33mWarning:\u001b[39m ${message}`);
 }
 exports.warning = warning;
+/**
+ * Writes error to log with console.log.
+ * @param message error message
+ */
 function error(message) {
     core.info(`\u001b[31mError:\u001b[39m ${message}`);
 }
