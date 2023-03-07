@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { error, warning } from "./log";
-import { nodeExec } from "./internal/stdout.test";
+import { nodeExec } from "./internal/exec.test";
 
 describe("test writes warning to log", () => {
   test("should not throw", () => {

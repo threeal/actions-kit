@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { group } from "./group";
 import { info } from "./log";
-import { nodeExec } from "./internal/stdout.test";
+import { nodeExec } from "./internal/exec.test";
 
 describe("test output grouping of an async function", () => {
   describe("output grouping of a successful function", () => {
