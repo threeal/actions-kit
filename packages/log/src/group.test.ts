@@ -25,11 +25,13 @@ describe("test output grouping of an async function", () => {
         ].join("\n");
         prom = nodeExec(code);
       });
-      test("group name should be written", () => {
-        expect(prom).resolves.toMatch(/some group/);
+      test("group name should be written", async () => {
+        await expect(prom).resolves.toMatch(/some group/);
       });
-      test("should output success info", () => {
-        expect(prom).resolves.toMatch(/Done in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
+      test("should output success info", async () => {
+        await expect(prom).resolves.toMatch(
+          /Done in \d*(ms|s|m|h)( \d*(ms|s|m))?/
+        );
       });
       test("output order should be correct", async () => {
         const out = await prom;
@@ -65,11 +67,13 @@ describe("test output grouping of an async function", () => {
         ].join("\n");
         prom = nodeExec(code);
       });
-      test("group name should be written", () => {
-        expect(prom).resolves.toMatch(/some group/);
+      test("group name should be written", async () => {
+        await expect(prom).resolves.toMatch(/some group/);
       });
-      test("should output failure info", () => {
-        expect(prom).resolves.toMatch(/Failed in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
+      test("should output failure info", async () => {
+        await expect(prom).resolves.toMatch(
+          /Failed in \d*(ms|s|m|h)( \d*(ms|s|m))?/
+        );
       });
       test("output order should be correct", async () => {
         const out = await prom;

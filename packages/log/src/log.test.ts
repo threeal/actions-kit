@@ -16,11 +16,11 @@ describe("test writes warning to log", () => {
       ].join("\n");
       prom = nodeExec(code);
     });
-    test("message should be written", () => {
-      expect(prom).resolves.toMatch(/some message/);
+    test("message should be written", async () => {
+      await expect(prom).resolves.toMatch(/some message/);
     });
-    test("warning label should be written", () => {
-      expect(prom).resolves.toMatch(/warning/i);
+    test("warning label should be written", async () => {
+      await expect(prom).resolves.toMatch(/warning/i);
     });
   });
 });
@@ -39,11 +39,11 @@ describe("test writes error to log", () => {
       ].join("\n");
       prom = nodeExec(code);
     });
-    test("message should be written", () => {
-      expect(prom).resolves.toMatch(/some message/);
+    test("message should be written", async () => {
+      await expect(prom).resolves.toMatch(/some message/);
     });
-    test("error label should be written", () => {
-      expect(prom).resolves.toMatch(/error/i);
+    test("error label should be written", async () => {
+      await expect(prom).resolves.toMatch(/error/i);
     });
   });
 });

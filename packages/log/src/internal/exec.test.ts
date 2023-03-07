@@ -17,7 +17,7 @@ describe("test node code execution", () => {
   beforeAll(() => {
     prom = nodeExec("console.log('some log');");
   });
-  test("output should be correct", () => {
-    expect(prom).resolves.toBe("some log\n");
+  test("output should be correct", async () => {
+    await expect(prom).resolves.toBe("some log\n");
   });
 });
