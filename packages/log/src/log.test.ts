@@ -20,7 +20,7 @@ describe("test writes warning to log", () => {
       await expect(prom).resolves.toMatch(/some message/);
     });
     test("warning label should be written", async () => {
-      await expect(prom).resolves.toMatch(/warning/i);
+      await expect(prom).resolves.toMatch(/::warning::/);
     });
   });
 });
@@ -43,7 +43,7 @@ describe("test writes error to log", () => {
       await expect(prom).resolves.toMatch(/some message/);
     });
     test("error label should be written", async () => {
-      await expect(prom).resolves.toMatch(/error/i);
+      await expect(prom).resolves.toMatch(/::error::/);
     });
   });
 });
