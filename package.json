@@ -4,13 +4,13 @@
   "scripts": {
     "all": "run-s format lint test clean-build",
     "bootstrap": "npm install && lerna bootstrap",
-    "build": "lerna run build",
+    "build": "tsc && lerna run build",
     "clean": "lerna run clean",
     "clean-build": "run-s clean build",
     "format": "prettier --write packages/**/*.ts",
     "lint": "eslint packages/**/*.ts",
     "lint-fix": "eslint packages/**/*.ts --fix",
-    "test": "tsc && jest --coverage --runInBand"
+    "test": "run-s build && jest --coverage --runInBand"
   },
   "devDependencies": {
     "@actions/core": "^1.10.0",
