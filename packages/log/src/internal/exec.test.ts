@@ -1,15 +1,16 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { exec } from "child_process";
+import * as exec from "@actions/exec";
 
 export async function nodeExec(code: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    exec(`node -e "${code}"`, (error, out) => {
-      if (error) {
-        return reject(error);
-      }
-      resolve(out);
-    });
+  let out: string = "";
+  await exec.exec("node", ["-e", code], {
+    listeners: {
+      stdout: (data: Buffer) => {
+        out += data.toString();
+      },
+    },
   });
+  return out;
 }
 
 describe("test node code execution", () => {
