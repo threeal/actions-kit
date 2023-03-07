@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import { Time } from "./internal";
-import { info, error } from "./log";
+import { info } from "./log";
 
 /**
  * Wrap an asynchronous function call in a group.
@@ -17,7 +17,7 @@ export async function group<T>(name: string, fn: () => Promise<T>): Promise<T> {
   try {
     res = await fn();
   } catch (err) {
-    error(`Failed in ${time.elapsed()}`);
+    info(`Failed in ${time.elapsed()}`);
     core.endGroup();
     throw err;
   }

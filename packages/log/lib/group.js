@@ -43,7 +43,7 @@ async function group(name, fn) {
         res = await fn();
     }
     catch (err) {
-        (0, log_1.error)(`Failed in ${time.elapsed()}`);
+        (0, log_1.info)(`Failed in ${time.elapsed()}`);
         core.endGroup();
         throw err;
     }
