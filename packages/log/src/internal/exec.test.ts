@@ -7,7 +7,6 @@ export async function nodeExec(code: string): Promise<string> {
       if (error) {
         return reject(error);
       }
-      process.stdout.write(`code:\n${code}\noutput:\n${out}\n`);
       resolve(out);
     });
   });
