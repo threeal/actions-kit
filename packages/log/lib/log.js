@@ -32,7 +32,7 @@ Object.defineProperty(exports, "info", { enumerable: true, get: function () { re
  * @param message warning message
  */
 function warning(message) {
-    core.info(`\u001b[33mWarning:\u001b[39m ${message}`);
+    core.warning(message);
 }
 exports.warning = warning;
 /**
@@ -40,7 +40,7 @@ exports.warning = warning;
  * @param message error message
  */
 function error(message) {
-    core.info(`\u001b[31mError:\u001b[39m ${message}`);
+    core.error(message);
 }
 exports.error = error;
 //# sourceMappingURL=log.js.map

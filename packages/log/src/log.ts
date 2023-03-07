@@ -7,7 +7,7 @@ export { info } from "@actions/core";
  * @param message warning message
  */
 export function warning(message: string) {
-  core.info(`\u001b[33mWarning:\u001b[39m ${message}`);
+  core.warning(message);
 }
 
 /**
@@ -15,5 +15,5 @@ export function warning(message: string) {
  * @param message error message
  */
 export function error(message: string) {
-  core.info(`\u001b[31mError:\u001b[39m ${message}`);
+  core.error(message);
 }
