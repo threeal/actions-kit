@@ -1,14 +1,6 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { exec } from "child_process";
 
-export function stdout(): string {
-  return process.env.TEST_STDOUT || "";
-}
-
-export function flushStdout() {
-  process.env.TEST_STDOUT = "";
-}
-
 export async function nodeExec(code: string): Promise<string> {
   return new Promise((resolve, reject) => {
     exec(`node -e "${code}"`, (error, out) => {
@@ -20,13 +12,6 @@ export async function nodeExec(code: string): Promise<string> {
     });
   });
 }
-
-describe("test flush stdout", () => {
-  beforeAll(() => flushStdout());
-  test("stdout should be empty", () => {
-    expect(stdout()).toHaveLength(0);
-  });
-});
 
 describe("test node code execution", () => {
   let prom: Promise<string>;
