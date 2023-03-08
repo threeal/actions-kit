@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.execOut = exports.execCheck = exports.exec = void 0;
+exports.execOutCheck = exports.execOut = exports.execCheck = exports.exec = void 0;
 var exec_1 = require("./exec");
 Object.defineProperty(exports, "exec", { enumerable: true, get: function () { return exec_1.exec; } });
 Object.defineProperty(exports, "execCheck", { enumerable: true, get: function () { return exec_1.execCheck; } });
 Object.defineProperty(exports, "execOut", { enumerable: true, get: function () { return exec_1.execOut; } });
+Object.defineProperty(exports, "execOutCheck", { enumerable: true, get: function () { return exec_1.execOutCheck; } });
 //# sourceMappingURL=index.js.map

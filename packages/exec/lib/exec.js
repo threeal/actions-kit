@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.execCheck = exports.execOut = exports.exec = void 0;
+exports.execOutCheck = exports.execCheck = exports.execOut = exports.exec = void 0;
 const actionsExec = __importStar(require("@actions/exec"));
 async function exec(commandLine, args) {
     await actionsExec.exec(commandLine, args);
@@ -50,4 +50,18 @@ async function execCheck(commandLine, args) {
     return rc === 0;
 }
 exports.execCheck = execCheck;
+async function execOutCheck(commandLine, args) {
+    let out = "";
+    const rc = await actionsExec.exec(commandLine, args, {
+        silent: true,
+        ignoreReturnCode: true,
+        listeners: {
+            stdout: (data) => {
+                out += data.toString();
+            },
+        },
+    });
+    return [out, rc === 0];
+}
+exports.execOutCheck = execOutCheck;
 //# sourceMappingURL=exec.js.map

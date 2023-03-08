@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { exec, execCheck, execOut } from "./exec";
+import { exec, execCheck, execOut, execOutCheck } from "./exec";
 
 describe("test command executions", () => {
   describe("execute a command", () => {
@@ -45,6 +45,23 @@ describe("test command executions check", () => {
     test("should be resolved", async () => {
       const prom = execCheck("node", ["-e", "process.exit(1)"]);
       await expect(prom).resolves.toBe(false);
+    });
+  });
+});
+
+describe("test command executions check with output", () => {
+  describe("execute a command", () => {
+    test("should be resolved", async () => {
+      const prom = execOutCheck("node", ["-e", "console.log('some log');"]);
+      await expect(prom).resolves.toContain(true);
+      await expect(prom).resolves.toContain("some log\n");
+    });
+  });
+
+  describe("execute a failed command", () => {
+    test("should be resolved", async () => {
+      const prom = execOutCheck("node", ["-e", "process.exit(1)"]);
+      await expect(prom).resolves.toContain(false);
     });
   });
 });
