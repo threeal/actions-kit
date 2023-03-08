@@ -1,1 +1,1 @@
-export { exec, execOut } from "./exec";
+export { exec, execCheck, execOut } from "./exec";

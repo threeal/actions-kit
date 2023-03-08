@@ -22,3 +22,14 @@ export async function execOut(
   });
   return out;
 }
+
+export async function execCheck(
+  commandLine: string,
+  args?: string[]
+): Promise<boolean> {
+  const rc = await actionsExec.exec(commandLine, args, {
+    silent: true,
+    ignoreReturnCode: true,
+  });
+  return rc === 0;
+}
