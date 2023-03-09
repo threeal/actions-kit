@@ -5,8 +5,8 @@ function setInput(name: string, value: string) {
   process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] = value;
 }
 
-describe("test get string inputs", () => {
-  describe("get a string input", () => {
+describe("test get string from inputs", () => {
+  describe("from an input", () => {
     let val: string | null;
     beforeAll(() => {
       setInput("input", "some string");
@@ -17,7 +17,7 @@ describe("test get string inputs", () => {
     });
   });
 
-  describe("get an empty input", () => {
+  describe("from an empty input", () => {
     let val: string | null;
     beforeAll(() => {
       setInput("input", "");
@@ -29,8 +29,8 @@ describe("test get string inputs", () => {
   });
 });
 
-describe("test get number inputs", () => {
-  describe("get a number input", () => {
+describe("test get number from inputs", () => {
+  describe("from an input", () => {
     let val: number | null;
     beforeAll(() => {
       setInput("input", "123");
@@ -41,7 +41,7 @@ describe("test get number inputs", () => {
     });
   });
 
-  describe("get an invalid input", () => {
+  describe("from an invalid input", () => {
     let val: number | null;
     beforeAll(() => {
       setInput("input", "some invalid number");
@@ -52,7 +52,7 @@ describe("test get number inputs", () => {
     });
   });
 
-  describe("get an empty input", () => {
+  describe("from an empty input", () => {
     let val: number | null;
     beforeAll(() => {
       setInput("input", "");
