@@ -1,0 +1,1 @@
+export { getStringInput } from "./input";

@@ -15,5 +15,8 @@
     "build": "tsc",
     "clean": "rm -rf lib",
     "test": "echo 'Error: run tests from root' && exit 1"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0"
   }
 }
