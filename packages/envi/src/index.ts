@@ -1,1 +1,1 @@
-export { getStringInput } from "./input";
+export { getNumberInput, getStringInput } from "./input";

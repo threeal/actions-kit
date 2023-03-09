@@ -23,11 +23,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStringInput = void 0;
+exports.getNumberInput = exports.getStringInput = void 0;
 const core = __importStar(require("@actions/core"));
 function getStringInput(key) {
     const val = core.getInput(key);
     return val.length > 0 ? val : null;
 }
 exports.getStringInput = getStringInput;
+function getNumberInput(key) {
+    const val = getStringInput(key);
+    if (val === null)
+        return null;
+    return parseInt(val, 10);
+}
+exports.getNumberInput = getNumberInput;
 //# sourceMappingURL=input.js.map
