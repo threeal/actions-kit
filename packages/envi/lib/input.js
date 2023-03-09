@@ -23,8 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNumberInput = exports.getStringInput = void 0;
+exports.getNumberInput = exports.getStringInput = exports.getBooleanInput = void 0;
 const core = __importStar(require("@actions/core"));
+var core_1 = require("@actions/core");
+Object.defineProperty(exports, "getBooleanInput", { enumerable: true, get: function () { return core_1.getBooleanInput; } });
 function getStringInput(key) {
     const val = core.getInput(key);
     return val.length > 0 ? val : null;
