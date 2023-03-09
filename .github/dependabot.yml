@@ -11,6 +11,11 @@ updates:
       interval: 'daily'
 
   - package-ecosystem: 'npm'
+    directory: '/packages/envi'
+    schedule:
+      interval: 'daily'
+
+  - package-ecosystem: 'npm'
     directory: '/packages/exec'
     schedule:
       interval: 'daily'
