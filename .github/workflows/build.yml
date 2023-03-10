@@ -13,7 +13,7 @@ jobs:
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.0
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -40,7 +40,7 @@ jobs:
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.0
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -60,7 +60,7 @@ jobs:
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.0
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -81,7 +81,7 @@ jobs:
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.0
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
