@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.error = exports.warning = exports.info = void 0;
+exports.fatal = exports.error = exports.warning = exports.info = void 0;
 const core = __importStar(require("@actions/core"));
 var core_1 = require("@actions/core");
 Object.defineProperty(exports, "info", { enumerable: true, get: function () { return core_1.info; } });
@@ -43,4 +43,12 @@ function error(message) {
     core.error(message);
 }
 exports.error = error;
+/**
+ * Writes error to log with console.log and sets the action status to failed.
+ * @param message error message
+ */
+function fatal(message) {
+    core.setFailed(message);
+}
+exports.fatal = fatal;
 //# sourceMappingURL=log.js.map
