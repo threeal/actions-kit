@@ -5,99 +5,72 @@ function setInput(name: string, value: string) {
   process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] = value;
 }
 
-describe("test get string from inputs", () => {
-  describe("from an input", () => {
-    let val: string | null;
-    beforeAll(() => {
-      setInput("input", "some string");
-      val = getStringInput("input");
-    });
-    test("should be equal", () => {
-      expect(val).toBe("some string");
+describe("gets string from an input", () => {
+  describe("from a valid input", () => {
+    beforeAll(() => setInput("input", "some string"));
+    test("should returns a correct string", () => {
+      expect(getStringInput("input")).toBe("some string");
     });
   });
 
   describe("from an empty input", () => {
-    let val: string | null;
-    beforeAll(() => {
-      setInput("input", "");
-      val = getStringInput("input");
-    });
-    test("should be null", () => {
-      expect(val).toBeNull();
+    beforeAll(() => setInput("input", ""));
+    test("should returns null", () => {
+      expect(getStringInput("input")).toBeNull();
     });
   });
 });
 
-describe("test get boolean from inputs", () => {
-  describe("from an input with true value", () => {
-    let val: boolean;
-    beforeAll(() => {
-      setInput("input", "true");
-      val = getBooleanInput("input");
+describe("gets boolean from an input", () => {
+  describe("from a valid input", () => {
+    beforeAll(() => setInput("input", "true"));
+    describe("with a true value", () => {
+      test("should returns true", () => {
+        expect(getBooleanInput("input")).toBe(true);
+      });
     });
-    test("should be true", () => expect(val).toBe(true));
-  });
-
-  describe("from an input with false value", () => {
-    let val: boolean;
-    beforeAll(() => {
-      setInput("input", "false");
-      val = getBooleanInput("input");
+    describe("with a false value", () => {
+      beforeAll(() => setInput("input", "false"));
+      test("should returns false", () => {
+        expect(getBooleanInput("input")).toBe(false);
+      });
     });
-    test("should be false", () => expect(val).toBe(false));
   });
 
   describe("from an invalid input", () => {
-    let fn: () => void;
-    beforeAll(() => {
-      setInput("input", "some invalid boolean");
-      fn = () => getBooleanInput("input");
+    beforeAll(() => setInput("input", "some invalid boolean"));
+    test("should throws an error", () => {
+      expect(() => getBooleanInput("input")).toThrow();
     });
-    test("should throw", () => expect(fn).toThrow());
   });
 
   describe("from an empty input", () => {
-    let fn: () => void;
-    beforeAll(() => {
-      setInput("input", "");
-      fn = () => getBooleanInput("input");
+    beforeAll(() => setInput("input", ""));
+    test("should throws an error", () => {
+      expect(() => getBooleanInput("input")).toThrow();
     });
-    test("should throw", () => expect(fn).toThrow());
   });
 });
 
-describe("test get number from inputs", () => {
-  describe("from an input", () => {
-    let val: number | null;
-    beforeAll(() => {
-      setInput("input", "123");
-      val = getNumberInput("input");
-    });
-    test("should be equal", () => {
-      expect(val).toBe(123);
+describe("gets number from an input", () => {
+  describe("from a valid input", () => {
+    beforeAll(() => setInput("input", "123"));
+    test("should returns a correct number", () => {
+      expect(getNumberInput("input")).toBe(123);
     });
   });
 
   describe("from an invalid input", () => {
-    let val: number | null;
-    beforeAll(() => {
-      setInput("input", "some invalid number");
-      val = getNumberInput("input");
-    });
-    test("should be NaN", () => {
-      expect(val).toBeNaN();
+    beforeAll(() => setInput("input", "some invalid number"));
+    test("should returns NaN", () => {
+      expect(getNumberInput("input")).toBeNaN();
     });
   });
 
   describe("from an empty input", () => {
-    let val: number | null;
-    beforeAll(() => {
-      setInput("input", "");
-      val = getNumberInput("input");
-    });
-    test("should be null", () => {
-      expect(val).toBeNull();
+    beforeAll(() => setInput("input", ""));
+    test("should returns null", () => {
+      expect(getNumberInput("input")).toBeNull();
     });
   });
 });

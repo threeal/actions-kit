@@ -1,23 +1,22 @@
-import { describe, expect, test } from "@jest/globals";
+import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Time } from "./time";
 
-describe("test getting current time", () => {
+describe("gets current time", () => {
   test("should be more than zero", () => {
     expect(Time.now().ms).toBeGreaterThan(0);
   });
 });
 
-describe("test calculate elapsed time", () => {
+describe("calculates elapsed time", () => {
+  let time: Time;
+  beforeEach(async () => (time = Time.now()));
   test("should be more than the timeout", async () => {
-    const time = Time.now();
     await new Promise((r) => setTimeout(r, 50));
     expect(time.elapsed().ms).toBeGreaterThanOrEqual(50);
   });
   test("new one should be more than the old one", async () => {
-    const time = Time.now();
+    const oldElapsed = time.elapsed();
     await new Promise((r) => setTimeout(r, 50));
-    const prevElapsed = time.elapsed();
-    await new Promise((r) => setTimeout(r, 50));
-    expect(time.elapsed().ms).toBeGreaterThan(prevElapsed.ms);
+    expect(time.elapsed().ms).toBeGreaterThan(oldElapsed.ms);
   });
 });
