@@ -1,6 +1,6 @@
+import * as exec from "@actions-kit/exec";
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { error, warning } from "./log";
-import { nodeExec } from "./internal/exec.test";
 
 describe("writes warning to log", () => {
   test("should not throw", () => {
@@ -13,7 +13,7 @@ describe("writes warning to log", () => {
         "const log = require('./packages/log/lib');",
         "log.warning('some message');",
       ].join("\n");
-      prom = nodeExec(code);
+      prom = exec.execOut("node", ["-e", code]);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
@@ -40,7 +40,7 @@ describe("writes error to log", () => {
         "const log = require('./packages/log/lib');",
         "log.error('some message');",
       ].join("\n");
-      prom = nodeExec(code);
+      prom = exec.execOut("node", ["-e", code]);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {

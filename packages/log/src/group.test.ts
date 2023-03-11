@@ -1,7 +1,7 @@
+import * as exec from "@actions-kit/exec";
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { group } from "./group";
 import { info } from "./log";
-import { nodeExec } from "./internal/exec.test";
 
 describe("group output of an async function", () => {
   describe("on a successful function", () => {
@@ -23,7 +23,7 @@ describe("group output of an async function", () => {
           "  return true;",
           "});",
         ].join("\n");
-        prom = nodeExec(code);
+        prom = exec.execOut("node", ["-e", code]);
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
@@ -67,7 +67,7 @@ describe("group output of an async function", () => {
           "  throw new Error('some error');",
           "}).catch((err) => {});",
         ].join("\n");
-        prom = nodeExec(code);
+        prom = exec.execOut("node", ["-e", code]);
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
