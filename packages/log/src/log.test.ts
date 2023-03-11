@@ -56,25 +56,33 @@ describe("writes error to log", () => {
   });
 });
 
-describe("writes error to log and sets the action status to failed", () => {
-  test("should not throw", () => {
+describe("writes a fatal message to the log", () => {
+  test("should not throws an error", () => {
     expect(() => fatal("some message")).not.toThrow();
   });
-
-  describe("check output", () => {
-    let out: string;
-    beforeAll(async () => {
+  describe("runs in a separate process", () => {
+    let prom: Promise<[string, boolean]>;
+    test("should be resolved", () => {
       const code = [
         "const log = require('./packages/log/lib');",
         "log.fatal('some message');",
       ].join("\n");
-      out = await exec.execOut("node", ["-e", code]);
+      prom = exec.execOutCheck("node", ["-e", code]);
+      return expect(prom).resolves.toBeTruthy();
     });
-    test("message should be written", () => {
-      expect(out).toMatch(/some message/);
-    });
-    test("error label should be written", () => {
-      expect(out).toMatch(/::error::/);
+    describe("checks the output and the status", () => {
+      let out: string;
+      let success: boolean;
+      beforeAll(async () => ([out, success] = await prom));
+      test("the output should contains the message", () => {
+        expect(out).toMatch(/some message/);
+      });
+      test("the output should contains an error label", () => {
+        expect(out).toMatch(/::error::/);
+      });
+      test("the status should be failed", () => {
+        expect(success).toBe(false);
+      });
     });
   });
 });
