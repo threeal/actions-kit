@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import * as exec from "@actions/exec";
 
 export async function nodeExec(code: string): Promise<string> {
@@ -13,12 +13,9 @@ export async function nodeExec(code: string): Promise<string> {
   return out;
 }
 
-describe("test node code execution", () => {
-  let prom: Promise<string>;
-  beforeAll(() => {
-    prom = nodeExec("console.log('some log');");
-  });
-  test("output should be correct", async () => {
-    await expect(prom).resolves.toBe("some log\n");
+describe("executes node code", () => {
+  test("should be resolved with correct output", () => {
+    const prom = nodeExec("console.log('some log');");
+    return expect(prom).resolves.toBe("some log\n");
   });
 });
