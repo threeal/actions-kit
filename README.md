@@ -8,7 +8,6 @@ An Additional [GitHub ToolKit](https://github.com/actions/toolkit) for developin
 
 - [@actions-kit/envi](./packages/envi).
 - [@actions-kit/exec](./packages/exec).
-- [@actions-kit/io](./packages/io/README.md).
 - [@actions-kit/log](./packages/log/README.md).
 
 ## License

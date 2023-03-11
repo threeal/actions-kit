@@ -1,21 +1,21 @@
+import * as exec from "@actions-kit/exec";
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { group } from "./group";
 import { info } from "./log";
-import { nodeExec } from "./internal/exec.test";
 
-describe("test output grouping of an async function", () => {
-  describe("output grouping of a successful function", () => {
-    test("should be resoved", async () => {
+describe("group output of an async function", () => {
+  describe("on a successful function", () => {
+    test("should be resolved", () => {
       const prom = group("some group", async () => {
         info("some info");
         return true;
       });
-      expect(prom).resolves.toBe(true);
+      return expect(prom).resolves.toBe(true);
     });
 
-    describe("check output", () => {
+    describe("runs in a separate process", () => {
       let prom: Promise<string>;
-      beforeAll(() => {
+      test("should be resolved", () => {
         const code = [
           "const log = require('./packages/log/lib');",
           "log.group('some group', async () => {",
@@ -23,41 +23,43 @@ describe("test output grouping of an async function", () => {
           "  return true;",
           "});",
         ].join("\n");
-        prom = nodeExec(code);
+        prom = exec.execOut("node", ["-e", code]);
+        return expect(prom).resolves.toBeTruthy();
       });
-      test("group name should be written", async () => {
-        await expect(prom).resolves.toMatch(/some group/);
-      });
-      test("should output success info", async () => {
-        await expect(prom).resolves.toMatch(
-          /Done in \d*(ms|s|m|h)( \d*(ms|s|m))?/
-        );
-      });
-      test("output order should be correct", async () => {
-        const out = await prom;
-        const groupStartIndex = out.indexOf("::group::");
-        const infoIndex = out.indexOf("some info");
-        const doneIndex = out.indexOf("Done in");
-        const groupEndIndex = out.indexOf("::endgroup::");
-        expect(groupStartIndex).toBeLessThan(infoIndex);
-        expect(infoIndex).toBeLessThan(doneIndex);
-        expect(doneIndex).toBeLessThan(groupEndIndex);
+      describe("checks output", () => {
+        let out: string;
+        beforeAll(async () => (out = await prom));
+        test("group name should be written", () => {
+          expect(out).toMatch(/some group/);
+        });
+        test("success info should be written", () => {
+          expect(out).toMatch(/Done in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
+        });
+        test("output order should be correct", () => {
+          const groupStartIndex = out.indexOf("::group::");
+          const infoIndex = out.indexOf("some info");
+          const doneIndex = out.indexOf("Done in");
+          const groupEndIndex = out.indexOf("::endgroup::");
+          expect(groupStartIndex).toBeLessThan(infoIndex);
+          expect(infoIndex).toBeLessThan(doneIndex);
+          expect(doneIndex).toBeLessThan(groupEndIndex);
+        });
       });
     });
   });
 
-  describe("output grouping of a failed function", () => {
-    test("should be rejected", async () => {
+  describe("on a failed function", () => {
+    test("should be rejected", () => {
       const prom = group("some group", async () => {
         info("some info");
         throw new Error("some error");
       });
-      expect(prom).rejects.toThrow();
+      return expect(prom).rejects.toThrow();
     });
 
-    describe("check output", () => {
+    describe("runs in a separate process", () => {
       let prom: Promise<string>;
-      beforeAll(() => {
+      test("should be resolved", () => {
         const code = [
           "const log = require('./packages/log/lib');",
           "log.group('some group', async () => {",
@@ -65,25 +67,27 @@ describe("test output grouping of an async function", () => {
           "  throw new Error('some error');",
           "}).catch((err) => {});",
         ].join("\n");
-        prom = nodeExec(code);
+        prom = exec.execOut("node", ["-e", code]);
+        return expect(prom).resolves.toBeTruthy();
       });
-      test("group name should be written", async () => {
-        await expect(prom).resolves.toMatch(/some group/);
-      });
-      test("should output failure info", async () => {
-        await expect(prom).resolves.toMatch(
-          /Failed in \d*(ms|s|m|h)( \d*(ms|s|m))?/
-        );
-      });
-      test("output order should be correct", async () => {
-        const out = await prom;
-        const groupStartIndex = out.indexOf("::group::");
-        const infoIndex = out.indexOf("some info");
-        const failedIndex = out.indexOf("Failed in");
-        const groupEndIndex = out.indexOf("::endgroup::");
-        expect(groupStartIndex).toBeLessThan(infoIndex);
-        expect(infoIndex).toBeLessThan(failedIndex);
-        expect(failedIndex).toBeLessThan(groupEndIndex);
+      describe("checks output", () => {
+        let out: string;
+        beforeAll(async () => (out = await prom));
+        test("group name should be written", () => {
+          expect(out).toMatch(/some group/);
+        });
+        test("failure info should be written", () => {
+          expect(out).toMatch(/Failed in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
+        });
+        test("output order should be correct", () => {
+          const groupStartIndex = out.indexOf("::group::");
+          const infoIndex = out.indexOf("some info");
+          const failedIndex = out.indexOf("Failed in");
+          const groupEndIndex = out.indexOf("::endgroup::");
+          expect(groupStartIndex).toBeLessThan(infoIndex);
+          expect(infoIndex).toBeLessThan(failedIndex);
+          expect(failedIndex).toBeLessThan(groupEndIndex);
+        });
       });
     });
   });

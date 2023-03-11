@@ -1,67 +1,74 @@
-import { describe, expect, test } from "@jest/globals";
+import { beforeAll, describe, expect, test } from "@jest/globals";
 import { exec, execCheck, execOut, execOutCheck } from "./exec";
 
-describe("test command executions", () => {
-  describe("execute a command", () => {
-    test("should be resolved", async () => {
+describe("executes a command", () => {
+  describe("on a successful command", () => {
+    test("should be resolved", () => {
       const prom = exec("node", ["-e", "process.exit()"]);
-      await expect(prom).resolves.toBeUndefined();
+      return expect(prom).resolves.toBeUndefined();
     });
   });
 
-  describe("execute a failed command", () => {
-    test("should be rejected", async () => {
+  describe("on a failed command", () => {
+    test("should be rejected", () => {
       const prom = exec("node", ["-e", "process.exit(1)"]);
-      await expect(prom).rejects.toThrowError();
+      return expect(prom).rejects.toThrowError();
     });
   });
 });
 
-describe("test command executions with output", () => {
-  describe("execute a command", () => {
-    test("should be resolved", async () => {
+describe("executes a command and gets the output", () => {
+  describe("on a successful command", () => {
+    test("should be resolved with an output", () => {
       const prom = execOut("node", ["-e", "console.log('some log');"]);
-      await expect(prom).resolves.toBe("some log\n");
+      return expect(prom).resolves.toBe("some log\n");
     });
   });
 
-  describe("execute a failed command", () => {
-    test("should be rejected", async () => {
+  describe("on a failed command", () => {
+    test("should be rejected", () => {
       const prom = execOut("node", ["-e", "process.exit(1)"]);
-      await expect(prom).rejects.toThrowError();
+      return expect(prom).rejects.toThrowError();
     });
   });
 });
 
-describe("test command executions check", () => {
-  describe("execute a command", () => {
-    test("should be resolved", async () => {
+describe("executes a command and gets the status", () => {
+  describe("on a successful command", () => {
+    test("should be resolved with success", () => {
       const prom = execCheck("node", ["-e", "process.exit();"]);
-      await expect(prom).resolves.toBe(true);
+      return expect(prom).resolves.toBe(true);
     });
   });
 
-  describe("execute a failed command", () => {
-    test("should be resolved", async () => {
+  describe("on a failed command", () => {
+    test("should be resolved without success", () => {
       const prom = execCheck("node", ["-e", "process.exit(1)"]);
-      await expect(prom).resolves.toBe(false);
+      return expect(prom).resolves.toBe(false);
     });
   });
 });
 
-describe("test command executions check with output", () => {
-  describe("execute a command", () => {
-    test("should be resolved", async () => {
-      const prom = execOutCheck("node", ["-e", "console.log('some log');"]);
-      await expect(prom).resolves.toContain(true);
-      await expect(prom).resolves.toContain("some log\n");
+describe("executes a command and gets the output and status", () => {
+  describe("on a successful command", () => {
+    let prom: Promise<[string, boolean]>;
+    test("should be resolved", () => {
+      prom = execOutCheck("node", ["-e", "console.log('some log');"]);
+      return expect(prom).resolves.toBeTruthy();
+    });
+    describe("checks the result", () => {
+      let out: string;
+      let success: boolean;
+      beforeAll(async () => ([out, success] = await prom));
+      test("output should be correct", () => expect(out).toBe("some log\n"));
+      test("status should be success", () => expect(success).toBe(true));
     });
   });
 
-  describe("execute a failed command", () => {
-    test("should be resolved", async () => {
+  describe("on a failed command", () => {
+    test("should be resolved without success", () => {
       const prom = execOutCheck("node", ["-e", "process.exit(1)"]);
-      await expect(prom).resolves.toContain(false);
+      return expect(prom).resolves.toContain(false);
     });
   });
 });
