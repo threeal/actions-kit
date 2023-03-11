@@ -17,3 +17,11 @@ export function warning(message: string) {
 export function error(message: string) {
   core.error(message);
 }
+
+/**
+ * Writes error to log with console.log and sets the action status to failed.
+ * @param message error message
+ */
+export function fatal(message: string) {
+  core.setFailed(message);
+}

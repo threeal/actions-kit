@@ -9,3 +9,8 @@ export declare function warning(message: string): void;
  * @param message error message
  */
 export declare function error(message: string): void;
+/**
+ * Writes error to log with console.log and sets the action status to failed.
+ * @param message error message
+ */
+export declare function fatal(message: string): void;
