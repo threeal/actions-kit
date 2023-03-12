@@ -14,7 +14,7 @@ describe("group output of an async function", () => {
     });
 
     describe("runs in a separate process", () => {
-      let prom: Promise<string>;
+      let prom: Promise<exec.Result>;
       test("should be resolved", () => {
         const code = [
           "const log = require('./packages/log/lib');",
@@ -27,19 +27,19 @@ describe("group output of an async function", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
-        let out: string;
-        beforeAll(async () => (out = await prom));
+        let res: exec.Result;
+        beforeAll(async () => (res = await prom));
         test("group name should be written", () => {
-          expect(out).toMatch(/some group/);
+          expect(res.output).toMatch(/some group/);
         });
         test("success info should be written", () => {
-          expect(out).toMatch(/Done in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
+          expect(res.output).toMatch(/Done in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
         });
         test("output order should be correct", () => {
-          const groupStartIndex = out.indexOf("::group::");
-          const infoIndex = out.indexOf("some info");
-          const doneIndex = out.indexOf("Done in");
-          const groupEndIndex = out.indexOf("::endgroup::");
+          const groupStartIndex = res.output.indexOf("::group::");
+          const infoIndex = res.output.indexOf("some info");
+          const doneIndex = res.output.indexOf("Done in");
+          const groupEndIndex = res.output.indexOf("::endgroup::");
           expect(groupStartIndex).toBeLessThan(infoIndex);
           expect(infoIndex).toBeLessThan(doneIndex);
           expect(doneIndex).toBeLessThan(groupEndIndex);
@@ -58,7 +58,7 @@ describe("group output of an async function", () => {
     });
 
     describe("runs in a separate process", () => {
-      let prom: Promise<string>;
+      let prom: Promise<exec.Result>;
       test("should be resolved", () => {
         const code = [
           "const log = require('./packages/log/lib');",
@@ -71,19 +71,19 @@ describe("group output of an async function", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
-        let out: string;
-        beforeAll(async () => (out = await prom));
+        let res: exec.Result;
+        beforeAll(async () => (res = await prom));
         test("group name should be written", () => {
-          expect(out).toMatch(/some group/);
+          expect(res.output).toMatch(/some group/);
         });
         test("failure info should be written", () => {
-          expect(out).toMatch(/Failed in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
+          expect(res.output).toMatch(/Failed in \d*(ms|s|m|h)( \d*(ms|s|m))?/);
         });
         test("output order should be correct", () => {
-          const groupStartIndex = out.indexOf("::group::");
-          const infoIndex = out.indexOf("some info");
-          const failedIndex = out.indexOf("Failed in");
-          const groupEndIndex = out.indexOf("::endgroup::");
+          const groupStartIndex = res.output.indexOf("::group::");
+          const infoIndex = res.output.indexOf("some info");
+          const failedIndex = res.output.indexOf("Failed in");
+          const groupEndIndex = res.output.indexOf("::endgroup::");
           expect(groupStartIndex).toBeLessThan(infoIndex);
           expect(infoIndex).toBeLessThan(failedIndex);
           expect(failedIndex).toBeLessThan(groupEndIndex);
