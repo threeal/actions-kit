@@ -2,6 +2,8 @@
 export declare class Result {
     /** The status code */
     code: number;
+    /** The log output */
+    output: string;
     /**
      * Constructs a new command execution result
      * @param code the optional status code

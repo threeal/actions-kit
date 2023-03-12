@@ -3,6 +3,9 @@ export class Result {
   /** The status code */
   code: number = 0;
 
+  /** The log output */
+  output: string = "";
+
   /**
    * Constructs a new command execution result
    * @param code the optional status code

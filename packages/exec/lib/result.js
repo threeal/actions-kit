@@ -10,6 +10,8 @@ class Result {
     constructor(code) {
         /** The status code */
         this.code = 0;
+        /** The log output */
+        this.output = "";
         if (code !== undefined)
             this.code = code;
     }

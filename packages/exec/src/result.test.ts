@@ -11,6 +11,9 @@ describe("constructs a new result object", () => {
       test("the status code should be defaulted to zero", () => {
         expect(res.code).toBe(0);
       });
+      test("the log output should be empty", () => {
+        expect(res.output).toHaveLength(0);
+      });
       test("the status should be ok", () => {
         expect(res.isOk()).toBe(true);
       });
@@ -27,6 +30,9 @@ describe("constructs a new result object", () => {
         test("the status code should be equals", () => {
           expect(res.code).toBe(0);
         });
+        test("the log output should be empty", () => {
+          expect(res.output).toHaveLength(0);
+        });
         test("the status should be ok", () => {
           expect(res.isOk()).toBe(true);
         });
@@ -41,6 +47,9 @@ describe("constructs a new result object", () => {
       describe("checks the properties", () => {
         test("the status code should be equals", () => {
           expect(res.code).toBe(8);
+        });
+        test("the log output should be empty", () => {
+          expect(res.output).toHaveLength(0);
         });
         test("the status should not be ok", () => {
           expect(res.isOk()).toBe(false);
