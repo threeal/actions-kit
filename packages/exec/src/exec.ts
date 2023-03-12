@@ -4,8 +4,12 @@ import { Result } from "./result";
 export async function exec(
   commandLine: string,
   args?: string[]
-): Promise<void> {
-  await actionsExec.exec(commandLine, args);
+): Promise<Result> {
+  const rc = await actionsExec.exec(commandLine, args, {
+    silent: true,
+    ignoreReturnCode: true,
+  });
+  return new Result(rc);
 }
 
 export async function execOut(
@@ -22,17 +26,6 @@ export async function execOut(
     },
   });
   return out;
-}
-
-export async function execCheck(
-  commandLine: string,
-  args?: string[]
-): Promise<Result> {
-  const rc = await actionsExec.exec(commandLine, args, {
-    silent: true,
-    ignoreReturnCode: true,
-  });
-  return new Result(rc);
 }
 
 export async function execOutCheck(

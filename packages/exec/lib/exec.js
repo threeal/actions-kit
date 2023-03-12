@@ -23,11 +23,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.execOutCheck = exports.execCheck = exports.execOut = exports.exec = void 0;
+exports.execOutCheck = exports.execOut = exports.exec = void 0;
 const actionsExec = __importStar(require("@actions/exec"));
 const result_1 = require("./result");
 async function exec(commandLine, args) {
-    await actionsExec.exec(commandLine, args);
+    const rc = await actionsExec.exec(commandLine, args, {
+        silent: true,
+        ignoreReturnCode: true,
+    });
+    return new result_1.Result(rc);
 }
 exports.exec = exec;
 async function execOut(commandLine, args) {
@@ -43,14 +47,6 @@ async function execOut(commandLine, args) {
     return out;
 }
 exports.execOut = execOut;
-async function execCheck(commandLine, args) {
-    const rc = await actionsExec.exec(commandLine, args, {
-        silent: true,
-        ignoreReturnCode: true,
-    });
-    return new result_1.Result(rc);
-}
-exports.execCheck = execCheck;
 async function execOutCheck(commandLine, args) {
     const res = new result_1.Result();
     res.code = await actionsExec.exec(commandLine, args, {
