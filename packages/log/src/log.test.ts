@@ -7,7 +7,7 @@ describe("writes warning to log", () => {
     expect(() => warning("some message")).not.toThrow();
   });
   describe("runs in a separate process", () => {
-    let prom: Promise<string>;
+    let prom: Promise<exec.Result>;
     test("should be resolved", () => {
       const code = [
         "const log = require('./packages/log/lib');",
@@ -17,13 +17,13 @@ describe("writes warning to log", () => {
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
-      let out: string;
-      beforeAll(async () => (out = await prom));
+      let res: exec.Result;
+      beforeAll(async () => (res = await prom));
       test("message should be written", () => {
-        expect(out).toMatch(/some message/);
+        expect(res.output).toMatch(/some message/);
       });
       test("warning label should be written", () => {
-        expect(out).toMatch(/::warning::/);
+        expect(res.output).toMatch(/::warning::/);
       });
     });
   });
@@ -34,7 +34,7 @@ describe("writes error to log", () => {
     expect(() => error("some message")).not.toThrow();
   });
   describe("runs in a separate process", () => {
-    let prom: Promise<string>;
+    let prom: Promise<exec.Result>;
     test("should be resolved", () => {
       const code = [
         "const log = require('./packages/log/lib');",
@@ -44,13 +44,13 @@ describe("writes error to log", () => {
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
-      let out: string;
-      beforeAll(async () => (out = await prom));
+      let res: exec.Result;
+      beforeAll(async () => (res = await prom));
       test("message should be written", () => {
-        expect(out).toMatch(/some message/);
+        expect(res.output).toMatch(/some message/);
       });
       test("error label should be written", () => {
-        expect(out).toMatch(/::error::/);
+        expect(res.output).toMatch(/::error::/);
       });
     });
   });
@@ -67,7 +67,7 @@ describe("writes a fatal message to the log", () => {
         "const log = require('./packages/log/lib');",
         "log.fatal('some message');",
       ].join("\n");
-      prom = exec.execOutCheck("node", ["-e", code]);
+      prom = exec.execOut("node", ["-e", code]);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the output and the status", () => {
