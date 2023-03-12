@@ -52,17 +52,17 @@ async function execCheck(commandLine, args) {
 }
 exports.execCheck = execCheck;
 async function execOutCheck(commandLine, args) {
-    let out = "";
-    const rc = await actionsExec.exec(commandLine, args, {
+    const res = new result_1.Result();
+    res.code = await actionsExec.exec(commandLine, args, {
         silent: true,
         ignoreReturnCode: true,
         listeners: {
             stdout: (data) => {
-                out += data.toString();
+                res.output += data.toString();
             },
         },
     });
-    return [out, rc === 0];
+    return res;
 }
 exports.execOutCheck = execOutCheck;
 //# sourceMappingURL=exec.js.map

@@ -38,16 +38,16 @@ export async function execCheck(
 export async function execOutCheck(
   commandLine: string,
   args?: string[]
-): Promise<[string, boolean]> {
-  let out = "";
-  const rc = await actionsExec.exec(commandLine, args, {
+): Promise<Result> {
+  const res = new Result();
+  res.code = await actionsExec.exec(commandLine, args, {
     silent: true,
     ignoreReturnCode: true,
     listeners: {
       stdout: (data: Buffer) => {
-        out += data.toString();
+        res.output += data.toString();
       },
     },
   });
-  return [out, rc === 0];
+  return res;
 }

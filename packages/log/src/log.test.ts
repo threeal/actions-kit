@@ -61,7 +61,7 @@ describe("writes a fatal message to the log", () => {
     expect(() => fatal("some message")).not.toThrow();
   });
   describe("runs in a separate process", () => {
-    let prom: Promise<[string, boolean]>;
+    let prom: Promise<exec.Result>;
     test("should be resolved", () => {
       const code = [
         "const log = require('./packages/log/lib');",
@@ -71,17 +71,16 @@ describe("writes a fatal message to the log", () => {
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the output and the status", () => {
-      let out: string;
-      let success: boolean;
-      beforeAll(async () => ([out, success] = await prom));
+      let res: exec.Result;
+      beforeAll(async () => (res = await prom));
       test("the output should contains the message", () => {
-        expect(out).toMatch(/some message/);
+        expect(res.output).toMatch(/some message/);
       });
       test("the output should contains an error label", () => {
-        expect(out).toMatch(/::error::/);
+        expect(res.output).toMatch(/::error::/);
       });
-      test("the status should be failed", () => {
-        expect(success).toBe(false);
+      test("the status should not be ok", () => {
+        expect(res.isOk()).toBe(false);
       });
     });
   });
