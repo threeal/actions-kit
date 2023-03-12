@@ -1,4 +1,5 @@
 import * as actionsExec from "@actions/exec";
+import { Result } from "./result";
 
 export async function exec(
   commandLine: string,
@@ -26,12 +27,12 @@ export async function execOut(
 export async function execCheck(
   commandLine: string,
   args?: string[]
-): Promise<boolean> {
+): Promise<Result> {
   const rc = await actionsExec.exec(commandLine, args, {
     silent: true,
     ignoreReturnCode: true,
   });
-  return rc === 0;
+  return new Result(rc);
 }
 
 export async function execOutCheck(
