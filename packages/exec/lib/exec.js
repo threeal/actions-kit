@@ -26,8 +26,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.execOut = exports.exec = void 0;
 const actionsExec = __importStar(require("@actions/exec"));
 const result_1 = require("./result");
-async function exec(commandLine, args) {
-    const rc = await actionsExec.exec(commandLine, args, {
+async function exec(command, ...args) {
+    const rc = await actionsExec.exec(command, args, {
         silent: true,
         ignoreReturnCode: true,
     });

@@ -6,7 +6,7 @@ describe("executes a command", () => {
   describe("on a successful command", () => {
     let prom: Promise<Result>;
     test("should be resolved", () => {
-      prom = exec("node", ["-e", "process.exit();"]);
+      prom = exec("node", "-e", "process.exit();");
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the result", () => {
@@ -19,7 +19,7 @@ describe("executes a command", () => {
   describe("on a failed command", () => {
     let prom: Promise<Result>;
     test("should be resolved", () => {
-      prom = exec("node", ["-e", "process.exit(1)"]);
+      prom = exec("node", "-e", "process.exit(1)");
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the result", () => {

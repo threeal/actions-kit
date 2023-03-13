@@ -2,10 +2,10 @@ import * as actionsExec from "@actions/exec";
 import { Result } from "./result";
 
 export async function exec(
-  commandLine: string,
-  args?: string[]
+  command: string,
+  ...args: string[]
 ): Promise<Result> {
-  const rc = await actionsExec.exec(commandLine, args, {
+  const rc = await actionsExec.exec(command, args, {
     silent: true,
     ignoreReturnCode: true,
   });
