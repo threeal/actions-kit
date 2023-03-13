@@ -23,7 +23,7 @@ describe("group output of an async function", () => {
           "  return true;",
           "});",
         ].join("\n");
-        prom = exec.execOut("node", ["-e", code]);
+        prom = exec.execOut("node", "-e", code);
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
@@ -67,7 +67,7 @@ describe("group output of an async function", () => {
           "  throw new Error('some error');",
           "}).catch((err) => {});",
         ].join("\n");
-        prom = exec.execOut("node", ["-e", code]);
+        prom = exec.execOut("node", "-e", code);
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {

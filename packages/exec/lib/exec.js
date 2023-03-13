@@ -34,9 +34,9 @@ async function exec(command, ...args) {
     return new result_1.Result(rc);
 }
 exports.exec = exec;
-async function execOut(commandLine, args) {
+async function execOut(command, ...args) {
     const res = new result_1.Result();
-    res.code = await actionsExec.exec(commandLine, args, {
+    res.code = await actionsExec.exec(command, args, {
         silent: true,
         ignoreReturnCode: true,
         listeners: {

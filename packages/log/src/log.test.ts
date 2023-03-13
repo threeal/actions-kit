@@ -13,7 +13,7 @@ describe("writes warning to log", () => {
         "const log = require('./packages/log/lib');",
         "log.warning('some message');",
       ].join("\n");
-      prom = exec.execOut("node", ["-e", code]);
+      prom = exec.execOut("node", "-e", code);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
@@ -40,7 +40,7 @@ describe("writes error to log", () => {
         "const log = require('./packages/log/lib');",
         "log.error('some message');",
       ].join("\n");
-      prom = exec.execOut("node", ["-e", code]);
+      prom = exec.execOut("node", "-e", code);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
@@ -67,7 +67,7 @@ describe("writes a fatal message to the log", () => {
         "const log = require('./packages/log/lib');",
         "log.fatal('some message');",
       ].join("\n");
-      prom = exec.execOut("node", ["-e", code]);
+      prom = exec.execOut("node", "-e", code);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the output and the status", () => {

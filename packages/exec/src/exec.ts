@@ -13,11 +13,11 @@ export async function exec(
 }
 
 export async function execOut(
-  commandLine: string,
-  args?: string[]
+  command: string,
+  ...args: string[]
 ): Promise<Result> {
   const res = new Result();
-  res.code = await actionsExec.exec(commandLine, args, {
+  res.code = await actionsExec.exec(command, args, {
     silent: true,
     ignoreReturnCode: true,
     listeners: {
