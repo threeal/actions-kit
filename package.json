@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "all": "run-s format lint test clean-build",
+    "all-no-test": "run-s format lint clean-build",
     "bootstrap": "npm install && lerna bootstrap",
     "build": "tsc && lerna run build",
     "clean": "lerna run clean",
