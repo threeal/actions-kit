@@ -3,14 +3,16 @@
   "private": true,
   "scripts": {
     "all": "run-s format lint test clean-build",
+    "all-no-test": "run-s format lint clean-build",
     "bootstrap": "npm install && lerna bootstrap",
     "build": "tsc && lerna run build",
+    "build-and-test": "run-s build test",
     "clean": "lerna run clean",
     "clean-build": "run-s clean build",
     "format": "prettier --write packages/**/*.ts",
     "lint": "eslint packages/**/*.ts",
     "lint-fix": "eslint packages/**/*.ts --fix",
-    "test": "run-s build && jest --coverage --runInBand"
+    "test": "jest --coverage --runInBand"
   },
   "devDependencies": {
     "@actions-kit/exec": "file:./packages/exec",
