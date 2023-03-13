@@ -49,8 +49,8 @@ jobs:
         if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm run bootstrap
 
-      - name: Run unit tests
-        run: npm test
+      - name: Build and run unit tests
+        run: npm run build-and-test
 
   lint:
     runs-on: ubuntu-latest
