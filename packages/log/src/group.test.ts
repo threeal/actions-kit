@@ -3,6 +3,8 @@ import { beforeAll, describe, expect, test } from "@jest/globals";
 import { group } from "./group";
 import { info } from "./log";
 
+const node = new exec.Command("node", "-e");
+
 describe("group output of an async function", () => {
   describe("on a successful function", () => {
     test("should be resolved", () => {
@@ -16,14 +18,13 @@ describe("group output of an async function", () => {
     describe("runs in a separate process", () => {
       let prom: Promise<exec.Result>;
       test("should be resolved", () => {
-        const code = [
-          "const log = require('./packages/log/lib');",
-          "log.group('some group', async () => {",
-          "  log.info('some info');",
-          "  return true;",
-          "});",
-        ].join("\n");
-        prom = exec.execOut("node", "-e", code);
+        prom = node.execOut(
+          "const log = require('./packages/log/lib');\n\
+          log.group('some group', async () => {\n\
+            log.info('some info')\n\
+            return true;\n\
+          });"
+        );
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
@@ -60,14 +61,13 @@ describe("group output of an async function", () => {
     describe("runs in a separate process", () => {
       let prom: Promise<exec.Result>;
       test("should be resolved", () => {
-        const code = [
-          "const log = require('./packages/log/lib');",
-          "log.group('some group', async () => {",
-          "  log.info('some info');",
-          "  throw new Error('some error');",
-          "}).catch((err) => {});",
-        ].join("\n");
-        prom = exec.execOut("node", "-e", code);
+        prom = node.execOut(
+          "const log = require('./packages/log/lib');\n\
+          log.group('some group', async () => {\n\
+            log.info('some info');\n\
+            throw new Error('some error');\n\
+          }).catch((err) => {});"
+        );
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
