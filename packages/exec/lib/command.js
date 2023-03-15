@@ -10,6 +10,9 @@ class Command {
     async exec(...args) {
         return (0, exec_1.exec)(this.command, ...this.args.concat(args));
     }
+    async execOut(...args) {
+        return (0, exec_1.execOut)(this.command, ...this.args.concat(args));
+    }
 }
 exports.Command = Command;
 //# sourceMappingURL=command.js.map
