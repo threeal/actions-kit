@@ -4,23 +4,33 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: chore
 
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: chore
 
   - package-ecosystem: 'npm'
     directory: '/packages/envi'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: chore
 
   - package-ecosystem: 'npm'
     directory: '/packages/exec'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: chore
 
   - package-ecosystem: 'npm'
     directory: '/packages/log'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: chore
