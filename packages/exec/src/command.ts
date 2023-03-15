@@ -1,4 +1,4 @@
-import { exec } from "./exec";
+import { exec, execOut } from "./exec";
 import { Result } from "./result";
 
 export class Command {
@@ -12,5 +12,9 @@ export class Command {
 
   async exec(...args: string[]): Promise<Result> {
     return exec(this.command, ...this.args.concat(args));
+  }
+
+  async execOut(...args: string[]): Promise<Result> {
+    return execOut(this.command, ...this.args.concat(args));
   }
 }

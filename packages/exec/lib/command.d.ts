@@ -4,4 +4,5 @@ export declare class Command {
     args: string[];
     constructor(command: string, ...args: string[]);
     exec(...args: string[]): Promise<Result>;
+    execOut(...args: string[]): Promise<Result>;
 }
