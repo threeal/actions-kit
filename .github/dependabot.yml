@@ -1,26 +1,36 @@
 version: 2
 updates:
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: 'daily'
+      interval: daily
+    commit-message:
+      prefix: chore
 
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: 'daily'
+      interval: daily
+    commit-message:
+      prefix: chore
 
-  - package-ecosystem: 'npm'
-    directory: '/packages/envi'
+  - package-ecosystem: npm
+    directory: /packages/envi
     schedule:
-      interval: 'daily'
+      interval: daily
+    commit-message:
+      prefix: chore
 
-  - package-ecosystem: 'npm'
-    directory: '/packages/exec'
+  - package-ecosystem: npm
+    directory: /packages/exec
     schedule:
-      interval: 'daily'
+      interval: daily
+    commit-message:
+      prefix: chore
 
-  - package-ecosystem: 'npm'
-    directory: '/packages/log'
+  - package-ecosystem: npm
+    directory: /packages/log
     schedule:
-      interval: 'daily'
+      interval: daily
+    commit-message:
+      prefix: chore
