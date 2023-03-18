@@ -28,10 +28,14 @@ if (!res.isOk()) {
 }
 ```
 
-With `execOut(command, args...)`, you can get log output of the execution.
+### Execute a Command and Get the Output
+
+Use `execOut(command, args...)`, to execute a command and get a log output of the execution.
 ```js
+const exec = require('@actions-kit/exec');
+
 const res = await exec.execOut("node", "--version");
-console.log(`Output: ${res.output}`);
+console.log(`Node version: ${res.output}`);
 ```
 
 ### Construct a Command Helper
