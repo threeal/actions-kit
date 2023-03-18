@@ -1,6 +1,12 @@
 import * as actionsExec from "@actions/exec";
 import { Result } from "./result";
 
+/**
+ * Executes a command
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
 export async function exec(
   command: string,
   ...args: string[]
@@ -12,6 +18,12 @@ export async function exec(
   return new Result(rc);
 }
 
+/**
+ * Executes a command and gets the output
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
 export async function execOut(
   command: string,
   ...args: string[]
