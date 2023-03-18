@@ -1,6 +1,12 @@
-# `@actions-kit/exec`
+# Actions Kit - Exec
 
 A command execution library of [Actions Kit](https://github.com/threeal/actions-kit), a toolkit for developing [GitHub Actions](https://github.com/features/actions).
+
+## Installation
+
+```
+npm install @actions-kit/exec
+```
 
 ## License
 
