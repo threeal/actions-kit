@@ -34,6 +34,16 @@ const res = await exec.execOut("node", "--version");
 console.log(`Output: ${res.output}`);
 ```
 
+### Construct a Command Helper
+
+Construct a command helper to simplify the command execution.
+```js
+const exec = require('@actions-kit/exec');
+
+const node = new exec.Command("node", "-e");
+await node.exec("process.exit();");
+```
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
