@@ -26,6 +26,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.execOut = exports.exec = void 0;
 const actionsExec = __importStar(require("@actions/exec"));
 const result_1 = require("./result");
+/**
+ * Executes a command
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
 async function exec(command, ...args) {
     const rc = await actionsExec.exec(command, args, {
         silent: true,
@@ -34,6 +40,12 @@ async function exec(command, ...args) {
     return new result_1.Result(rc);
 }
 exports.exec = exec;
+/**
+ * Executes a command and gets the output
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
 async function execOut(command, ...args) {
     const res = new result_1.Result();
     res.code = await actionsExec.exec(command, args, {
