@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
+  "files": ["lib"],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
