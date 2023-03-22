@@ -2,8 +2,14 @@
   "name": "@actions-kit/exec",
   "version": "0.1.0",
   "description": "An actions-kit command execution library",
+  "keywords": ["github", "actions", "exec"],
   "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/exec",
+  "bugs": {
+    "url": "https://github.com/threeal/actions-kit/issues",
+    "email": "alfi.maulana.f@gmail.com"
+  },
   "license": "MIT",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
