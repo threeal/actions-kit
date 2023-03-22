@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -36,11 +36,11 @@ jobs:
         os: [windows, ubuntu, macos]
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -49,18 +49,18 @@ jobs:
         if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm run bootstrap
 
-      - name: Run unit tests
-        run: npm test
+      - name: Build and run unit tests
+        run: npm run build-and-test
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -77,11 +77,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pkg: [io, log]
+        pkg: [envi, exec, log]
     steps:
       - name: Init project
         run: npm init --yes
