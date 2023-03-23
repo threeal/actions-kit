@@ -30,6 +30,8 @@
     "test": "echo 'Error: run tests from root' && exit 1"
   },
   "dependencies": {
-    "@actions-kit/exec": "^0.1.0"
+    "@actions-kit/exec": "^0.1.0",
+    "@actions-kit/log": "https://gitpkg.now.sh/threeal/actions-kit/packages/log?303735eedebafc5ba38a33e62cd8bd43ba261118",
+    "@actions/io": "^1.1.3"
   }
 }

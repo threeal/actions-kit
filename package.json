@@ -15,9 +15,11 @@
     "test": "jest --coverage --runInBand"
   },
   "devDependencies": {
-    "@actions-kit/exec": "file:./packages/exec",
+    "@actions-kit/exec": "^0.1.0",
+    "@actions-kit/log": "https://gitpkg.now.sh/threeal/actions-kit/packages/log?303735eedebafc5ba38a33e62cd8bd43ba261118",
     "@actions/core": "^1.10.0",
     "@actions/exec": "^1.1.1",
+    "@actions/io": "^1.1.3",
     "@types/node": "^18.13.0",
     "eslint": "^8.34.0",
     "eslint-plugin-github": "^4.6.1",

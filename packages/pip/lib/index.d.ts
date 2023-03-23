@@ -1,2 +1,3 @@
-export { pip } from "./pip";
+export { PackageInfo, showPackageInfo } from "./info";
 export { installPackage, uninstallPackage } from "./install";
+export { pip } from "./pip";
