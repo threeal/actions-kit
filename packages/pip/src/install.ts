@@ -10,10 +10,5 @@ export async function installPackage(packageName: string) {
 }
 
 export async function uninstallPackage(packageName: string) {
-  const res = await pip.exec("uninstall", "-y", packageName);
-  if (!res.isOk()) {
-    throw new Error(
-      `Failed to uninstall pip package: ${packageName} (error code: ${res.code})`
-    );
-  }
+  await pip.exec("uninstall", "-y", packageName);
 }

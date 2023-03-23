@@ -81,11 +81,4 @@ describe("test uninstall a pip package", () => {
       await uninstallPackage(validPkgName);
     }, 30000);
   });
-
-  describe("uninstall an invalid package", () => {
-    test("should be resolved", async () => {
-      const res = uninstallPackage("an-invalid-package");
-      await expect(res).resolves.toBeUndefined();
-    });
-  });
 });

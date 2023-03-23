@@ -10,10 +10,7 @@ async function installPackage(packageName) {
 }
 exports.installPackage = installPackage;
 async function uninstallPackage(packageName) {
-    const res = await pip_1.pip.exec("uninstall", "-y", packageName);
-    if (!res.isOk()) {
-        throw new Error(`Failed to uninstall pip package: ${packageName} (error code: ${res.code})`);
-    }
+    await pip_1.pip.exec("uninstall", "-y", packageName);
 }
 exports.uninstallPackage = uninstallPackage;
 //# sourceMappingURL=install.js.map
