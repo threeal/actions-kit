@@ -24,7 +24,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showPackageInfo = exports.PackageInfo = void 0;
-const log = __importStar(require("@actions-kit/log"));
 const io = __importStar(require("@actions/io"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -44,8 +43,6 @@ class PackageInfo {
         const dirs = [];
         for (const file of this.files) {
             const strs = file.split(path.sep);
-            if (strs.length < 1)
-                continue;
             const dir = strs[0];
             if (dirs.includes(dir))
                 continue;
@@ -86,9 +83,6 @@ async function showPackageInfo(packageName) {
         if (strs.length >= 1 && strs[0] === "Files") {
             for (let j = i + 1; j < lines.length; ++j) {
                 const line = lines[j].trim();
-                // Check if the first line does not contain this error message
-                if (j === i + 1 && line.includes("Cannot locate"))
-                    continue;
                 if (line.length > 0)
                     packageInfo.files.push(line);
             }
@@ -112,9 +106,6 @@ async function showPackageInfo(packageName) {
                         .filter((str) => str.length > 0);
                     break;
             }
-        }
-        else {
-            log.warning(`Invalid line: ${strs}`);
         }
     }
     return packageInfo;

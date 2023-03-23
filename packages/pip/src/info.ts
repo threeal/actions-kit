@@ -1,4 +1,3 @@
-import * as log from "@actions-kit/log";
 import * as io from "@actions/io";
 import * as fs from "fs";
 import * as path from "path";
@@ -19,7 +18,6 @@ export class PackageInfo {
     const dirs: string[] = [];
     for (const file of this.files) {
       const strs = file.split(path.sep);
-      if (strs.length < 1) continue;
       const dir = strs[0];
       if (dirs.includes(dir)) continue;
       if (isPackageDirectory(dir, this.name)) dirs.push(dir);
@@ -58,8 +56,6 @@ export async function showPackageInfo(
     if (strs.length >= 1 && strs[0] === "Files") {
       for (let j = i + 1; j < lines.length; ++j) {
         const line = lines[j].trim();
-        // Check if the first line does not contain this error message
-        if (j === i + 1 && line.includes("Cannot locate")) continue;
         if (line.length > 0) packageInfo.files.push(line);
       }
       break;
@@ -81,8 +77,6 @@ export async function showPackageInfo(
             .filter((str) => str.length > 0);
           break;
       }
-    } else {
-      log.warning(`Invalid line: ${strs}`);
     }
   }
   return packageInfo;

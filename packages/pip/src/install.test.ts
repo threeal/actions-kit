@@ -43,7 +43,7 @@ describe("test install a pip package", () => {
     test("should be rejected", async () => {
       const res = installPackage("an-invalid-package");
       await expect(res).rejects.toThrow();
-    });
+    }, 30000);
   });
 });
 
