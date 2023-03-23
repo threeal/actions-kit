@@ -6,10 +6,10 @@ An Additional [GitHub ToolKit](https://github.com/actions/toolkit) for developin
 
 ## Packages
 
-- [@actions-kit/deps-pip](./packages/deps-pip).
 - [@actions-kit/envi](./packages/envi).
 - [@actions-kit/exec](./packages/exec).
 - [@actions-kit/log](./packages/log/README.md).
+- [@actions-kit/pip](./packages/pip).
 
 ## License
 

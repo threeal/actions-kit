@@ -1,4 +1,4 @@
-# `@actions-kit/deps-pip`
+# `@actions-kit/pip`
 
 A pip dependency library of [Actions Kit](https://github.com/threeal/actions-kit), a toolkit for developing [GitHub Actions](https://github.com/features/actions).
 
