@@ -1,0 +1,26 @@
+{
+  "name": "@actions-kit/pip",
+  "version": "0.1.0",
+  "description": "An actions-kit pip package management library",
+  "keywords": ["github", "actions", "pip"],
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/pip",
+  "bugs": {
+    "url": "https://github.com/threeal/actions-kit/issues",
+    "email": "alfi.maulana.f@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
+  "files": ["lib"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "packages/pip"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf lib",
+    "test": "echo 'Error: run tests from root' && exit 1"
+  }
+}
