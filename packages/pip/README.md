@@ -1,6 +1,6 @@
-# `@actions-kit/pip`
+# Actions Kit - Pip
 
-A pip dependency library of [Actions Kit](https://github.com/threeal/actions-kit), a toolkit for developing [GitHub Actions](https://github.com/features/actions).
+A [pip](https://pypi.org/project/pip) package management library of [Actions Kit](https://github.com/threeal/actions-kit), an additional [toolkit](https://github.com/actions/toolkit) for developing [GitHub Actions](https://github.com/features/actions).
 
 ## License
 
