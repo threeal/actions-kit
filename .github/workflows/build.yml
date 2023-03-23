@@ -9,16 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
-        uses: actions/cache@v3.2.5
+        id: cache-npm
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm run bootstrap
 
       - name: Run formatter
         run: npm run format
@@ -34,34 +36,38 @@ jobs:
         os: [windows, ubuntu, macos]
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
-        uses: actions/cache@v3.2.5
+        id: cache-npm
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm run bootstrap
 
-      - name: Run unit tests
-        run: npm test
+      - name: Build and run unit tests
+        run: npm run build-and-test
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
-        uses: actions/cache@v3.2.5
+        id: cache-npm
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm run bootstrap
 
       - name: Run static analysis
         run: npm run lint
@@ -71,16 +77,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.4.0
 
       - name: Cache dependencies
-        uses: actions/cache@v3.2.5
+        id: cache-npm
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm run bootstrap
 
       - name: Build this project
-        run: npm run build
+        run: npm run clean-build
+
+      - name: Check diff
+        run: git diff --exit-code HEAD
+
+  deps-by:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: [envi, exec, log]
+    steps:
+      - name: Init project
+        run: npm init --yes
+
+      - name: Install package
+        run: npm install 'https://gitpkg.now.sh/${{ github.repository }}/packages/${{ matrix.pkg }}?${{ github.sha }}'
+
+      - name: Import package
+        run: node -e 'const pkg = require("@actions-kit/${{ matrix.pkg }}");'
+
+      - name: Import package in TypeScript
+        run: npx --yes ts-node -e 'import * as pkg from "@actions-kit/${{ matrix.pkg }}";'
