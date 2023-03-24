@@ -1,6 +1,6 @@
 module.exports = {
   clearMocks: true,
-  coveragePathIgnorePatterns: ['/lib/'],
+  coveragePathIgnorePatterns: ['/lib/', '/mocks/'],
   coverageThreshold: {
     global: {
       branches: 100,
