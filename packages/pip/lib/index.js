@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pip = exports.uninstallPackage = exports.installPackage = exports.showPackageInfo = exports.PackageInfo = void 0;
+exports.pip = exports.uninstallPackage = exports.installPackage = exports.showPackageInfo = exports.PackageInfo = exports.PackageContentCacheInfo = exports.PackageCacheInfo = void 0;
+var cache_1 = require("./cache");
+Object.defineProperty(exports, "PackageCacheInfo", { enumerable: true, get: function () { return cache_1.PackageCacheInfo; } });
+Object.defineProperty(exports, "PackageContentCacheInfo", { enumerable: true, get: function () { return cache_1.PackageContentCacheInfo; } });
 var info_1 = require("./info");
 Object.defineProperty(exports, "PackageInfo", { enumerable: true, get: function () { return info_1.PackageInfo; } });
 Object.defineProperty(exports, "showPackageInfo", { enumerable: true, get: function () { return info_1.showPackageInfo; } });
