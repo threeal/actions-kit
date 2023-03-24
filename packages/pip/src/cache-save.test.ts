@@ -12,7 +12,7 @@ describe("test save cache of a pip package content info", () => {
       await installPackage(cacheInfo.name);
       contentInfo = await cacheInfo.accumulateContentInfo();
       packageCacheInfoRemoveRoot();
-    });
+    }, 30000);
 
     describe("check the cache", () => {
       test("content info file should not be exist", () => {
@@ -36,7 +36,7 @@ describe("test save cache of a pip package content info", () => {
     afterAll(async () => {
       await uninstallPackage(cacheInfo.name);
       packageCacheInfoRemoveRoot();
-    });
+    }, 30000);
   });
 });
 
@@ -48,7 +48,7 @@ describe("test save cache of a pip package content", () => {
       await installPackage(cacheInfo.name);
       contentInfo = await cacheInfo.accumulateContentInfo();
       await cacheInfo.saveContentInfo(contentInfo);
-    });
+    }, 30000);
 
     describe("check the package", () => {
       test("files should be exist", () => {
@@ -74,6 +74,6 @@ describe("test save cache of a pip package content", () => {
 
     afterAll(async () => {
       await uninstallPackage(cacheInfo.name);
-    });
+    }, 30000);
   });
 });

@@ -55,7 +55,7 @@ describe("test accumulate content info of a pip package cache info", () => {
     const cacheInfo = new PackageCacheInfo(validPkgName);
     beforeAll(async () => {
       await installPackage(cacheInfo.name);
-    });
+    }, 30000);
 
     let res: PackageContentCacheInfo;
     test("should be resolved", async () => {
@@ -87,7 +87,7 @@ describe("test accumulate content info of a pip package cache info", () => {
 
     afterAll(async () => {
       await uninstallPackage(cacheInfo.name);
-    });
+    }, 30000);
   });
 
   describe("using an invalid package", () => {

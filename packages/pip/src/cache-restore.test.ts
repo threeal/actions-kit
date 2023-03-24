@@ -15,7 +15,7 @@ describe("test restore cache of a pip package content info", () => {
       await cacheInfo.saveContentInfo(source);
       await uninstallPackage(cacheInfo.name);
       packageCacheInfoRemoveRoot();
-    });
+    }, 30000);
 
     describe("check the cache", () => {
       test("content info file should not be exist", () => {
@@ -79,7 +79,7 @@ describe("test restore cache of a pip package content", () => {
       await uninstallPackage(cacheInfo.name);
       // TODO: automatically uninstall dependencies
       await uninstallPackage("pyasn1");
-    });
+    }, 30000);
 
     describe("check the package", () => {
       test("should not be installed", async () => {
@@ -114,6 +114,6 @@ describe("test restore cache of a pip package content", () => {
 
     afterAll(async () => {
       await uninstallPackage(cacheInfo.name);
-    });
+    }, 30000);
   });
 });
