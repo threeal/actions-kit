@@ -1,15 +1,15 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { testExec } from "./exec-helper.test";
+import { testExecOnSuccessAndFail } from "./exec-helper.test";
 import { exec, execOut, execSilently } from "./exec";
 import { Result } from "./result";
 
-testExec({
+testExecOnSuccessAndFail({
   title: "executes a command",
   successExec: () => exec("node", "-e", "process.exit();"),
   failExec: () => exec("node", "-e", "process.exit(1)"),
 });
 
-testExec({
+testExecOnSuccessAndFail({
   title: "executes a command silently",
   successExec: () => execSilently("node", "-e", "process.exit();"),
   failExec: () => execSilently("node", "-e", "process.exit(1)"),
