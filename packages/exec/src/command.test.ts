@@ -1,6 +1,6 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import { Command } from "./command";
-import { Result } from "./result";
+import { testExecOnSuccessAndFailed } from "./exec-helper.test";
 
 describe("constrcuts a new command", () => {
   let command: Command;
@@ -19,65 +19,24 @@ describe("constrcuts a new command", () => {
     });
   });
 
-  describe("executes the command", () => {
-    describe("on a successful command", () => {
-      let prom: Promise<Result>;
-      test("should be resolved", () => {
-        prom = command.exec("-e", "process.exit();");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should be ok", () => expect(res.isOk()).toBe(true));
-      });
-    });
-
-    describe("on a failed command", () => {
-      let prom: Promise<Result>;
-      test("should be resolved", () => {
-        prom = command.exec("-e", "process.exit(1)");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should not be ok", () =>
-          expect(res.isOk()).toBe(false));
-      });
-    });
+  testExecOnSuccessAndFailed({
+    title: "executes the command",
+    onSuccess: {
+      exec: () => command.exec("-e", "process.exit();"),
+    },
+    onFailed: {
+      exec: () => command.exec("-e", "process.exit(1)"),
+    },
   });
 
-  describe("executes the command and gets the output", () => {
-    describe("on a successful command", () => {
-      let prom: Promise<Result>;
-      test("should be resolved", () => {
-        prom = command.execOut("-e", "console.log('some log');");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should be ok", () => expect(res.isOk()).toBe(true));
-        test("the output should be correct", () => {
-          expect(res.output).toBe("some log\n");
-        });
-      });
-    });
-
-    describe("on a failed command", () => {
-      let prom: Promise<Result>;
-      test("should be resolved", () => {
-        prom = command.execOut("-e", "process.exit(1)");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should not be ok", () => {
-          expect(res.isOk()).toBe(false);
-        });
-      });
-    });
+  testExecOnSuccessAndFailed({
+    title: "executes the command and gets the output",
+    onSuccess: {
+      exec: () => command.execOut("-e", "console.log('some log');"),
+      expectedOutput: "some log\n",
+    },
+    onFailed: {
+      exec: () => command.execOut("-e", "process.exit(1)"),
+    },
   });
 });
