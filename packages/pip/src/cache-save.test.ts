@@ -1,8 +1,13 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
-import { packageCacheInfoRemoveRoot, validPkgName } from "./cache.test";
 import { PackageCacheInfo, PackageContentCacheInfo } from "./cache";
 import { installPackage, uninstallPackage } from "./install";
+
+export const validPkgName = "rsa";
+
+export function packageCacheInfoRemoveRoot() {
+  fs.rmSync(PackageCacheInfo.root(), { recursive: true, force: true });
+}
 
 describe("test save cache of a pip package content info", () => {
   describe(`using a valid package (${validPkgName})`, () => {
