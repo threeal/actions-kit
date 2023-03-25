@@ -1,7 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 import * as os from "os";
-import { normalize } from "path";
 import { PackageCacheInfo, PackageContentCacheInfo } from "./cache";
 import { installPackage, uninstallPackage } from "./install";
 
@@ -43,10 +42,9 @@ describe("test create cache info of a pip package", () => {
       });
 
       test("path should be valid", () => {
-        const path = normalize(res.path);
-        expect(path).not.toHaveLength(0);
-        expect(path).toMatch(new RegExp(PackageCacheInfo.root()));
-        expect(path).toMatch(new RegExp(packageName));
+        expect(res.path).not.toHaveLength(0);
+        expect(res.path.includes(PackageCacheInfo.root())).toBe(true);
+        expect(res.path.includes(packageName)).toBe(true);
       });
     });
   });
