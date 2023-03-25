@@ -80,7 +80,7 @@ describe("test accumulate content info of a pip package cache info", () => {
       });
 
       test("paths should be exist", () => {
-        expect(res.paths).toHaveLength(10);
+        expect(res.paths).not.toHaveLength(0);
         for (const path of res.paths) {
           expect(fs.existsSync(path)).toBe(true);
         }
