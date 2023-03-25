@@ -23,9 +23,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.execOut = exports.exec = void 0;
+exports.execOut = exports.execSilently = exports.exec = void 0;
 const actionsExec = __importStar(require("@actions/exec"));
 const result_1 = require("./result");
+async function execHelper(silent, command, ...args) {
+    const rc = await actionsExec.exec(command, args, {
+        ignoreReturnCode: true,
+        silent,
+    });
+    return new result_1.Result(rc);
+}
 /**
  * Executes a command
  * @param command command to execute
@@ -33,13 +40,19 @@ const result_1 = require("./result");
  * @returns a command execution result
  */
 async function exec(command, ...args) {
-    const rc = await actionsExec.exec(command, args, {
-        silent: true,
-        ignoreReturnCode: true,
-    });
-    return new result_1.Result(rc);
+    return execHelper(false, command, ...args);
 }
 exports.exec = exec;
+/**
+ * Executes a command silently
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
+async function execSilently(command, ...args) {
+    return execHelper(true, command, ...args);
+}
+exports.execSilently = execSilently;
 /**
  * Executes a command and gets the output
  * @param command command to execute
