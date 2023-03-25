@@ -1,6 +1,6 @@
 module.exports = {
   clearMocks: true,
-  coveragePathIgnorePatterns: ['/lib/'],
+  coveragePathIgnorePatterns: ['/lib/', '/mocks/'],
   coverageThreshold: {
     global: {
       branches: 100,
@@ -11,6 +11,7 @@ module.exports = {
   },
   moduleFileExtensions: ['js', 'ts'],
   moduleNameMapper: {
+    'actions/cache': '<rootDir>/mocks/actions/cache.js',
   },
   roots: ['<rootDir>/packages'],
   testEnvironment: 'node',
