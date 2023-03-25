@@ -20,3 +20,10 @@ export declare function execSilently(command: string, ...args: string[]): Promis
  * @returns a command execution result
  */
 export declare function execOut(command: string, ...args: string[]): Promise<Result>;
+/**
+ * Executes a command silently and gets the output
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
+export declare function execOutSilently(command: string, ...args: string[]): Promise<Result>;

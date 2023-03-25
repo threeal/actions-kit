@@ -39,6 +39,24 @@ export async function execSilently(
   return execHelper(true, command, ...args);
 }
 
+async function execOutHelper(
+  silent: boolean,
+  command: string,
+  ...args: string[]
+): Promise<Result> {
+  const res = new Result();
+  res.code = await actionsExec.exec(command, args, {
+    ignoreReturnCode: true,
+    listeners: {
+      stdout: (data: Buffer) => {
+        res.output += data.toString();
+      },
+    },
+    silent,
+  });
+  return res;
+}
+
 /**
  * Executes a command and gets the output
  * @param command command to execute
@@ -49,15 +67,18 @@ export async function execOut(
   command: string,
   ...args: string[]
 ): Promise<Result> {
-  const res = new Result();
-  res.code = await actionsExec.exec(command, args, {
-    silent: true,
-    ignoreReturnCode: true,
-    listeners: {
-      stdout: (data: Buffer) => {
-        res.output += data.toString();
-      },
-    },
-  });
-  return res;
+  return execOutHelper(false, command, ...args);
+}
+
+/**
+ * Executes a command silently and gets the output
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
+export async function execOutSilently(
+  command: string,
+  ...args: string[]
+): Promise<Result> {
+  return execOutHelper(true, command, ...args);
 }
