@@ -3,10 +3,10 @@ import { Result } from "./result";
 
 interface TestExecParams {
   exec: () => Promise<Result>;
-  shouldBeOk: boolean;
+  expectedOutput?: string;
 }
 
-function testExec(params: TestExecParams) {
+function testExec(shouldBeOk: boolean, params: TestExecParams) {
   let prom: Promise<Result>;
   test("should be resolved", () => {
     prom = params.exec();
@@ -15,10 +15,15 @@ function testExec(params: TestExecParams) {
   describe("checks the result", () => {
     let res: Result;
     beforeAll(async () => (res = await prom));
-    if (params.shouldBeOk) {
+    if (shouldBeOk) {
       test("the status should be ok", () => {
         expect(res.isOk()).toBe(true);
       });
+      if (params.expectedOutput) {
+        test("the output should be correct", () => {
+          expect(res.output).toBe(params.expectedOutput);
+        });
+      }
     } else {
       test("the status should not be ok", () => {
         expect(res.isOk()).not.toBe(true);
@@ -27,21 +32,21 @@ function testExec(params: TestExecParams) {
   });
 }
 
-export interface TestExecOnSuccessAndFailParams {
+export interface TestExecOnSuccessAndFailedParams {
   title: string;
-  successExec: () => Promise<Result>;
-  failExec: () => Promise<Result>;
+  onSuccess: TestExecParams;
+  onFailed: TestExecParams;
 }
 
-export function testExecOnSuccessAndFail(
-  params: TestExecOnSuccessAndFailParams
+export function testExecOnSuccessAndFailed(
+  params: TestExecOnSuccessAndFailedParams
 ) {
   describe(params.title, () => {
     describe("on a successful command", () => {
-      testExec({ exec: params.successExec, shouldBeOk: true });
+      testExec(true, params.onSuccess);
     });
     describe("on a failed command", () => {
-      testExec({ exec: params.failExec, shouldBeOk: false });
+      testExec(false, params.onFailed);
     });
   });
 }
