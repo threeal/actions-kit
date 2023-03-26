@@ -2,20 +2,20 @@ import { beforeAll, describe, expect, test } from "@jest/globals";
 import { outputSilently } from "./exec";
 import { Result } from "./result";
 
-interface TestExecParams {
-  exec: () => Promise<Result>;
+interface TestRunParams {
+  run: () => Promise<Result>;
   expectedOutput?: string;
-  execScript: string;
+  runScript: string;
 }
 
-function testExec(
+function testRun(
   shouldBeOk: boolean,
   shouldBeSilent: boolean,
-  params: TestExecParams
+  params: TestRunParams
 ) {
   let prom: Promise<Result>;
   test("should be resolved", () => {
-    prom = params.exec();
+    prom = params.run();
     return expect(prom).resolves.toBeTruthy();
   });
   describe("checks the result", () => {
@@ -39,7 +39,7 @@ function testExec(
   describe("runs in a separate process", () => {
     test("should be resolved", () => {
       const importScript = "const exec = require('./packages/exec/lib');\n";
-      prom = outputSilently("node", "-e", importScript + params.execScript);
+      prom = outputSilently("node", "-e", importScript + params.runScript);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the output", () => {
@@ -58,22 +58,22 @@ function testExec(
   });
 }
 
-export interface TestExecOnSuccessAndFailedParams {
+export interface TestRunOnSuccessAndFailedParams {
   title: string;
   shouldBeSilent: boolean;
-  onSuccess: TestExecParams;
-  onFailed: TestExecParams;
+  onSuccess: TestRunParams;
+  onFailed: TestRunParams;
 }
 
-export function testExecOnSuccessAndFailed(
-  params: TestExecOnSuccessAndFailedParams
+export function testRunOnSuccessAndFailed(
+  params: TestRunOnSuccessAndFailedParams
 ) {
   describe(params.title, () => {
     describe("on a successful command", () => {
-      testExec(true, params.shouldBeSilent, params.onSuccess);
+      testRun(true, params.shouldBeSilent, params.onSuccess);
     });
     describe("on a failed command", () => {
-      testExec(false, params.shouldBeSilent, params.onFailed);
+      testRun(false, params.shouldBeSilent, params.onFailed);
     });
   });
 }

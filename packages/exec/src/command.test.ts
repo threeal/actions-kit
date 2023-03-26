@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { Command } from "./command";
-import { testExecOnSuccessAndFailed } from "./exec-helper.test";
+import { testRunOnSuccessAndFailed } from "./exec-helper.test";
 
 describe("constrcuts a new command", () => {
   let command: Command;
@@ -19,71 +19,71 @@ describe("constrcuts a new command", () => {
     });
   });
 
-  testExecOnSuccessAndFailed({
+  testRunOnSuccessAndFailed({
     title: "runs the command",
     shouldBeSilent: false,
     onSuccess: {
-      exec: () => command.run("-e", "console.log('some log')"),
-      execScript:
+      run: () => command.run("-e", "console.log('some log')"),
+      runScript:
         "const command = new exec.Command('node');\n\
         command.run('-e', 'console.log(\"some log\")');",
     },
     onFailed: {
-      exec: () => command.run("-e", "throw new Error('some error')"),
-      execScript:
+      run: () => command.run("-e", "throw new Error('some error')"),
+      runScript:
         "const command = new exec.Command('node');\n\
         command.run('-e', 'throw new Error(\"some error\")');",
     },
   });
 
-  testExecOnSuccessAndFailed({
+  testRunOnSuccessAndFailed({
     title: "runs the command silently",
     shouldBeSilent: true,
     onSuccess: {
-      exec: () => command.runSilently("-e", "console.log('some log')"),
-      execScript:
+      run: () => command.runSilently("-e", "console.log('some log')"),
+      runScript:
         "const command = new exec.Command('node');\n\
         command.runSilently('-e', 'console.log(\"some log\")');",
     },
     onFailed: {
-      exec: () => command.runSilently("-e", "throw new Error('some error')"),
-      execScript:
+      run: () => command.runSilently("-e", "throw new Error('some error')"),
+      runScript:
         "const command = new exec.Command('node');\n\
         command.runSilently('-e', 'throw new Error(\"some error\")');",
     },
   });
 
-  testExecOnSuccessAndFailed({
+  testRunOnSuccessAndFailed({
     title: "runs the command and gets the output",
     shouldBeSilent: false,
     onSuccess: {
-      exec: () => command.output("-e", "console.log('some log')"),
+      run: () => command.output("-e", "console.log('some log')"),
       expectedOutput: "some log\n",
-      execScript:
+      runScript:
         "const command = new exec.Command('node');\n\
         command.output('-e', 'console.log(\"some log\")');",
     },
     onFailed: {
-      exec: () => command.output("-e", "throw new Error('some error')"),
-      execScript:
+      run: () => command.output("-e", "throw new Error('some error')"),
+      runScript:
         "const command = new exec.Command('node');\n\
         command.output('-e', 'throw new Error(\"some error\")');",
     },
   });
 
-  testExecOnSuccessAndFailed({
+  testRunOnSuccessAndFailed({
     title: "runs the command silently and gets the output",
     shouldBeSilent: true,
     onSuccess: {
-      exec: () => command.outputSilently("-e", "console.log('some log')"),
+      run: () => command.outputSilently("-e", "console.log('some log')"),
       expectedOutput: "some log\n",
-      execScript:
+      runScript:
         "const command = new exec.Command('node');\n\
         command.outputSilently('-e', 'console.log(\"some log\")');",
     },
     onFailed: {
-      exec: () => command.outputSilently("-e", "throw new Error('some error')"),
-      execScript:
+      run: () => command.outputSilently("-e", "throw new Error('some error')"),
+      runScript:
         "const command = new exec.Command('node');\n\
         command.outputSilently('-e', 'throw new Error(\"some error\")');",
     },
