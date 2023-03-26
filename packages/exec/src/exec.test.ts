@@ -1,30 +1,30 @@
 import { testExecOnSuccessAndFailed } from "./exec-helper.test";
-import { exec, execOut, execOutSilently, execSilently } from "./exec";
+import { execOut, execOutSilently, run, runSilently } from "./exec";
 
 testExecOnSuccessAndFailed({
-  title: "executes a command",
+  title: "runs a command",
   shouldBeSilent: false,
   onSuccess: {
-    exec: () => exec("node", "-e", "console.log('some log')"),
-    execScript: "exec.exec('node', '-e', 'console.log(\"some log\")');",
+    exec: () => run("node", "-e", "console.log('some log')"),
+    execScript: "exec.run('node', '-e', 'console.log(\"some log\")');",
   },
   onFailed: {
-    exec: () => exec("node", "-e", "throw new Error('some error')"),
-    execScript: "exec.exec('node', '-e', 'throw new Error(\"some error\")');",
+    exec: () => run("node", "-e", "throw new Error('some error')"),
+    execScript: "exec.run('node', '-e', 'throw new Error(\"some error\")');",
   },
 });
 
 testExecOnSuccessAndFailed({
-  title: "executes a command silently",
+  title: "runs a command silently",
   shouldBeSilent: true,
   onSuccess: {
-    exec: () => execSilently("node", "-e", "console.log('some log')"),
-    execScript: "exec.execSilently('node', '-e', 'console.log(\"some log\")');",
+    exec: () => runSilently("node", "-e", "console.log('some log')"),
+    execScript: "exec.runSilently('node', '-e', 'console.log(\"some log\")');",
   },
   onFailed: {
-    exec: () => execSilently("node", "-e", "throw new Error('some error')"),
+    exec: () => runSilently("node", "-e", "throw new Error('some error')"),
     execScript:
-      "exec.execSilently('node', '-e', 'throw new Error(\"some error\")');",
+      "exec.runSilently('node', '-e', 'throw new Error(\"some error\")');",
   },
 });
 

@@ -1,12 +1,12 @@
-import * as actionsExec from "@actions/exec";
+import * as exec from "@actions/exec";
 import { Result } from "./result";
 
-async function execHelper(
+async function runHelper(
   silent: boolean,
   command: string,
   ...args: string[]
 ): Promise<Result> {
-  const rc = await actionsExec.exec(command, args, {
+  const rc = await exec.exec(command, args, {
     ignoreReturnCode: true,
     silent,
   });
@@ -14,29 +14,26 @@ async function execHelper(
 }
 
 /**
- * Executes a command
- * @param command command to execute
+ * Runs a command
+ * @param command command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-export async function exec(
-  command: string,
-  ...args: string[]
-): Promise<Result> {
-  return execHelper(false, command, ...args);
+export async function run(command: string, ...args: string[]): Promise<Result> {
+  return runHelper(false, command, ...args);
 }
 
 /**
- * Executes a command silently
- * @param command command to execute
+ * Runs a command silently
+ * @param command command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-export async function execSilently(
+export async function runSilently(
   command: string,
   ...args: string[]
 ): Promise<Result> {
-  return execHelper(true, command, ...args);
+  return runHelper(true, command, ...args);
 }
 
 async function execOutHelper(
@@ -45,7 +42,7 @@ async function execOutHelper(
   ...args: string[]
 ): Promise<Result> {
   const res = new Result();
-  res.code = await actionsExec.exec(command, args, {
+  res.code = await exec.exec(command, args, {
     ignoreReturnCode: true,
     listeners: {
       stdout: (data: Buffer) => {

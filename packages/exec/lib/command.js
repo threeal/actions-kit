@@ -19,7 +19,7 @@ class Command {
      * @returns a command execution result
      */
     async exec(...args) {
-        return (0, exec_1.exec)(this.command, ...this.args.concat(args));
+        return (0, exec_1.run)(this.command, ...this.args.concat(args));
     }
     /**
      * Executes the command silently
@@ -27,7 +27,7 @@ class Command {
      * @returns a command execution result
      */
     async execSilently(...args) {
-        return (0, exec_1.execSilently)(this.command, ...this.args.concat(args));
+        return (0, exec_1.runSilently)(this.command, ...this.args.concat(args));
     }
     /**
      * Executes the command and gets the output

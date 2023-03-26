@@ -1,18 +1,18 @@
 import { Result } from "./result";
 /**
- * Executes a command
- * @param command command to execute
+ * Runs a command
+ * @param command command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-export declare function exec(command: string, ...args: string[]): Promise<Result>;
+export declare function run(command: string, ...args: string[]): Promise<Result>;
 /**
- * Executes a command silently
- * @param command command to execute
+ * Runs a command silently
+ * @param command command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-export declare function execSilently(command: string, ...args: string[]): Promise<Result>;
+export declare function runSilently(command: string, ...args: string[]): Promise<Result>;
 /**
  * Executes a command and gets the output
  * @param command command to execute

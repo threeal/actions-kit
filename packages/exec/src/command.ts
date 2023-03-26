@@ -1,4 +1,4 @@
-import { exec, execOut, execOutSilently, execSilently } from "./exec";
+import { execOut, execOutSilently, run, runSilently } from "./exec";
 import { Result } from "./result";
 
 /** A helper for executing a command */
@@ -25,7 +25,7 @@ export class Command {
    * @returns a command execution result
    */
   async exec(...args: string[]): Promise<Result> {
-    return exec(this.command, ...this.args.concat(args));
+    return run(this.command, ...this.args.concat(args));
   }
 
   /**
@@ -34,7 +34,7 @@ export class Command {
    * @returns a command execution result
    */
   async execSilently(...args: string[]): Promise<Result> {
-    return execSilently(this.command, ...this.args.concat(args));
+    return runSilently(this.command, ...this.args.concat(args));
   }
 
   /**
