@@ -18,7 +18,7 @@ describe("group output of an async function", () => {
     describe("runs in a separate process", () => {
       let prom: Promise<exec.Result>;
       test("should be resolved", () => {
-        prom = node.execOut(
+        prom = node.outputSilently(
           "const log = require('./packages/log/lib');\n\
           log.group('some group', async () => {\n\
             log.info('some info')\n\
@@ -61,7 +61,7 @@ describe("group output of an async function", () => {
     describe("runs in a separate process", () => {
       let prom: Promise<exec.Result>;
       test("should be resolved", () => {
-        prom = node.execOut(
+        prom = node.outputSilently(
           "const log = require('./packages/log/lib');\n\
           log.group('some group', async () => {\n\
             log.info('some info');\n\

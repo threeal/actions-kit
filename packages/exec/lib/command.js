@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
-const exec_1 = require("./exec");
-/** A helper for executing a command */
+const run_1 = require("./run");
+/** A helper for running a command */
 class Command {
     /**
-     * Constructs a new helper for executing a command
-     * @param command command to execute
+     * Constructs a new helper for running a command
+     * @param command a command to run
      * @param args additional arguments for the command
      */
     constructor(command, ...args) {
@@ -14,36 +14,36 @@ class Command {
         this.args = args;
     }
     /**
-     * Executes the command
+     * Runs the command
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async exec(...args) {
-        return (0, exec_1.exec)(this.command, ...this.args.concat(args));
+    async run(...args) {
+        return (0, run_1.run)(this.command, ...this.args.concat(args));
     }
     /**
-     * Executes the command silently
+     * Runs the command silently
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async execSilently(...args) {
-        return (0, exec_1.execSilently)(this.command, ...this.args.concat(args));
+    async runSilently(...args) {
+        return (0, run_1.runSilently)(this.command, ...this.args.concat(args));
     }
     /**
-     * Executes the command and gets the output
+     * Runs the command and gets the output
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async execOut(...args) {
-        return (0, exec_1.execOut)(this.command, ...this.args.concat(args));
+    async output(...args) {
+        return (0, run_1.output)(this.command, ...this.args.concat(args));
     }
     /**
-     * Executes the command silently and gets the output
+     * Runs the command silently and gets the output
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async execOutSilently(...args) {
-        return (0, exec_1.execOutSilently)(this.command, ...this.args.concat(args));
+    async outputSilently(...args) {
+        return (0, run_1.outputSilently)(this.command, ...this.args.concat(args));
     }
 }
 exports.Command = Command;

@@ -23,39 +23,39 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.execOutSilently = exports.execOut = exports.execSilently = exports.exec = void 0;
-const actionsExec = __importStar(require("@actions/exec"));
+exports.outputSilently = exports.output = exports.runSilently = exports.run = void 0;
+const exec = __importStar(require("@actions/exec"));
 const result_1 = require("./result");
-async function execHelper(silent, command, ...args) {
-    const rc = await actionsExec.exec(command, args, {
+async function runHelper(silent, command, ...args) {
+    const rc = await exec.exec(command, args, {
         ignoreReturnCode: true,
         silent,
     });
     return new result_1.Result(rc);
 }
 /**
- * Executes a command
- * @param command command to execute
+ * Runs a command
+ * @param command a command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-async function exec(command, ...args) {
-    return execHelper(false, command, ...args);
+async function run(command, ...args) {
+    return runHelper(false, command, ...args);
 }
-exports.exec = exec;
+exports.run = run;
 /**
- * Executes a command silently
- * @param command command to execute
+ * Runs a command silently
+ * @param command a command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-async function execSilently(command, ...args) {
-    return execHelper(true, command, ...args);
+async function runSilently(command, ...args) {
+    return runHelper(true, command, ...args);
 }
-exports.execSilently = execSilently;
-async function execOutHelper(silent, command, ...args) {
+exports.runSilently = runSilently;
+async function outputHelper(silent, command, ...args) {
     const res = new result_1.Result();
-    res.code = await actionsExec.exec(command, args, {
+    res.code = await exec.exec(command, args, {
         ignoreReturnCode: true,
         listeners: {
             stdout: (data) => {
@@ -67,23 +67,23 @@ async function execOutHelper(silent, command, ...args) {
     return res;
 }
 /**
- * Executes a command and gets the output
- * @param command command to execute
+ * Runs a command and gets the output
+ * @param command a command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-async function execOut(command, ...args) {
-    return execOutHelper(false, command, ...args);
+async function output(command, ...args) {
+    return outputHelper(false, command, ...args);
 }
-exports.execOut = execOut;
+exports.output = output;
 /**
- * Executes a command silently and gets the output
- * @param command command to execute
+ * Runs a command silently and gets the output
+ * @param command a command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-async function execOutSilently(command, ...args) {
-    return execOutHelper(true, command, ...args);
+async function outputSilently(command, ...args) {
+    return outputHelper(true, command, ...args);
 }
-exports.execOutSilently = execOutSilently;
-//# sourceMappingURL=exec.js.map
+exports.outputSilently = outputSilently;
+//# sourceMappingURL=run.js.map

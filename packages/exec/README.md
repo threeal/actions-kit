@@ -10,42 +10,42 @@ npm install @actions-kit/exec
 
 ## Usage
 
-### Execute a Command
+### Run a Command
 
-Use `exec(command, args...)` to execute a command.
+Use `run(command, args...)` to run a command.
 
 ```js
 const exec = require('@actions-kit/exec');
 
-await exec.exec("node", "--version");
+await exec.run("node", "--version");
 ```
 
-It will returns a `Result` object, which contains an exit code of the execution.
+It will returns a `Result` object, which contains an exit code of the command run.
 ```js
-const res = await exec.exec("node", "--version");
+const res = await exec.run("node", "--version");
 if (!res.isOk()) {
   console.log(`Failed with exit code: ${res.code}`);
 }
 ```
 
-### Execute a Command and Get the Output
+### Run a Command and Get the Output
 
-Use `execOut(command, args...)`, to execute a command and get a log output of the execution.
+Use `output(command, args...)`, to run a command and get the output.
 ```js
 const exec = require('@actions-kit/exec');
 
-const res = await exec.execOut("node", "--version");
+const res = await exec.output("node", "--version");
 console.log(`Node version: ${res.output}`);
 ```
 
 ### Construct a Command Helper
 
-Construct a command helper to simplify the command execution.
+Construct a command helper to simplify the command run.
 ```js
 const exec = require('@actions-kit/exec');
 
 const node = new exec.Command("node", "-e");
-await node.exec("process.exit();");
+await node.run("process.exit();");
 ```
 
 ## License

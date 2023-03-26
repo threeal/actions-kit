@@ -73,7 +73,7 @@ class PackageInfo {
 }
 exports.PackageInfo = PackageInfo;
 async function showPackageInfo(packageName) {
-    const res = await pip_1.pip.execOut("show", "-f", packageName);
+    const res = await pip_1.pip.output("show", "-f", packageName);
     if (!res.isOk())
         return undefined;
     const lines = res.output.split("\n");
