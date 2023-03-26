@@ -11,7 +11,7 @@ describe("writes warning to log", () => {
   describe("runs in a separate process", () => {
     let prom: Promise<exec.Result>;
     test("should be resolved", () => {
-      prom = node.execOut(
+      prom = node.outputSilently(
         "const log = require('./packages/log/lib');\n\
         log.warning('some message');"
       );
@@ -37,7 +37,7 @@ describe("writes error to log", () => {
   describe("runs in a separate process", () => {
     let prom: Promise<exec.Result>;
     test("should be resolved", () => {
-      prom = node.execOut(
+      prom = node.outputSilently(
         "const log = require('./packages/log/lib');\n\
         log.error('some message');"
       );
@@ -63,7 +63,7 @@ describe("writes a fatal message to the log", () => {
   describe("runs in a separate process", () => {
     let prom: Promise<exec.Result>;
     test("should be resolved", () => {
-      prom = node.execOut(
+      prom = node.outputSilently(
         "const log = require('./packages/log/lib');\n\
         log.fatal('some message');"
       );
