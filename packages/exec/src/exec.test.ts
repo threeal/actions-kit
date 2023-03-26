@@ -1,62 +1,60 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
-import { exec, execOut } from "./exec";
-import { Result } from "./result";
+import { testExecOnSuccessAndFailed } from "./exec-helper.test";
+import { exec, execOut, execOutSilently, execSilently } from "./exec";
 
-describe("executes a command", () => {
-  describe("on a successful command", () => {
-    let prom: Promise<Result>;
-    test("should be resolved", () => {
-      prom = exec("node", "-e", "process.exit();");
-      return expect(prom).resolves.toBeTruthy();
-    });
-    describe("checks the result", () => {
-      let res: Result;
-      beforeAll(async () => (res = await prom));
-      test("the status should be ok", () => expect(res.isOk()).toBe(true));
-    });
-  });
-
-  describe("on a failed command", () => {
-    let prom: Promise<Result>;
-    test("should be resolved", () => {
-      prom = exec("node", "-e", "process.exit(1)");
-      return expect(prom).resolves.toBeTruthy();
-    });
-    describe("checks the result", () => {
-      let res: Result;
-      beforeAll(async () => (res = await prom));
-      test("the status should not be ok", () => expect(res.isOk()).toBe(false));
-    });
-  });
+testExecOnSuccessAndFailed({
+  title: "executes a command",
+  shouldBeSilent: false,
+  onSuccess: {
+    exec: () => exec("node", "-e", "console.log('some log')"),
+    execScript: "exec.exec('node', '-e', 'console.log(\"some log\")');",
+  },
+  onFailed: {
+    exec: () => exec("node", "-e", "throw new Error('some error')"),
+    execScript: "exec.exec('node', '-e', 'throw new Error(\"some error\")');",
+  },
 });
 
-describe("executes a command and gets the output", () => {
-  describe("on a successful command", () => {
-    let prom: Promise<Result>;
-    test("should be resolved", () => {
-      prom = execOut("node", "-e", "console.log('some log');");
-      return expect(prom).resolves.toBeTruthy();
-    });
-    describe("checks the result", () => {
-      let res: Result;
-      beforeAll(async () => (res = await prom));
-      test("the status should be ok", () => expect(res.isOk()).toBe(true));
-      test("the output should be correct", () => {
-        expect(res.output).toBe("some log\n");
-      });
-    });
-  });
+testExecOnSuccessAndFailed({
+  title: "executes a command silently",
+  shouldBeSilent: true,
+  onSuccess: {
+    exec: () => execSilently("node", "-e", "console.log('some log')"),
+    execScript: "exec.execSilently('node', '-e', 'console.log(\"some log\")');",
+  },
+  onFailed: {
+    exec: () => execSilently("node", "-e", "throw new Error('some error')"),
+    execScript:
+      "exec.execSilently('node', '-e', 'throw new Error(\"some error\")');",
+  },
+});
 
-  describe("on a failed command", () => {
-    let prom: Promise<Result>;
-    test("should be resolved", () => {
-      prom = execOut("node", "-e", "process.exit(1)");
-      return expect(prom).resolves.toBeTruthy();
-    });
-    describe("checks the result", () => {
-      let res: Result;
-      beforeAll(async () => (res = await prom));
-      test("the status should not be ok", () => expect(res.isOk()).toBe(false));
-    });
-  });
+testExecOnSuccessAndFailed({
+  title: "executes a command and gets the output",
+  shouldBeSilent: false,
+  onSuccess: {
+    exec: () => execOut("node", "-e", "console.log('some log')"),
+    expectedOutput: "some log\n",
+    execScript: "exec.execOut('node', '-e', 'console.log(\"some log\")');",
+  },
+  onFailed: {
+    exec: () => execOut("node", "-e", "throw new Error('some error')"),
+    execScript:
+      "exec.execOut('node', '-e', 'throw new Error(\"some error\")');",
+  },
+});
+
+testExecOnSuccessAndFailed({
+  title: "executes a command silently and gets the output",
+  shouldBeSilent: true,
+  onSuccess: {
+    exec: () => execOutSilently("node", "-e", "console.log('some log')"),
+    expectedOutput: "some log\n",
+    execScript:
+      "exec.execOutSilently('node', '-e', 'console.log(\"some log\")');",
+  },
+  onFailed: {
+    exec: () => execOutSilently("node", "-e", "throw new Error('some error')"),
+    execScript:
+      "exec.execOutSilently('node', '-e', 'throw new Error(\"some error\")');",
+  },
 });

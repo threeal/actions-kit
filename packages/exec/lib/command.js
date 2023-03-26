@@ -22,12 +22,28 @@ class Command {
         return (0, exec_1.exec)(this.command, ...this.args.concat(args));
     }
     /**
+     * Executes the command silently
+     * @param args additional arguments for the command
+     * @returns a command execution result
+     */
+    async execSilently(...args) {
+        return (0, exec_1.execSilently)(this.command, ...this.args.concat(args));
+    }
+    /**
      * Executes the command and gets the output
      * @param args additional arguments for the command
      * @returns a command execution result
      */
     async execOut(...args) {
         return (0, exec_1.execOut)(this.command, ...this.args.concat(args));
+    }
+    /**
+     * Executes the command silently and gets the output
+     * @param args additional arguments for the command
+     * @returns a command execution result
+     */
+    async execOutSilently(...args) {
+        return (0, exec_1.execOutSilently)(this.command, ...this.args.concat(args));
     }
 }
 exports.Command = Command;

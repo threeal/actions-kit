@@ -15,7 +15,7 @@ module.exports = {
   },
   roots: ['<rootDir>/packages'],
   testEnvironment: 'node',
-  testMatch: ['**/*.test.ts'],
+  testMatch: ['**/*.test.ts', '!**/*helper.test.ts'],
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },

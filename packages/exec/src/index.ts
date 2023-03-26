@@ -1,3 +1,3 @@
 export { Command } from "./command";
-export { exec, execOut } from "./exec";
+export { exec, execOut, execOutSilently, execSilently } from "./exec";
 export { Result } from "./result";

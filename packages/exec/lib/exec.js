@@ -23,9 +23,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.execOut = exports.exec = void 0;
+exports.execOutSilently = exports.execOut = exports.execSilently = exports.exec = void 0;
 const actionsExec = __importStar(require("@actions/exec"));
 const result_1 = require("./result");
+async function execHelper(silent, command, ...args) {
+    const rc = await actionsExec.exec(command, args, {
+        ignoreReturnCode: true,
+        silent,
+    });
+    return new result_1.Result(rc);
+}
 /**
  * Executes a command
  * @param command command to execute
@@ -33,13 +40,32 @@ const result_1 = require("./result");
  * @returns a command execution result
  */
 async function exec(command, ...args) {
-    const rc = await actionsExec.exec(command, args, {
-        silent: true,
-        ignoreReturnCode: true,
-    });
-    return new result_1.Result(rc);
+    return execHelper(false, command, ...args);
 }
 exports.exec = exec;
+/**
+ * Executes a command silently
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
+async function execSilently(command, ...args) {
+    return execHelper(true, command, ...args);
+}
+exports.execSilently = execSilently;
+async function execOutHelper(silent, command, ...args) {
+    const res = new result_1.Result();
+    res.code = await actionsExec.exec(command, args, {
+        ignoreReturnCode: true,
+        listeners: {
+            stdout: (data) => {
+                res.output += data.toString();
+            },
+        },
+        silent,
+    });
+    return res;
+}
 /**
  * Executes a command and gets the output
  * @param command command to execute
@@ -47,17 +73,17 @@ exports.exec = exec;
  * @returns a command execution result
  */
 async function execOut(command, ...args) {
-    const res = new result_1.Result();
-    res.code = await actionsExec.exec(command, args, {
-        silent: true,
-        ignoreReturnCode: true,
-        listeners: {
-            stdout: (data) => {
-                res.output += data.toString();
-            },
-        },
-    });
-    return res;
+    return execOutHelper(false, command, ...args);
 }
 exports.execOut = execOut;
+/**
+ * Executes a command silently and gets the output
+ * @param command command to execute
+ * @param args additional arguments for the command
+ * @returns a command execution result
+ */
+async function execOutSilently(command, ...args) {
+    return execOutHelper(true, command, ...args);
+}
+exports.execOutSilently = execOutSilently;
 //# sourceMappingURL=exec.js.map
