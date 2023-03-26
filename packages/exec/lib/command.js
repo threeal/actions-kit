@@ -37,6 +37,14 @@ class Command {
     async execOut(...args) {
         return (0, exec_1.execOut)(this.command, ...this.args.concat(args));
     }
+    /**
+     * Executes the command silently and gets the output
+     * @param args additional arguments for the command
+     * @returns a command execution result
+     */
+    async execOutSilently(...args) {
+        return (0, exec_1.execOutSilently)(this.command, ...this.args.concat(args));
+    }
 }
 exports.Command = Command;
 //# sourceMappingURL=command.js.map

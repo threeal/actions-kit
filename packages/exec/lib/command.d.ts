@@ -29,4 +29,10 @@ export declare class Command {
      * @returns a command execution result
      */
     execOut(...args: string[]): Promise<Result>;
+    /**
+     * Executes the command silently and gets the output
+     * @param args additional arguments for the command
+     * @returns a command execution result
+     */
+    execOutSilently(...args: string[]): Promise<Result>;
 }
