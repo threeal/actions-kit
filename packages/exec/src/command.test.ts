@@ -30,6 +30,16 @@ describe("constrcuts a new command", () => {
   });
 
   testExecOnSuccessAndFailed({
+    title: "executes the command silently",
+    onSuccess: {
+      exec: () => command.execSilently("-e", "process.exit();"),
+    },
+    onFailed: {
+      exec: () => command.execSilently("-e", "process.exit(1)"),
+    },
+  });
+
+  testExecOnSuccessAndFailed({
     title: "executes the command and gets the output",
     onSuccess: {
       exec: () => command.execOut("-e", "console.log('some log');"),

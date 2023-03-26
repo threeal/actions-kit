@@ -18,6 +18,12 @@ export declare class Command {
      */
     exec(...args: string[]): Promise<Result>;
     /**
+     * Executes the command silently
+     * @param args additional arguments for the command
+     * @returns a command execution result
+     */
+    execSilently(...args: string[]): Promise<Result>;
+    /**
      * Executes the command and gets the output
      * @param args additional arguments for the command
      * @returns a command execution result
