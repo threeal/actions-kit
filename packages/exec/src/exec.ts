@@ -15,7 +15,7 @@ async function runHelper(
 
 /**
  * Runs a command
- * @param command command to run
+ * @param command a command to run
  * @param args additional arguments for the command
  * @returns a command run result
  */
@@ -25,7 +25,7 @@ export async function run(command: string, ...args: string[]): Promise<Result> {
 
 /**
  * Runs a command silently
- * @param command command to run
+ * @param command a command to run
  * @param args additional arguments for the command
  * @returns a command run result
  */
@@ -36,7 +36,7 @@ export async function runSilently(
   return runHelper(true, command, ...args);
 }
 
-async function execOutHelper(
+async function outputHelper(
   silent: boolean,
   command: string,
   ...args: string[]
@@ -55,27 +55,27 @@ async function execOutHelper(
 }
 
 /**
- * Executes a command and gets the output
- * @param command command to execute
+ * Runs a command and gets the output
+ * @param command a command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-export async function execOut(
+export async function output(
   command: string,
   ...args: string[]
 ): Promise<Result> {
-  return execOutHelper(false, command, ...args);
+  return outputHelper(false, command, ...args);
 }
 
 /**
- * Executes a command silently and gets the output
- * @param command command to execute
+ * Runs a command silently and gets the output
+ * @param command a command to run
  * @param args additional arguments for the command
- * @returns a command execution result
+ * @returns a command run result
  */
-export async function execOutSilently(
+export async function outputSilently(
   command: string,
   ...args: string[]
 ): Promise<Result> {
-  return execOutHelper(true, command, ...args);
+  return outputHelper(true, command, ...args);
 }

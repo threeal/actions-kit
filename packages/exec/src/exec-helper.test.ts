@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { execOut } from "./exec";
+import { outputSilently } from "./exec";
 import { Result } from "./result";
 
 interface TestExecParams {
@@ -39,7 +39,7 @@ function testExec(
   describe("runs in a separate process", () => {
     test("should be resolved", () => {
       const importScript = "const exec = require('./packages/exec/lib');\n";
-      prom = execOut("node", "-e", importScript + params.execScript);
+      prom = outputSilently("node", "-e", importScript + params.execScript);
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the output", () => {

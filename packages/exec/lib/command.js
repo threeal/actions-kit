@@ -35,7 +35,7 @@ class Command {
      * @returns a command execution result
      */
     async execOut(...args) {
-        return (0, exec_1.execOut)(this.command, ...this.args.concat(args));
+        return (0, exec_1.output)(this.command, ...this.args.concat(args));
     }
     /**
      * Executes the command silently and gets the output
@@ -43,7 +43,7 @@ class Command {
      * @returns a command execution result
      */
     async execOutSilently(...args) {
-        return (0, exec_1.execOutSilently)(this.command, ...this.args.concat(args));
+        return (0, exec_1.outputSilently)(this.command, ...this.args.concat(args));
     }
 }
 exports.Command = Command;
