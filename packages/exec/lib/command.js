@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
 const exec_1 = require("./exec");
-/** A helper for executing a command */
+/** A helper for running a command */
 class Command {
     /**
-     * Constructs a new helper for executing a command
-     * @param command command to execute
+     * Constructs a new helper for running a command
+     * @param command a command to run
      * @param args additional arguments for the command
      */
     constructor(command, ...args) {
@@ -14,35 +14,35 @@ class Command {
         this.args = args;
     }
     /**
-     * Executes the command
+     * Runs the command
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async exec(...args) {
+    async run(...args) {
         return (0, exec_1.run)(this.command, ...this.args.concat(args));
     }
     /**
-     * Executes the command silently
+     * Runs the command silently
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async execSilently(...args) {
+    async runSilently(...args) {
         return (0, exec_1.runSilently)(this.command, ...this.args.concat(args));
     }
     /**
-     * Executes the command and gets the output
+     * Runs the command and gets the output
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async execOut(...args) {
+    async output(...args) {
         return (0, exec_1.output)(this.command, ...this.args.concat(args));
     }
     /**
-     * Executes the command silently and gets the output
+     * Runs the command silently and gets the output
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    async execOutSilently(...args) {
+    async outputSilently(...args) {
         return (0, exec_1.outputSilently)(this.command, ...this.args.concat(args));
     }
 }
