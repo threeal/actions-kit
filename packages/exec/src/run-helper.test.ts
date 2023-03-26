@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { outputSilently } from "./exec";
 import { Result } from "./result";
+import { outputSilently } from "./run";
 
 interface TestRunParams {
   run: () => Promise<Result>;

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { Command } from "./command";
-import { testRunOnSuccessAndFailed } from "./exec-helper.test";
+import { testRunOnSuccessAndFailed } from "./run-helper.test";
 
 describe("constrcuts a new command", () => {
   let command: Command;

@@ -1,5 +1,5 @@
-import { testRunOnSuccessAndFailed } from "./exec-helper.test";
-import { output, outputSilently, run, runSilently } from "./exec";
+import { testRunOnSuccessAndFailed } from "./run-helper.test";
+import { output, outputSilently, run, runSilently } from "./run";
 
 testRunOnSuccessAndFailed({
   title: "runs a command",

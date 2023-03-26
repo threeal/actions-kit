@@ -1,5 +1,5 @@
-import { output, outputSilently, run, runSilently } from "./exec";
 import { Result } from "./result";
+import { output, outputSilently, run, runSilently } from "./run";
 
 /** A helper for running a command */
 export class Command {
