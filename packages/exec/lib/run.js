@@ -54,16 +54,12 @@ async function runSilently(command, ...args) {
 }
 exports.runSilently = runSilently;
 async function outputHelper(silent, command, ...args) {
-    const res = new result_1.Result();
-    res.code = await exec.exec(command, args, {
+    const out = await exec.getExecOutput(command, args, {
         ignoreReturnCode: true,
-        listeners: {
-            stdout: (data) => {
-                res.output += data.toString();
-            },
-        },
         silent,
     });
+    const res = new result_1.Result(out.exitCode);
+    res.output = out.stdout;
     return res;
 }
 /**
