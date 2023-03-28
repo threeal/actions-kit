@@ -41,16 +41,12 @@ async function outputHelper(
   command: string,
   ...args: string[]
 ): Promise<Result> {
-  const res = new Result();
-  res.code = await exec.exec(command, args, {
+  const out = await exec.getExecOutput(command, args, {
     ignoreReturnCode: true,
-    listeners: {
-      stdout: (data: Buffer) => {
-        res.output += data.toString();
-      },
-    },
     silent,
   });
+  const res = new Result(out.exitCode);
+  res.output = out.stdout;
   return res;
 }
 
