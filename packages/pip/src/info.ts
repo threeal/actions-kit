@@ -47,7 +47,7 @@ export class PackageInfo {
 export async function showPackageInfo(
   packageName: string
 ): Promise<PackageInfo | undefined> {
-  const res = await pip.output("show", "-f", packageName);
+  const res = await pip.outputSilently("show", "-f", packageName);
   if (!res.isOk()) return undefined;
   const lines = res.output.split("\n");
   const packageInfo = new PackageInfo();
