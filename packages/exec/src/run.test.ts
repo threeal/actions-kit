@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { testOutputSilent } from "./helper.test";
+import { newHook, testCheckRunResult, testOutputSilent } from "./helper.test";
 import { run, RunResult, runSilently } from "./run";
 
 describe("constructs a new command run result", () => {
@@ -58,17 +58,9 @@ describe("runs a command", () => {
             return expect(prom).resolves.toBeTruthy();
           });
           describe("checks the result", () => {
-            let res: RunResult;
-            beforeAll(async () => (res = await prom));
-            if (isSuccessful) {
-              test("the status should be ok", () => {
-                expect(res.isOk()).toBe(true);
-              });
-            } else {
-              test("the status should not be ok", () => {
-                expect(res.isOk()).toBe(false);
-              });
-            }
+            const res = newHook<RunResult>();
+            beforeAll(async () => (res.data = await prom));
+            testCheckRunResult({ res, shouldBeOk: isSuccessful });
           });
         });
       }

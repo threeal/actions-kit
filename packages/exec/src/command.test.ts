@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { Command } from "./command";
+import { newHook, testCheckRunResult } from "./helper.test";
 import { OutputResult } from "./output";
 import { RunResult } from "./run";
 
@@ -32,11 +33,9 @@ describe("constructs a new command", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks the result", () => {
-        let res: RunResult;
-        beforeAll(async () => (res = await prom));
-        test("the status should be ok", () => {
-          expect(res.isOk()).toBe(true);
-        });
+        const res = newHook<RunResult>();
+        beforeAll(async () => (res.data = await prom));
+        testCheckRunResult({ res, shouldBeOk: true });
       });
     });
   }
@@ -53,13 +52,11 @@ describe("constructs a new command", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks the result", () => {
-        let res: OutputResult;
-        beforeAll(async () => (res = await prom));
-        test("the status should be ok", () => {
-          expect(res.isOk()).toBe(true);
-        });
+        const res = newHook<OutputResult>();
+        beforeAll(async () => (res.data = await prom));
+        testCheckRunResult({ res, shouldBeOk: true });
         test("the output should be correct", () => {
-          expect(res.output).toBe("some log\n");
+          expect(res.data!.output).toBe("some log\n");
         });
       });
     });

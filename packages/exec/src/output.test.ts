@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { testOutputSilent } from "./helper.test";
+import { newHook, testCheckRunResult, testOutputSilent } from "./helper.test";
 import { output, OutputResult, outputSilently } from "./output";
 
 describe("constructs a new command run and output get result", () => {
@@ -38,18 +38,12 @@ describe("runs a command and gets the output", () => {
             return expect(prom).resolves.toBeTruthy();
           });
           describe("checks the result", () => {
-            let res: OutputResult;
-            beforeAll(async () => (res = await prom));
+            const res = newHook<OutputResult>();
+            beforeAll(async () => (res.data = await prom));
+            testCheckRunResult({ res, shouldBeOk: isSuccessful });
             if (isSuccessful) {
-              test("the status should be ok", () => {
-                expect(res.isOk()).toBe(true);
-              });
               test("the output should be correct", () => {
-                expect(res.output).toBe("some log\n");
-              });
-            } else {
-              test("the status should not be ok", () => {
-                expect(res.isOk()).toBe(false);
+                expect(res.data!.output).toBe("some log\n");
               });
             }
           });

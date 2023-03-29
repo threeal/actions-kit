@@ -1,5 +1,14 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { OutputResult, outputSilently } from "./output";
+import { RunResult } from "./run";
+
+export interface Hook<T> {
+  data?: T;
+}
+
+export function newHook<T>(): Hook<T> {
+  return { data: undefined };
+}
 
 interface TestOutputSilentParams {
   script: string;
@@ -28,4 +37,21 @@ export function testOutputSilent(params: TestOutputSilentParams) {
       }
     });
   });
+}
+
+interface TestCheckRunResultParams {
+  res: Hook<RunResult>;
+  shouldBeOk: boolean;
+}
+
+export function testCheckRunResult(params: TestCheckRunResultParams) {
+  if (params.shouldBeOk) {
+    test("the status should be ok", () => {
+      expect(params.res.data!.isOk()).toBe(true);
+    });
+  } else {
+    test("the status should not be ok", () => {
+      expect(params.res.data!.isOk()).toBe(false);
+    });
+  }
 }
