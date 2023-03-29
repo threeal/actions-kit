@@ -1,5 +1,18 @@
-import { output, outputSilently } from "./output";
+import { describe, expect, test } from "@jest/globals";
+import { output, OutputResult, outputSilently } from "./output";
 import { testRunOnSuccessAndFailed } from "./run-helper.test";
+
+describe("constructs a new command run and output get result", () => {
+  let res: OutputResult;
+  test("should not throws an error", () => {
+    expect(() => (res = new OutputResult(0, "some message"))).not.toThrow();
+  });
+  describe("checks the properties", () => {
+    test("the log output should be equals", () => {
+      expect(res.output).toBe("some message");
+    });
+  });
+});
 
 testRunOnSuccessAndFailed({
   title: "runs a command and gets the output",
