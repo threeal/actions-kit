@@ -1,17 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Result = void 0;
-/** A command execution result */
-class Result {
+exports.Result = exports.RunResult = void 0;
+/** A command run result */
+class RunResult {
     /**
-     * Constructs a new command execution result
+     * Constructs a new command run result
      * @param code the optional status code
      */
     constructor(code) {
         /** The status code */
         this.code = 0;
-        /** The log output */
-        this.output = "";
         if (code !== undefined)
             this.code = code;
     }
@@ -21,6 +19,21 @@ class Result {
      */
     isOk() {
         return this.code === 0;
+    }
+}
+exports.RunResult = RunResult;
+/** A command execution result */
+class Result extends RunResult {
+    /**
+     * Constructs a new command execution result
+     * @param code the optional status code
+     */
+    constructor(code) {
+        super(code);
+        /** The log output */
+        this.output = "";
+        if (code !== undefined)
+            this.code = code;
     }
 }
 exports.Result = Result;

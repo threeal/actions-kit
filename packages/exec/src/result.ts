@@ -1,13 +1,10 @@
-/** A command execution result */
-export class Result {
+/** A command run result */
+export class RunResult {
   /** The status code */
   code: number = 0;
 
-  /** The log output */
-  output: string = "";
-
   /**
-   * Constructs a new command execution result
+   * Constructs a new command run result
    * @param code the optional status code
    */
   constructor(code?: number) {
@@ -20,5 +17,20 @@ export class Result {
    */
   isOk(): boolean {
     return this.code === 0;
+  }
+}
+
+/** A command execution result */
+export class Result extends RunResult {
+  /** The log output */
+  output: string = "";
+
+  /**
+   * Constructs a new command execution result
+   * @param code the optional status code
+   */
+  constructor(code?: number) {
+    super(code);
+    if (code !== undefined) this.code = code;
   }
 }

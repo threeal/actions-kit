@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { Result } from "./result";
+import { Result, RunResult } from "./result";
 import { outputSilently } from "./run";
 
 interface TestRunParams {
-  run: () => Promise<Result>;
+  run: (() => Promise<RunResult>) | (() => Promise<Result>);
   expectedOutput?: string;
   runScript: string;
 }
@@ -13,13 +13,13 @@ function testRun(
   shouldBeSilent: boolean,
   params: TestRunParams
 ) {
-  let prom: Promise<Result>;
+  let prom: Promise<RunResult> | Promise<Result>;
   test("should be resolved", () => {
     prom = params.run();
     return expect(prom).resolves.toBeTruthy();
   });
   describe("checks the result", () => {
-    let res: Result;
+    let res: RunResult | Result;
     beforeAll(async () => (res = await prom));
     if (shouldBeOk) {
       test("the status should be ok", () => {
@@ -27,7 +27,8 @@ function testRun(
       });
       if (params.expectedOutput) {
         test("the output should be correct", () => {
-          expect(res.output).toBe(params.expectedOutput);
+          const output =  (res as Result).output;
+          expect(output).toBe(params.expectedOutput);
         });
       }
     } else {
@@ -37,14 +38,15 @@ function testRun(
     }
   });
   describe("runs in a separate process", () => {
+    let resProm: Promise<Result>;
     test("should be resolved", () => {
       const importScript = "const exec = require('./packages/exec/lib');\n";
-      prom = outputSilently("node", "-e", importScript + params.runScript);
-      return expect(prom).resolves.toBeTruthy();
+      resProm = outputSilently("node", "-e", importScript + params.runScript);
+      return expect(resProm).resolves.toBeTruthy();
     });
     describe("checks the output", () => {
       let res: Result;
-      beforeAll(async () => (res = await prom));
+      beforeAll(async () => (res = await resProm));
       if (shouldBeSilent) {
         test("output should be empty", () => {
           expect(res.output.length).toBe(0);

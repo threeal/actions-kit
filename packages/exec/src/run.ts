@@ -1,11 +1,11 @@
 import * as exec from "@actions/exec";
-import { Result } from "./result";
+import { Result, RunResult } from "./result";
 
 async function runHelper(
   silent: boolean,
   command: string,
   ...args: string[]
-): Promise<Result> {
+): Promise<RunResult> {
   const rc = await exec.exec(command, args, {
     ignoreReturnCode: true,
     silent,
@@ -19,7 +19,10 @@ async function runHelper(
  * @param args additional arguments for the command
  * @returns a command run result
  */
-export async function run(command: string, ...args: string[]): Promise<Result> {
+export async function run(
+  command: string,
+  ...args: string[]
+): Promise<RunResult> {
   return runHelper(false, command, ...args);
 }
 
@@ -32,7 +35,7 @@ export async function run(command: string, ...args: string[]): Promise<Result> {
 export async function runSilently(
   command: string,
   ...args: string[]
-): Promise<Result> {
+): Promise<RunResult> {
   return runHelper(true, command, ...args);
 }
 
