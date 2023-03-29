@@ -4,9 +4,9 @@ export declare class RunResult {
     code: number;
     /**
      * Constructs a new command run result
-     * @param code the optional status code
+     * @param code the status code
      */
-    constructor(code?: number);
+    constructor(code: number);
     /**
      * Checks if the status is ok (status code is `0`)
      * @returns `true` if the status is ok
@@ -19,7 +19,7 @@ export declare class Result extends RunResult {
     output: string;
     /**
      * Constructs a new command execution result
-     * @param code the optional status code
+     * @param code the status code
      */
-    constructor(code?: number);
+    constructor(code: number);
 }

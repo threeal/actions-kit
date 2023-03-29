@@ -1,14 +1,14 @@
 /** A command run result */
 export class RunResult {
   /** The status code */
-  code: number = 0;
+  code: number;
 
   /**
    * Constructs a new command run result
-   * @param code the optional status code
+   * @param code the status code
    */
-  constructor(code?: number) {
-    if (code !== undefined) this.code = code;
+  constructor(code: number) {
+    this.code = code;
   }
 
   /**
@@ -27,10 +27,9 @@ export class Result extends RunResult {
 
   /**
    * Constructs a new command execution result
-   * @param code the optional status code
+   * @param code the status code
    */
-  constructor(code?: number) {
+  constructor(code: number) {
     super(code);
-    if (code !== undefined) this.code = code;
   }
 }

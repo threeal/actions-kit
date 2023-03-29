@@ -27,7 +27,7 @@ function testRun(
       });
       if (params.expectedOutput) {
         test("the output should be correct", () => {
-          const output =  (res as Result).output;
+          const output = (res as Result).output;
           expect(output).toBe(params.expectedOutput);
         });
       }
