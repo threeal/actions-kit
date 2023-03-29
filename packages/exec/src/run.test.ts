@@ -61,11 +61,11 @@ describe("runs a command", () => {
             let res: RunResult;
             beforeAll(async () => (res = await prom));
             if (isSuccessful) {
-              test(`the status should be ok`, () => {
+              test("the status should be ok", () => {
                 expect(res.isOk()).toBe(true);
               });
             } else {
-              test(`the status should not be ok`, () => {
+              test("the status should not be ok", () => {
                 expect(res.isOk()).toBe(false);
               });
             }
