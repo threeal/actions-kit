@@ -1,4 +1,3 @@
 export { Command } from "./command";
-export { output, outputSilently } from "./output";
-export { OutputResult, RunResult } from "./result";
-export { run, runSilently } from "./run";
+export { output, OutputResult, outputSilently } from "./output";
+export { run, RunResult, runSilently } from "./run";

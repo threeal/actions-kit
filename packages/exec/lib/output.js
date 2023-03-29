@@ -23,15 +23,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.outputSilently = exports.output = void 0;
+exports.outputSilently = exports.output = exports.OutputResult = void 0;
 const exec = __importStar(require("@actions/exec"));
-const result_1 = require("./result");
+const run_1 = require("./run");
+/** A command run and output get result */
+class OutputResult extends run_1.RunResult {
+    /**
+     * Constructs a new command run and output get result
+     * @param code the status code
+     * @param output the log output
+     */
+    constructor(code, output) {
+        super(code);
+        this.output = output;
+    }
+}
+exports.OutputResult = OutputResult;
 async function outputHelper(silent, command, ...args) {
     const res = await exec.getExecOutput(command, args, {
         ignoreReturnCode: true,
         silent,
     });
-    return new result_1.OutputResult(res.exitCode, res.stdout);
+    return new OutputResult(res.exitCode, res.stdout);
 }
 /**
  * Runs a command and gets the output

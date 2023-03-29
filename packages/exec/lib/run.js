@@ -23,15 +23,32 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runSilently = exports.run = void 0;
+exports.runSilently = exports.run = exports.RunResult = void 0;
 const exec = __importStar(require("@actions/exec"));
-const result_1 = require("./result");
+/** A command run result */
+class RunResult {
+    /**
+     * Constructs a new command run result
+     * @param code the status code
+     */
+    constructor(code) {
+        this.code = code;
+    }
+    /**
+     * Checks if the status is ok (status code is `0`)
+     * @returns `true` if the status is ok
+     */
+    isOk() {
+        return this.code === 0;
+    }
+}
+exports.RunResult = RunResult;
 async function runHelper(silent, command, ...args) {
     const rc = await exec.exec(command, args, {
         ignoreReturnCode: true,
         silent,
     });
-    return new result_1.RunResult(rc);
+    return new RunResult(rc);
 }
 /**
  * Runs a command

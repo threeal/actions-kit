@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { OutputResult } from "./result";
+import { OutputResult } from "./output";
 
 describe("constructs a new result object", () => {
   describe("without anything specified", () => {

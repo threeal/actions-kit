@@ -1,4 +1,5 @@
-import { OutputResult, RunResult } from "./result";
+import { OutputResult } from "./output";
+import { RunResult } from "./run";
 /** A helper for running a command */
 export declare class Command {
     /** The command to run */

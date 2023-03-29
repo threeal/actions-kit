@@ -1,5 +1,21 @@
 import * as exec from "@actions/exec";
-import { OutputResult } from "./result";
+import { RunResult } from "./run";
+
+/** A command run and output get result */
+export class OutputResult extends RunResult {
+  /** The log output */
+  output: string;
+
+  /**
+   * Constructs a new command run and output get result
+   * @param code the status code
+   * @param output the log output
+   */
+  constructor(code: number, output: string) {
+    super(code);
+    this.output = output;
+  }
+}
 
 async function outputHelper(
   silent: boolean,

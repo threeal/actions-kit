@@ -1,5 +1,26 @@
 import * as exec from "@actions/exec";
-import { RunResult } from "./result";
+
+/** A command run result */
+export class RunResult {
+  /** The status code */
+  code: number;
+
+  /**
+   * Constructs a new command run result
+   * @param code the status code
+   */
+  constructor(code: number) {
+    this.code = code;
+  }
+
+  /**
+   * Checks if the status is ok (status code is `0`)
+   * @returns `true` if the status is ok
+   */
+  isOk(): boolean {
+    return this.code === 0;
+  }
+}
 
 async function runHelper(
   silent: boolean,

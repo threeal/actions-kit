@@ -1,6 +1,5 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { OutputResult } from "./result";
-import { outputSilently } from "./output";
+import { OutputResult, outputSilently } from "./output";
 
 export function testOutputSilent(script: string, shouldBeSilent: boolean) {
   describe("runs in a separate process", () => {
