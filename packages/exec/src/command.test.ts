@@ -1,8 +1,9 @@
-import { describe, expect, test } from "@jest/globals";
+import { beforeAll, describe, expect, test } from "@jest/globals";
 import { Command } from "./command";
-import { testRunOnSuccessAndFailed } from "./run-helper.test";
+import { OutputResult } from "./output";
+import { RunResult } from "./run";
 
-describe("constrcuts a new command", () => {
+describe("constructs a new command", () => {
   let command: Command;
   test("should not throws an error", () => {
     expect(() => {
@@ -19,73 +20,48 @@ describe("constrcuts a new command", () => {
     });
   });
 
-  testRunOnSuccessAndFailed({
-    title: "runs the command",
-    shouldBeSilent: false,
-    onSuccess: {
-      run: () => command.run("-e", "console.log('some log')"),
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.run('-e', 'console.log(\"some log\")');",
-    },
-    onFailed: {
-      run: () => command.run("-e", "throw new Error('some error')"),
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.run('-e', 'throw new Error(\"some error\")');",
-    },
-  });
+  const runs = new Map([
+    ["", (...args: string[]) => command.run(...args)],
+    [" silently", (...args: string[]) => command.runSilently(...args)],
+  ]);
+  for (const [title, run] of runs) {
+    describe(`runs the command${title}`, () => {
+      let prom: Promise<RunResult>;
+      test("should be resolved", () => {
+        prom = run("-e", "console.log('some log')");
+        return expect(prom).resolves.toBeTruthy();
+      });
+      describe("checks the result", () => {
+        let res: RunResult;
+        beforeAll(async () => (res = await prom));
+        test("the status should be ok", () => {
+          expect(res.isOk()).toBe(true);
+        });
+      });
+    });
+  }
 
-  testRunOnSuccessAndFailed({
-    title: "runs the command silently",
-    shouldBeSilent: true,
-    onSuccess: {
-      run: () => command.runSilently("-e", "console.log('some log')"),
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.runSilently('-e', 'console.log(\"some log\")');",
-    },
-    onFailed: {
-      run: () => command.runSilently("-e", "throw new Error('some error')"),
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.runSilently('-e', 'throw new Error(\"some error\")');",
-    },
-  });
-
-  testRunOnSuccessAndFailed({
-    title: "runs the command and gets the output",
-    shouldBeSilent: false,
-    onSuccess: {
-      run: () => command.output("-e", "console.log('some log')"),
-      expectedOutput: "some log\n",
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.output('-e', 'console.log(\"some log\")');",
-    },
-    onFailed: {
-      run: () => command.output("-e", "throw new Error('some error')"),
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.output('-e', 'throw new Error(\"some error\")');",
-    },
-  });
-
-  testRunOnSuccessAndFailed({
-    title: "runs the command silently and gets the output",
-    shouldBeSilent: true,
-    onSuccess: {
-      run: () => command.outputSilently("-e", "console.log('some log')"),
-      expectedOutput: "some log\n",
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.outputSilently('-e', 'console.log(\"some log\")');",
-    },
-    onFailed: {
-      run: () => command.outputSilently("-e", "throw new Error('some error')"),
-      runScript:
-        "const command = new exec.Command('node');\n\
-        command.outputSilently('-e', 'throw new Error(\"some error\")');",
-    },
-  });
+  const outputs = new Map([
+    ["", (...args: string[]) => command.output(...args)],
+    [" silently", (...args: string[]) => command.outputSilently(...args)],
+  ]);
+  for (const [title, output] of outputs) {
+    describe(`runs the command${title} and gets the output`, () => {
+      let prom: Promise<OutputResult>;
+      test("should be resolved", () => {
+        prom = output("-e", "console.log('some log')");
+        return expect(prom).resolves.toBeTruthy();
+      });
+      describe("checks the result", () => {
+        let res: OutputResult;
+        beforeAll(async () => (res = await prom));
+        test("the status should be ok", () => {
+          expect(res.isOk()).toBe(true);
+        });
+        test("the output should be correct", () => {
+          expect(res.output).toBe("some log\n");
+        });
+      });
+    });
+  }
 });
