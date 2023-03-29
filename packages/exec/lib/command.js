@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
+const output_1 = require("./output");
 const run_1 = require("./run");
 /** A helper for running a command */
 class Command {
@@ -35,7 +36,7 @@ class Command {
      * @returns a command run result
      */
     async output(...args) {
-        return (0, run_1.output)(this.command, ...this.args.concat(args));
+        return (0, output_1.output)(this.command, ...this.args.concat(args));
     }
     /**
      * Runs the command silently and gets the output
@@ -43,7 +44,7 @@ class Command {
      * @returns a command run result
      */
     async outputSilently(...args) {
-        return (0, run_1.outputSilently)(this.command, ...this.args.concat(args));
+        return (0, output_1.outputSilently)(this.command, ...this.args.concat(args));
     }
 }
 exports.Command = Command;

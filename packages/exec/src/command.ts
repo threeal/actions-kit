@@ -1,5 +1,6 @@
+import { output, outputSilently } from "./output";
 import { OutputResult, RunResult } from "./result";
-import { output, outputSilently, run, runSilently } from "./run";
+import { run, runSilently } from "./run";
 
 /** A helper for running a command */
 export class Command {
