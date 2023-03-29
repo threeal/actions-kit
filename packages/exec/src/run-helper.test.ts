@@ -38,7 +38,7 @@ function testRun(
       });
     }
   });
-  testOutputSilent(params.runScript, shouldBeSilent);
+  testOutputSilent({ script: params.runScript, shouldBeSilent });
 }
 
 export interface TestRunOnSuccessAndFailedParams {

@@ -1,5 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
-import { testRunOnSuccessAndFailed } from "./run-helper.test";
+import { beforeAll, describe, expect, test } from "@jest/globals";
+import { testOutputSilent } from "./helper.test";
 import { run, RunResult, runSilently } from "./run";
 
 describe("constructs a new command run result", () => {
@@ -34,29 +34,48 @@ describe("constructs a new command run result", () => {
   });
 });
 
-testRunOnSuccessAndFailed({
-  title: "runs a command",
-  shouldBeSilent: false,
-  onSuccess: {
-    run: () => run("node", "-e", "console.log('some log')"),
-    runScript: "exec.run('node', '-e', 'console.log(\"some log\")');",
-  },
-  onFailed: {
-    run: () => run("node", "-e", "throw new Error('some error')"),
-    runScript: "exec.run('node', '-e', 'throw new Error(\"some error\")');",
-  },
-});
-
-testRunOnSuccessAndFailed({
-  title: "runs a command silently",
-  shouldBeSilent: true,
-  onSuccess: {
-    run: () => runSilently("node", "-e", "console.log('some log')"),
-    runScript: "exec.runSilently('node', '-e', 'console.log(\"some log\")');",
-  },
-  onFailed: {
-    run: () => runSilently("node", "-e", "throw new Error('some error')"),
-    runScript:
-      "exec.runSilently('node', '-e', 'throw new Error(\"some error\")');",
-  },
+describe("runs a command", () => {
+  const runs = new Map([
+    ["runs verbosely", false],
+    ["runs silently", true],
+  ]);
+  for (const [title, isSilent] of runs) {
+    describe(title, () => {
+      const commands = new Map([
+        ["on a successful command", true],
+        ["on a failed command", false],
+      ]);
+      for (const [title, isSuccessful] of commands) {
+        describe(title, () => {
+          let prom: Promise<RunResult>;
+          test("should be resolved", () => {
+            const script = isSuccessful
+              ? "console.log('some log')"
+              : "throw new Error('some error')";
+            prom = isSilent
+              ? runSilently("node", "-e", script)
+              : run("node", "-e", script);
+            return expect(prom).resolves.toBeTruthy();
+          });
+          describe("checks the result", () => {
+            let res: RunResult;
+            beforeAll(async () => (res = await prom));
+            if (isSuccessful) {
+              test(`the status should be ok`, () => {
+                expect(res.isOk()).toBe(true);
+              });
+            } else {
+              test(`the status should not be ok`, () => {
+                expect(res.isOk()).toBe(false);
+              });
+            }
+          });
+        });
+      }
+      const script = isSilent
+        ? `exec.runSilently('node', '-e', 'console.log("some log")');`
+        : `exec.run('node', '-e', 'console.log("some log")');`;
+      testOutputSilent({ script, shouldBeSilent: isSilent });
+    });
+  }
 });
