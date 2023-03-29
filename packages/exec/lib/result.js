@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Result = exports.RunResult = void 0;
+exports.OutputResult = exports.RunResult = void 0;
 /** A command run result */
 class RunResult {
     /**
@@ -19,17 +19,17 @@ class RunResult {
     }
 }
 exports.RunResult = RunResult;
-/** A command execution result */
-class Result extends RunResult {
+/** A command run and output get result */
+class OutputResult extends RunResult {
     /**
-     * Constructs a new command execution result
+     * Constructs a new command run and output get result
      * @param code the status code
+     * @param output the log output
      */
-    constructor(code) {
+    constructor(code, output) {
         super(code);
-        /** The log output */
-        this.output = "";
+        this.output = output;
     }
 }
-exports.Result = Result;
+exports.OutputResult = OutputResult;
 //# sourceMappingURL=result.js.map

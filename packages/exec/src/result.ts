@@ -20,16 +20,18 @@ export class RunResult {
   }
 }
 
-/** A command execution result */
-export class Result extends RunResult {
+/** A command run and output get result */
+export class OutputResult extends RunResult {
   /** The log output */
-  output: string = "";
+  output: string;
 
   /**
-   * Constructs a new command execution result
+   * Constructs a new command run and output get result
    * @param code the status code
+   * @param output the log output
    */
-  constructor(code: number) {
+  constructor(code: number, output: string) {
     super(code);
+    this.output = output;
   }
 }

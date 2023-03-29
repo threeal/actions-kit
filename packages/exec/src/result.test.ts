@@ -1,11 +1,11 @@
 import { describe, expect, test } from "@jest/globals";
-import { Result } from "./result";
+import { OutputResult } from "./result";
 
 describe("constructs a new result object", () => {
   describe("without anything specified", () => {
-    let res: Result;
+    let res: OutputResult;
     test("should not throws an error", () => {
-      expect(() => (res = new Result(0))).not.toThrow();
+      expect(() => (res = new OutputResult(0, ""))).not.toThrow();
     });
     describe("checks the properties", () => {
       test("the status code should be defaulted to zero", () => {
@@ -22,9 +22,9 @@ describe("constructs a new result object", () => {
 
   describe("with a status code specified", () => {
     describe("with a zero status code", () => {
-      let res: Result;
+      let res: OutputResult;
       test("should not throws an error", () => {
-        expect(() => (res = new Result(0))).not.toThrow();
+        expect(() => (res = new OutputResult(0, ""))).not.toThrow();
       });
       describe("checks the properties", () => {
         test("the status code should be equals", () => {
@@ -40,9 +40,9 @@ describe("constructs a new result object", () => {
     });
 
     describe("with a non zero status code", () => {
-      let res: Result;
+      let res: OutputResult;
       test("should not throws an error", () => {
-        expect(() => (res = new Result(8))).not.toThrow();
+        expect(() => (res = new OutputResult(8, ""))).not.toThrow();
       });
       describe("checks the properties", () => {
         test("the status code should be equals", () => {

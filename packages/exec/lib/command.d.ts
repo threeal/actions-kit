@@ -1,4 +1,4 @@
-import { RunResult, Result } from "./result";
+import { OutputResult, RunResult } from "./result";
 /** A helper for running a command */
 export declare class Command {
     /** The command to run */
@@ -28,11 +28,11 @@ export declare class Command {
      * @param args additional arguments for the command
      * @returns a command run result
      */
-    output(...args: string[]): Promise<Result>;
+    output(...args: string[]): Promise<OutputResult>;
     /**
      * Runs the command silently and gets the output
      * @param args additional arguments for the command
      * @returns a command run result
      */
-    outputSilently(...args: string[]): Promise<Result>;
+    outputSilently(...args: string[]): Promise<OutputResult>;
 }

@@ -1,5 +1,5 @@
 import * as exec from "@actions/exec";
-import { Result, RunResult } from "./result";
+import { OutputResult, RunResult } from "./result";
 
 async function runHelper(
   silent: boolean,
@@ -10,7 +10,7 @@ async function runHelper(
     ignoreReturnCode: true,
     silent,
   });
-  return new Result(rc);
+  return new RunResult(rc);
 }
 
 /**
@@ -43,14 +43,12 @@ async function outputHelper(
   silent: boolean,
   command: string,
   ...args: string[]
-): Promise<Result> {
-  const out = await exec.getExecOutput(command, args, {
+): Promise<OutputResult> {
+  const res = await exec.getExecOutput(command, args, {
     ignoreReturnCode: true,
     silent,
   });
-  const res = new Result(out.exitCode);
-  res.output = out.stdout;
-  return res;
+  return new OutputResult(res.exitCode, res.stdout);
 }
 
 /**
@@ -62,7 +60,7 @@ async function outputHelper(
 export async function output(
   command: string,
   ...args: string[]
-): Promise<Result> {
+): Promise<OutputResult> {
   return outputHelper(false, command, ...args);
 }
 
@@ -75,6 +73,6 @@ export async function output(
 export async function outputSilently(
   command: string,
   ...args: string[]
-): Promise<Result> {
+): Promise<OutputResult> {
   return outputHelper(true, command, ...args);
 }

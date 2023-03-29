@@ -31,7 +31,7 @@ async function runHelper(silent, command, ...args) {
         ignoreReturnCode: true,
         silent,
     });
-    return new result_1.Result(rc);
+    return new result_1.RunResult(rc);
 }
 /**
  * Runs a command
@@ -54,13 +54,11 @@ async function runSilently(command, ...args) {
 }
 exports.runSilently = runSilently;
 async function outputHelper(silent, command, ...args) {
-    const out = await exec.getExecOutput(command, args, {
+    const res = await exec.getExecOutput(command, args, {
         ignoreReturnCode: true,
         silent,
     });
-    const res = new result_1.Result(out.exitCode);
-    res.output = out.stdout;
-    return res;
+    return new result_1.OutputResult(res.exitCode, res.stdout);
 }
 /**
  * Runs a command and gets the output

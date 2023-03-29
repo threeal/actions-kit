@@ -1,4 +1,4 @@
-import { Result, RunResult } from "./result";
+import { OutputResult, RunResult } from "./result";
 /**
  * Runs a command
  * @param command a command to run
@@ -19,11 +19,11 @@ export declare function runSilently(command: string, ...args: string[]): Promise
  * @param args additional arguments for the command
  * @returns a command run result
  */
-export declare function output(command: string, ...args: string[]): Promise<Result>;
+export declare function output(command: string, ...args: string[]): Promise<OutputResult>;
 /**
  * Runs a command silently and gets the output
  * @param command a command to run
  * @param args additional arguments for the command
  * @returns a command run result
  */
-export declare function outputSilently(command: string, ...args: string[]): Promise<Result>;
+export declare function outputSilently(command: string, ...args: string[]): Promise<OutputResult>;

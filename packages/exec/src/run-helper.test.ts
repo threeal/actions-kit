@@ -1,9 +1,9 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
-import { Result, RunResult } from "./result";
+import { OutputResult, RunResult } from "./result";
 import { outputSilently } from "./run";
 
 interface TestRunParams {
-  run: (() => Promise<RunResult>) | (() => Promise<Result>);
+  run: (() => Promise<RunResult>) | (() => Promise<OutputResult>);
   expectedOutput?: string;
   runScript: string;
 }
@@ -13,13 +13,13 @@ function testRun(
   shouldBeSilent: boolean,
   params: TestRunParams
 ) {
-  let prom: Promise<RunResult> | Promise<Result>;
+  let prom: Promise<RunResult> | Promise<OutputResult>;
   test("should be resolved", () => {
     prom = params.run();
     return expect(prom).resolves.toBeTruthy();
   });
   describe("checks the result", () => {
-    let res: RunResult | Result;
+    let res: RunResult | OutputResult;
     beforeAll(async () => (res = await prom));
     if (shouldBeOk) {
       test("the status should be ok", () => {
@@ -27,7 +27,7 @@ function testRun(
       });
       if (params.expectedOutput) {
         test("the output should be correct", () => {
-          const output = (res as Result).output;
+          const output = (res as OutputResult).output;
           expect(output).toBe(params.expectedOutput);
         });
       }
@@ -38,14 +38,14 @@ function testRun(
     }
   });
   describe("runs in a separate process", () => {
-    let resProm: Promise<Result>;
+    let resProm: Promise<OutputResult>;
     test("should be resolved", () => {
       const importScript = "const exec = require('./packages/exec/lib');\n";
       resProm = outputSilently("node", "-e", importScript + params.runScript);
       return expect(resProm).resolves.toBeTruthy();
     });
     describe("checks the output", () => {
-      let res: Result;
+      let res: OutputResult;
       beforeAll(async () => (res = await resProm));
       if (shouldBeSilent) {
         test("output should be empty", () => {

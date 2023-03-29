@@ -13,13 +13,14 @@ export declare class RunResult {
      */
     isOk(): boolean;
 }
-/** A command execution result */
-export declare class Result extends RunResult {
+/** A command run and output get result */
+export declare class OutputResult extends RunResult {
     /** The log output */
     output: string;
     /**
-     * Constructs a new command execution result
+     * Constructs a new command run and output get result
      * @param code the status code
+     * @param output the log output
      */
-    constructor(code: number);
+    constructor(code: number, output: string);
 }
