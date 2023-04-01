@@ -42,12 +42,16 @@ await exec.runSilently("node", "-c", "index.js");
 
 ### Run a Command and Get the Output
 
-Use `output(command, args...)`, to run a command and get the output.
+Use `output(command, args...)`, to run a command and get the output. It will returns an `OutputResult` object which contains the exit code and the log output of the command.
 ```js
 const exec = require('@actions-kit/exec');
 
 const res = await exec.output("node", "--version");
-console.log(`Node version: ${res.output}`);
+if (!res.isOk()) {
+  console.log(`Failed with exit code: ${res.code}`);
+} else {
+  console.log(`Node version: ${res.output}`);
+}
 ```
 
 ### Construct a Command Helper
