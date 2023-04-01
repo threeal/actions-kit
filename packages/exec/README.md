@@ -1,5 +1,6 @@
 # Actions Kit - Exec
 
+[![npm version](https://img.shields.io/npm/v/@actions-kit/exec)](https://www.npmjs.com/package/@actions-kit/exec)
 [![build status](https://img.shields.io/github/actions/workflow/status/threeal/actions-kit/build.yml?branch=exec@latest)](https://github.com/threeal/actions-kit/actions/workflows/build.yml?query=branch%3Aexec%40latest)
 
 A command execution library of [Actions Kit](https://github.com/threeal/actions-kit), a toolkit for developing [GitHub Actions](https://github.com/features/actions).
