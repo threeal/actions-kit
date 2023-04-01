@@ -31,15 +31,6 @@ if (!res.isOk()) {
 }
 ```
 
-### Run a Command Silently
-
-Use `runSilently(command, args...)` to run a command silently without printing anything to the console.
-```js
-const exec = require('@actions-kit/exec');
-
-await exec.runSilently("node", "-c", "index.js");
-```
-
 ### Run a Command and Get the Output
 
 Use `output(command, args...)`, to run a command and get the output. It will returns an `OutputResult` object which contains the exit code and the log output of the command.
@@ -52,6 +43,21 @@ if (!res.isOk()) {
 } else {
   console.log(`Node version: ${res.output}`);
 }
+```
+
+### Run a Command Silently
+
+Use `runSilently(command, args...)` to run a command silently without printing anything to the console.
+```js
+const exec = require('@actions-kit/exec');
+
+await exec.runSilently("node", "-c", "index.js");
+```
+
+Or use `outputSilently(command, args...)` to run a command and get the output silently without printing anything to the console.
+```js
+const res = await exec.outputSilently("node", "--version");
+console.log(`Node version: ${res.output}`);
 ```
 
 ### Construct a Command Helper
