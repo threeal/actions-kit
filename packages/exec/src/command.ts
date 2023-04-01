@@ -1,5 +1,5 @@
-import { Result } from "./result";
-import { output, outputSilently, run, runSilently } from "./run";
+import { output, OutputResult, outputSilently } from "./output";
+import { run, RunResult, runSilently } from "./run";
 
 /** A helper for running a command */
 export class Command {
@@ -24,7 +24,7 @@ export class Command {
    * @param args additional arguments for the command
    * @returns a command run result
    */
-  async run(...args: string[]): Promise<Result> {
+  async run(...args: string[]): Promise<RunResult> {
     return run(this.command, ...this.args.concat(args));
   }
 
@@ -33,7 +33,7 @@ export class Command {
    * @param args additional arguments for the command
    * @returns a command run result
    */
-  async runSilently(...args: string[]): Promise<Result> {
+  async runSilently(...args: string[]): Promise<RunResult> {
     return runSilently(this.command, ...this.args.concat(args));
   }
 
@@ -42,7 +42,7 @@ export class Command {
    * @param args additional arguments for the command
    * @returns a command run result
    */
-  async output(...args: string[]): Promise<Result> {
+  async output(...args: string[]): Promise<OutputResult> {
     return output(this.command, ...this.args.concat(args));
   }
 
@@ -51,7 +51,7 @@ export class Command {
    * @param args additional arguments for the command
    * @returns a command run result
    */
-  async outputSilently(...args: string[]): Promise<Result> {
+  async outputSilently(...args: string[]): Promise<OutputResult> {
     return outputSilently(this.command, ...this.args.concat(args));
   }
 }

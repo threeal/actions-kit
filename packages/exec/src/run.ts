@@ -1,16 +1,37 @@
 import * as exec from "@actions/exec";
-import { Result } from "./result";
+
+/** A command run result */
+export class RunResult {
+  /** The status code */
+  code: number;
+
+  /**
+   * Constructs a new command run result
+   * @param code the status code
+   */
+  constructor(code: number) {
+    this.code = code;
+  }
+
+  /**
+   * Checks if the status is ok (status code is `0`)
+   * @returns `true` if the status is ok
+   */
+  isOk(): boolean {
+    return this.code === 0;
+  }
+}
 
 async function runHelper(
   silent: boolean,
   command: string,
   ...args: string[]
-): Promise<Result> {
+): Promise<RunResult> {
   const rc = await exec.exec(command, args, {
     ignoreReturnCode: true,
     silent,
   });
-  return new Result(rc);
+  return new RunResult(rc);
 }
 
 /**
@@ -19,7 +40,10 @@ async function runHelper(
  * @param args additional arguments for the command
  * @returns a command run result
  */
-export async function run(command: string, ...args: string[]): Promise<Result> {
+export async function run(
+  command: string,
+  ...args: string[]
+): Promise<RunResult> {
   return runHelper(false, command, ...args);
 }
 
@@ -32,46 +56,6 @@ export async function run(command: string, ...args: string[]): Promise<Result> {
 export async function runSilently(
   command: string,
   ...args: string[]
-): Promise<Result> {
+): Promise<RunResult> {
   return runHelper(true, command, ...args);
-}
-
-async function outputHelper(
-  silent: boolean,
-  command: string,
-  ...args: string[]
-): Promise<Result> {
-  const out = await exec.getExecOutput(command, args, {
-    ignoreReturnCode: true,
-    silent,
-  });
-  const res = new Result(out.exitCode);
-  res.output = out.stdout;
-  return res;
-}
-
-/**
- * Runs a command and gets the output
- * @param command a command to run
- * @param args additional arguments for the command
- * @returns a command run result
- */
-export async function output(
-  command: string,
-  ...args: string[]
-): Promise<Result> {
-  return outputHelper(false, command, ...args);
-}
-
-/**
- * Runs a command silently and gets the output
- * @param command a command to run
- * @param args additional arguments for the command
- * @returns a command run result
- */
-export async function outputSilently(
-  command: string,
-  ...args: string[]
-): Promise<Result> {
-  return outputHelper(true, command, ...args);
 }

@@ -23,51 +23,47 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runSilently = exports.run = exports.RunResult = void 0;
+exports.outputSilently = exports.output = exports.OutputResult = void 0;
 const exec = __importStar(require("@actions/exec"));
-/** A command run result */
-class RunResult {
+const run_1 = require("./run");
+/** A command run and output get result */
+class OutputResult extends run_1.RunResult {
     /**
-     * Constructs a new command run result
+     * Constructs a new command run and output get result
      * @param code the status code
+     * @param output the log output
      */
-    constructor(code) {
-        this.code = code;
-    }
-    /**
-     * Checks if the status is ok (status code is `0`)
-     * @returns `true` if the status is ok
-     */
-    isOk() {
-        return this.code === 0;
+    constructor(code, output) {
+        super(code);
+        this.output = output;
     }
 }
-exports.RunResult = RunResult;
-async function runHelper(silent, command, ...args) {
-    const rc = await exec.exec(command, args, {
+exports.OutputResult = OutputResult;
+async function outputHelper(silent, command, ...args) {
+    const res = await exec.getExecOutput(command, args, {
         ignoreReturnCode: true,
         silent,
     });
-    return new RunResult(rc);
+    return new OutputResult(res.exitCode, res.stdout);
 }
 /**
- * Runs a command
+ * Runs a command and gets the output
  * @param command a command to run
  * @param args additional arguments for the command
  * @returns a command run result
  */
-async function run(command, ...args) {
-    return runHelper(false, command, ...args);
+async function output(command, ...args) {
+    return outputHelper(false, command, ...args);
 }
-exports.run = run;
+exports.output = output;
 /**
- * Runs a command silently
+ * Runs a command silently and gets the output
  * @param command a command to run
  * @param args additional arguments for the command
  * @returns a command run result
  */
-async function runSilently(command, ...args) {
-    return runHelper(true, command, ...args);
+async function outputSilently(command, ...args) {
+    return outputHelper(true, command, ...args);
 }
-exports.runSilently = runSilently;
-//# sourceMappingURL=run.js.map
+exports.outputSilently = outputSilently;
+//# sourceMappingURL=output.js.map

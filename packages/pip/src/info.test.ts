@@ -58,7 +58,7 @@ describe("test show info of a pip package", () => {
     });
 
     describe("runs in a separate process", () => {
-      let prom: Promise<exec.Result>;
+      let prom: Promise<exec.OutputResult>;
       test("should be resolved", () => {
         prom = node.outputSilently(
           `const pip = require('./packages/pip/lib');\n\
@@ -67,7 +67,7 @@ describe("test show info of a pip package", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
-        let res: exec.Result;
+        let res: exec.OutputResult;
         beforeAll(async () => (res = await prom));
         test("output should be empty", () => {
           expect(res.output.length).toBe(0);
