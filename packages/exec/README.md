@@ -62,12 +62,20 @@ console.log(`Node version: ${res.output}`);
 
 ### Construct a Command Helper
 
-Construct a command helper to simplify the command run.
+Construct a command helper using `Command` class to simplify the command run.
 ```js
 const exec = require('@actions-kit/exec');
 
 const node = new exec.Command("node", "-e");
 await node.run("process.exit();");
+```
+
+All command run functions are available in the `Command` class and behave the same.
+```js
+await node.runSilently("process.exit();");
+
+const res = node.output("console.log('Hello world!');");
+console.log(`output: ${res.output}`);
 ```
 
 ## License
