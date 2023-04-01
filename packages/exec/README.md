@@ -31,6 +31,15 @@ if (!res.isOk()) {
 }
 ```
 
+### Run a Command Silently
+
+Use `runSilently(command, args...)` to run a command silently without printing anything to the console.
+```js
+const exec = require('@actions-kit/exec');
+
+await exec.runSilently("node", "-c", "index.js");
+```
+
 ### Run a Command and Get the Output
 
 Use `output(command, args...)`, to run a command and get the output.
