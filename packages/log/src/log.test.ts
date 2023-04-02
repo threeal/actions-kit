@@ -9,16 +9,16 @@ describe("writes warning to log", () => {
     expect(() => warning("some message")).not.toThrow();
   });
   describe("runs in a separate process", () => {
-    let prom: Promise<exec.OutputResult>;
+    let prom: Promise<exec.Result>;
     test("should be resolved", () => {
-      prom = node.outputSilently(
+      prom = node.execOut(
         "const log = require('./packages/log/lib');\n\
         log.warning('some message');"
       );
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
-      let res: exec.OutputResult;
+      let res: exec.Result;
       beforeAll(async () => (res = await prom));
       test("message should be written", () => {
         expect(res.output).toMatch(/some message/);
@@ -35,16 +35,16 @@ describe("writes error to log", () => {
     expect(() => error("some message")).not.toThrow();
   });
   describe("runs in a separate process", () => {
-    let prom: Promise<exec.OutputResult>;
+    let prom: Promise<exec.Result>;
     test("should be resolved", () => {
-      prom = node.outputSilently(
+      prom = node.execOut(
         "const log = require('./packages/log/lib');\n\
         log.error('some message');"
       );
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks output", () => {
-      let res: exec.OutputResult;
+      let res: exec.Result;
       beforeAll(async () => (res = await prom));
       test("message should be written", () => {
         expect(res.output).toMatch(/some message/);
@@ -61,16 +61,16 @@ describe("writes a fatal message to the log", () => {
     expect(() => fatal("some message")).not.toThrow();
   });
   describe("runs in a separate process", () => {
-    let prom: Promise<exec.OutputResult>;
+    let prom: Promise<exec.Result>;
     test("should be resolved", () => {
-      prom = node.outputSilently(
+      prom = node.execOut(
         "const log = require('./packages/log/lib');\n\
         log.fatal('some message');"
       );
       return expect(prom).resolves.toBeTruthy();
     });
     describe("checks the output and the status", () => {
-      let res: exec.OutputResult;
+      let res: exec.Result;
       beforeAll(async () => (res = await prom));
       test("the output should contains the message", () => {
         expect(res.output).toMatch(/some message/);
