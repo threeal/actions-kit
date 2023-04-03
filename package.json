@@ -11,7 +11,7 @@
     "clean-build": "run-s clean build",
     "format": "prettier --write packages/**/*.ts",
     "lint": "lerna run lint",
-    "test": "jest --coverage --runInBand"
+    "test": "lerna run test"
   },
   "devDependencies": {
     "@actions-kit/exec": "^0.1.0",
@@ -25,13 +25,11 @@
     "@types/tmp": "^0.2.3",
     "fs-extra": "^11.1.1",
     "hash-it": "^6.0.0",
-    "jest": "^29.4.3",
     "jsonfile": "^6.1.0",
     "lerna": "^6.5.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
     "tmp": "^0.2.1",
-    "ts-jest": "^29.0.5",
     "typescript": "^5.0.2"
   }
 }
