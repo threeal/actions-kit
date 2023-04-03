@@ -12,7 +12,7 @@ describe("writes warning to log", () => {
     let prom: Promise<exec.OutputResult>;
     test("should be resolved", () => {
       prom = node.outputSilently(
-        "const log = require('./packages/log/lib');\n\
+        "const log = require('./lib');\n\
         log.warning('some message');"
       );
       return expect(prom).resolves.toBeTruthy();
@@ -38,7 +38,7 @@ describe("writes error to log", () => {
     let prom: Promise<exec.OutputResult>;
     test("should be resolved", () => {
       prom = node.outputSilently(
-        "const log = require('./packages/log/lib');\n\
+        "const log = require('./lib');\n\
         log.error('some message');"
       );
       return expect(prom).resolves.toBeTruthy();
@@ -64,7 +64,7 @@ describe("writes a fatal message to the log", () => {
     let prom: Promise<exec.OutputResult>;
     test("should be resolved", () => {
       prom = node.outputSilently(
-        "const log = require('./packages/log/lib');\n\
+        "const log = require('./lib');\n\
         log.fatal('some message');"
       );
       return expect(prom).resolves.toBeTruthy();

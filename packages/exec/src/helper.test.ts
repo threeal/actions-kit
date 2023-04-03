@@ -19,7 +19,7 @@ export function testOutputSilent(params: TestOutputSilentParams) {
   describe("runs in a separate process", () => {
     let prom: Promise<OutputResult>;
     test("should be resolved", () => {
-      const importScript = "const exec = require('./packages/exec/lib');\n";
+      const importScript = "const exec = require('./lib');\n";
       prom = outputSilently("node", "-e", importScript + params.script);
       return expect(prom).resolves.toBeTruthy();
     });
