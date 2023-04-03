@@ -1,9 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": [
-    "mocks",
-    "packages",
-  ],
   "exclude": [
     "node_modules"
   ]
