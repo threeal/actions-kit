@@ -10,6 +10,9 @@ module.exports = {
     },
   },
   moduleFileExtensions: ["js", "ts"],
+  moduleNameMapper: {
+    'actions/cache': '<rootDir>/node_modules/@actions-kit/mock-actions-cache/lib/index.js',
+  },
   testEnvironment: "node",
   testMatch: ["**/*.test.ts"],
   transform: {"^.+\\.ts$": "ts-jest"},
