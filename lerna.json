@@ -1,5 +1,6 @@
 {
   "packages": [
+    "mocks/*",
     "packages/*"
   ],
   "version": "independent"

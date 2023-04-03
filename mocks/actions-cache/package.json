@@ -1,0 +1,30 @@
+{
+  "name": "@actions-kit/mock-actions-cache",
+  "version": "0.1.0",
+  "description": "A mock library of @actions/cache",
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/mocks/actions-cache",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "mocks/actions-cache"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf lib"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/tmp": "^0.2.3",
+    "fs-extra": "^11.1.1",
+    "tmp": "^0.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-plugin-github": "^4.6.1",
+    "eslint-plugin-jest": "^27.2.1",
+    "typescript": "^5.0.2"
+  }
+}
