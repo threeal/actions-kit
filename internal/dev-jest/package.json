@@ -1,0 +1,30 @@
+{
+  "name": "@actions-kit/dev-jest",
+  "version": "0.1.0",
+  "description": "A Jest development config of Actions Kit",
+  "keywords": [
+    "jest",
+    "dev",
+    "config"
+  ],
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/internal/dev-jest",
+  "bugs": {
+    "url": "https://github.com/threeal/actions-kit/issues",
+    "email": "alfi.maulana.f@gmail.com"
+  },
+  "license": "MIT",
+  "main": "jest.config.js",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
+  "files": [
+    "jest.config.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "internal/dev-jest"
+  },
+  "devDependencies": {
+    "jest": "^29.4.3",
+    "ts-jest": "^29.0.5"
+  }
+}
