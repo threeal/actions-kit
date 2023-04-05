@@ -1,0 +1,28 @@
+{
+  "name": "@actions-kit/dev-typescript",
+  "version": "0.1.0",
+  "description": "A TypeScript development config of Actions Kit",
+  "keywords": [
+    "typescript",
+    "dev",
+    "config"
+  ],
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/internal/dev-typescript",
+  "bugs": {
+    "url": "https://github.com/threeal/actions-kit/issues",
+    "email": "alfi.maulana.f@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
+  "files": [
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "internal/dev-typescript"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2"
+  }
+}

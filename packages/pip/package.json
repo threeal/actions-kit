@@ -32,6 +32,7 @@
     "test": "jest --coverage --runInBand"
   },
   "dependencies": {
+    "@actions-kit/dev-typescript": "*",
     "@actions-kit/exec": "*",
     "@actions/cache": "^3.2.1",
     "@actions/io": "^1.1.3",
