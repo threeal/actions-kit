@@ -2,5 +2,7 @@
 !.eslint*
 !.git*
 
+tsconfig.eslint.json
+
 coverage/
 node_modules/
