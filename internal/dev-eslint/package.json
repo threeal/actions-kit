@@ -19,7 +19,8 @@
     "directory": "internal/dev-eslint"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint '**/*.ts'"
   },
   "devDependencies": {
     "@actions-kit/dev-typescript": "*",

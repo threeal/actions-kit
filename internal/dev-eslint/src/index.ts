@@ -2,28 +2,28 @@ import * as jsonfile from "jsonfile";
 
 jsonfile.writeFileSync("tsconfig.eslint.json", {
   extends: "./tsconfig.json",
-  exclude: []
+  exclude: [],
 });
 
 export = {
-  "plugins": ["@typescript-eslint", "jest"],
-  "extends": ["plugin:github/recommended"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 9,
-    "project": "tsconfig.eslint.json",
-    "sourceType": "module"
+  plugins: ["@typescript-eslint", "jest"],
+  extends: ["plugin:github/recommended"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: 9,
+    project: "tsconfig.eslint.json",
+    sourceType: "module",
   },
-  "rules": {
-    "camelcase": "off",
+  rules: {
+    camelcase: "off",
     "i18n-text/no-en": "off",
     "import/no-namespace": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
   },
-  "env": {
-    "es6": true,
+  env: {
+    es6: true,
     "jest/globals": true,
-    "node": true
+    node: true,
   },
-  "ignorePatterns": ["jest.config.ts", "lib/"]
+  ignorePatterns: ["jest.config.ts", "lib/"],
 };
