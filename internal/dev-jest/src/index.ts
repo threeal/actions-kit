@@ -1,4 +1,6 @@
-module.exports = {
+import {Config} from "jest";
+
+const config: Config = {
   clearMocks: true,
   coveragePathIgnorePatterns: ["/lib/"],
   coverageThreshold: {
@@ -15,3 +17,5 @@ module.exports = {
   transform: {"^.+\\.ts$": "ts-jest"},
   verbose: true
 }
+
+export default config;

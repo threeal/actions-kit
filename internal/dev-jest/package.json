@@ -10,15 +10,21 @@
   },
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
-  "files": ["jest.config.ts"],
-  "main": "jest.config.js",
+  "files": ["lib"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/threeal/actions-kit.git",
     "directory": "internal/dev-jest"
   },
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
+    "@actions-kit/dev-typescript": "*",
     "jest": "^29.4.3",
-    "ts-jest": "^29.0.5"
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1"
   }
 }
