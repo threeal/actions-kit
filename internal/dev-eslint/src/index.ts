@@ -1,11 +1,11 @@
-const jsonfile = require("jsonfile");
+import * as jsonfile from "jsonfile";
 
 jsonfile.writeFileSync("tsconfig.eslint.json", {
   extends: "./tsconfig.json",
   exclude: []
 });
 
-module.exports = {
+export = {
   "plugins": ["@typescript-eslint", "jest"],
   "extends": ["plugin:github/recommended"],
   "parser": "@typescript-eslint/parser",
