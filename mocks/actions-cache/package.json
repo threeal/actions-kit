@@ -21,7 +21,7 @@
     "tmp": "^0.2.1"
   },
   "devDependencies": {
-    "@actions-kit/dev-typescript": "*",
+    "@actions-kit/dev-typescript": "^0.1.0",
     "@types/fs-extra": "^11.0.1",
     "@types/tmp": "^0.2.3",
     "eslint": "^8.34.0",
