@@ -15,6 +15,34 @@ updates:
       prefix: chore
 
   - package-ecosystem: npm
+    directory: /internal/dev-eslint
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: chore
+
+  - package-ecosystem: npm
+    directory: /internal/dev-jest
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: chore
+
+  - package-ecosystem: npm
+    directory: /internal/dev-typescript
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: chore
+
+  - package-ecosystem: npm
+    directory: /internal/mock-actions-cache
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: chore
+
+  - package-ecosystem: npm
     directory: /packages/envi
     schedule:
       interval: daily
@@ -30,6 +58,13 @@ updates:
 
   - package-ecosystem: npm
     directory: /packages/log
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: chore
+
+  - package-ecosystem: npm
+    directory: /packages/pip
     schedule:
       interval: daily
     commit-message:
