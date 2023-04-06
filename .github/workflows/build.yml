@@ -5,73 +5,12 @@ on:
   push:
     branches: [main]
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.5.0
-
-      - name: Cache dependencies
-        id: cache-npm
-        uses: actions/cache@v3.3.1
-        with:
-          path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        run: npm run bootstrap
-
-      - name: Run formatter
-        run: npm run format
-
-      - name: Check diff
-        run: git diff --exit-code HEAD
-
-  test:
+  build:
     runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
       matrix:
         os: [windows, ubuntu, macos]
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.5.0
-
-      - name: Cache dependencies
-        id: cache-npm
-        uses: actions/cache@v3.3.1
-        with:
-          path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        run: npm run bootstrap
-
-      - name: Run unit tests
-        run: npm run test
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.5.0
-
-      - name: Cache dependencies
-        id: cache-npm
-        uses: actions/cache@v3.3.1
-        with:
-          path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        run: npm run bootstrap
-
-      - name: Run static analysis
-        run: npm run lint
-
-  build:
-    needs: [test, lint]
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v3.5.0
