@@ -14,8 +14,7 @@
   "scripts": {
     "build": "rm -rf lib && tsc",
     "format": "prettier --write src/**/*.ts",
-    "lint": "eslint src --ext .js,.ts",
-    "pretest": "tsc"
+    "lint": "eslint src --ext .js,.ts"
   },
   "dependencies": {
     "fs-extra": "^11.1.1",

@@ -13,18 +13,16 @@
         "^format"
       ]
     },
-    "test": {
+    "build": {
       "dependsOn": [
-        "pretest",
-        "^pretest",
         "lint",
         "^lint"
       ]
     },
-    "build": {
+    "test": {
       "dependsOn": [
-        "test",
-        "^test"
+        "build",
+        "^build"
       ]
     }
   }
