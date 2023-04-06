@@ -21,10 +21,12 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf lib",
+    "lint": "eslint '**/*.ts'",
     "pretest": "npm run build"
   },
   "devDependencies": {
-    "@actions-kit/dev-typescript": "*",
+    "@actions-kit/dev-eslint": "^0.1.0",
+    "@actions-kit/dev-typescript": "^0.1.0",
     "jest": "^29.4.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1"
