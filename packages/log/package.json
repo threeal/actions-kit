@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rm -rf lib && tsc",
     "format": "prettier --write src/**/*.ts",
-    "lint": "eslint '**/*.ts'",
+    "lint": "eslint src --ext .js,.ts",
     "pretest": "tsc",
     "test": "jest --coverage --runInBand"
   },

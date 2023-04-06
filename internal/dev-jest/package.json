@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "rm -rf lib && tsc",
-    "lint": "eslint '**/*.ts'",
+    "lint": "eslint src --ext .js,.ts",
     "pretest": "tsc"
   },
   "devDependencies": {
