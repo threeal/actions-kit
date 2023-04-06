@@ -12,6 +12,10 @@ jobs:
       matrix:
         os: [windows, ubuntu, macos]
     steps:
+      - name: Disable auto CRLF on Windows
+        if: matrix.os == 'windows'
+        run: git config --global core.autocrlf false
+
       - name: Checkout this repository
         uses: actions/checkout@v3.5.0
 
