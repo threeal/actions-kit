@@ -2,14 +2,14 @@
   "name": "@actions-kit/mock-actions-cache",
   "version": "0.1.0",
   "description": "A mock library of @actions/cache",
-  "homepage": "https://github.com/threeal/actions-kit/tree/main/mocks/actions-cache",
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/internal/mock-actions-cache",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/threeal/actions-kit.git",
-    "directory": "mocks/actions-cache"
+    "directory": "internal/mock-actions-cache"
   },
   "scripts": {
     "build": "tsc",

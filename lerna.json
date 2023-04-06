@@ -1,7 +1,6 @@
 {
   "packages": [
     "internal/*",
-    "mocks/*",
     "packages/*"
   ],
   "version": "independent"
