@@ -15,6 +15,7 @@
     "build": "tsc",
     "clean": "rm -rf lib",
     "format": "prettier --write src/**/*.ts",
+    "lint": "eslint '**/*.ts'",
     "pretest": "npm run build"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "tmp": "^0.2.1"
   },
   "devDependencies": {
+    "@actions-kit/dev-eslint": "^0.1.0",
     "@actions-kit/dev-typescript": "^0.1.0",
     "@types/fs-extra": "^11.0.1",
     "@types/tmp": "^0.2.3",
