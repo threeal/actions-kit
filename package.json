@@ -6,7 +6,6 @@
     "all-no-test": "run-s format lint clean-build",
     "bootstrap": "npx lerna bootstrap --hoist",
     "build": "lerna run build",
-    "build-and-test": "run-s build test",
     "clean": "lerna run clean",
     "clean-build": "run-s clean build",
     "format": "lerna run format",

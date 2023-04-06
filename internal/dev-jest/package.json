@@ -19,7 +19,9 @@
     "directory": "internal/dev-jest"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -rf lib",
+    "pretest": "npm run build"
   },
   "devDependencies": {
     "@actions-kit/dev-typescript": "*",

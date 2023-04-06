@@ -47,8 +47,8 @@ jobs:
       - name: Install dependencies
         run: npm run bootstrap
 
-      - name: Build and run unit tests
-        run: npm run build-and-test
+      - name: Run unit tests
+        run: npm run test
 
   lint:
     runs-on: ubuntu-latest

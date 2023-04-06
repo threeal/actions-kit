@@ -7,6 +7,9 @@
   "targetDefaults": {
     "lint": {
       "dependsOn": ["prelint", "^prelint"]
+    },
+    "test": {
+      "dependsOn": ["pretest", "^pretest"]
     }
   }
 }

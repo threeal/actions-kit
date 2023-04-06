@@ -23,6 +23,7 @@
     "clean": "rm -rf lib",
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint '**/*.ts'",
+    "pretest": "npm run build",
     "test": "jest --coverage --runInBand"
   },
   "dependencies": {

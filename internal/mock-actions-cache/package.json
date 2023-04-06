@@ -14,7 +14,8 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf lib",
-    "format": "prettier --write src/**/*.ts"
+    "format": "prettier --write src/**/*.ts",
+    "pretest": "npm run build"
   },
   "dependencies": {
     "fs-extra": "^11.1.1",
