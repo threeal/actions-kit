@@ -6,10 +6,26 @@
   },
   "targetDefaults": {
     "lint": {
-      "dependsOn": ["prelint", "^prelint"]
+      "dependsOn": [
+        "prelint",
+        "^prelint",
+        "format",
+        "^format"
+      ]
     },
     "test": {
-      "dependsOn": ["pretest", "^pretest"]
+      "dependsOn": [
+        "pretest",
+        "^pretest",
+        "lint",
+        "^lint"
+      ]
+    },
+    "build": {
+      "dependsOn": [
+        "test",
+        "^test"
+      ]
     }
   }
 }
