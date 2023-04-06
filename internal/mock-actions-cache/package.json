@@ -12,11 +12,10 @@
     "directory": "internal/mock-actions-cache"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf lib",
+    "build": "rm -rf lib && tsc",
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint '**/*.ts'",
-    "pretest": "npm run build"
+    "pretest": "tsc"
   },
   "dependencies": {
     "fs-extra": "^11.1.1",

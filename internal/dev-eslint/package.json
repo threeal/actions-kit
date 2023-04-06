@@ -19,9 +19,9 @@
     "directory": "internal/dev-eslint"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && tsc",
     "lint": "eslint '**/*.ts'",
-    "prelint": "npm run build"
+    "prelint": "tsc"
   },
   "devDependencies": {
     "@actions-kit/dev-typescript": "*",

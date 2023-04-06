@@ -12,8 +12,7 @@
     "directory": "packages/envi"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf lib",
+    "build": "rm -rf lib && tsc",
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint '**/*.ts'",
     "test": "jest --coverage --runInBand"

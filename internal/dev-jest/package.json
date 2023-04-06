@@ -19,10 +19,9 @@
     "directory": "internal/dev-jest"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf lib",
+    "build": "rm -rf lib && tsc",
     "lint": "eslint '**/*.ts'",
-    "pretest": "npm run build"
+    "pretest": "tsc"
   },
   "devDependencies": {
     "@actions-kit/dev-eslint": "^0.1.0",

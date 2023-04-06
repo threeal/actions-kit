@@ -87,7 +87,7 @@ jobs:
         run: npm run bootstrap
 
       - name: Build this project
-        run: npm run clean && npm run build
+        run: npm run build
 
       - name: Check diff
         run: git diff --exit-code HEAD
