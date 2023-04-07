@@ -61,7 +61,7 @@ describe("test show info of a pip package", () => {
       let prom: Promise<exec.OutputResult>;
       test("should be resolved", () => {
         prom = node.outputSilently(
-          `const pip = require('./packages/pip/lib');\n\
+          `const pip = require('./lib');\n\
           pip.showPackageInfo('${validPkgName}');`
         );
         return expect(prom).resolves.toBeTruthy();

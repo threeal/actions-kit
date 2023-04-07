@@ -1,11 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@actions-kit/dev-typescript/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "rootDir": "./src",
-    "outDir": "./lib"
+    "outDir": "lib"
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["src"],
+  "exclude": ["**/*.test.ts"]
 }
