@@ -1,6 +1,6 @@
 {
   "name": "@actions-kit/exec",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An actions-kit command execution library",
   "keywords": ["github", "actions", "exec"],
   "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/exec",
