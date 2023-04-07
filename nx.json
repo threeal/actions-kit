@@ -1,0 +1,29 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default"
+    }
+  },
+  "targetDefaults": {
+    "lint": {
+      "dependsOn": [
+        "prelint",
+        "^prelint",
+        "format",
+        "^format"
+      ]
+    },
+    "build": {
+      "dependsOn": [
+        "lint",
+        "^lint"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "build",
+        "^build"
+      ]
+    }
+  }
+}
