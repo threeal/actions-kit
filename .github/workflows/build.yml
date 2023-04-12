@@ -16,7 +16,7 @@ jobs:
         if: matrix.os == 'windows'
         run: git config --global core.autocrlf false
 
-      - name: Checkout this repository
+      - name: Checkout repository
         uses: actions/checkout@v3.5.0
 
       - name: Cache dependencies
@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm run bootstrap
 
-      - name: Build this project
-        run: npm run build
+      - name: Build and test
+        run: npm run test
 
       - name: Check diff
         run: git diff --exit-code HEAD
