@@ -19,7 +19,6 @@
     "directory": "internal/dev-eslint"
   },
   "scripts": {
-    "build": "rm -rf lib && tsc",
     "lint": "eslint src --ext .js,.ts",
     "prelint": "tsc"
   },
