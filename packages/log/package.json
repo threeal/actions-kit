@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "rm -rf lib && tsc",
-    "format": "prettier --write src/**/*.ts",
+    "format": "prettier --write '*.{js,ts,json}' 'src/**/*.ts'",
     "lint": "eslint src --ext .js,.ts",
     "test": "jest --coverage --runInBand"
   },
