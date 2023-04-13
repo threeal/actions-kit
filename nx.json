@@ -8,14 +8,20 @@
     }
   },
   "targetDefaults": {
+    "format": {
+      "dependsOn": ["^format"]
+    },
+    "prelint": {
+      "dependsOn": ["^prelint"]
+    },
     "lint": {
-      "dependsOn": ["prelint", "^prelint", "format", "^format"]
+      "dependsOn": ["^build", "^lint", "prelint", "format"]
     },
     "build": {
-      "dependsOn": ["lint", "^lint"]
+      "dependsOn": ["lint"]
     },
     "test": {
-      "dependsOn": ["build", "^build"]
+      "dependsOn": ["build"]
     }
   }
 }
