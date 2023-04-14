@@ -32,7 +32,12 @@ jobs:
         run: npm run bootstrap
 
       - name: Build and test
-        run: npm test -- --since=origin/main
+        if: github.event_name != 'pull_request'
+        run: npm test
+
+      - name: Build and test since target branch
+        if: github.event_name == 'pull_request'
+        run: npm test -- "--since=origin/${{ github.base_ref }}"
 
       - name: Check diff
         run: git diff --exit-code HEAD
