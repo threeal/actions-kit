@@ -1,3 +1,3 @@
-import config from "@actions-kit/dev-jest";
+import { jestConfig } from "@actions-kit/dev";
 
-export default config;
+export default jestConfig();

@@ -1,5 +1,5 @@
-import config from "@actions-kit/dev-jest";
+import { jestConfig } from "@actions-kit/dev";
 
-config.testMatch = ["**/*.test.ts", "!**/*helper.test.ts"];
-
-export default config;
+export default jestConfig({
+  testMatch: ["**/*.test.ts", "!**/*helper.test.ts"],
+});
