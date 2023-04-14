@@ -15,17 +15,26 @@
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
   "files": [
+    "lib",
     "tsconfig.json"
   ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/threeal/actions-kit.git",
     "directory": "internal/dev"
   },
   "scripts": {
-    "format": "prettier --write \"*.json\""
+    "build": "rm -rf lib && tsc",
+    "format": "prettier --write \"*.{js,json}\" \"src/**/*.ts\"",
+    "lint": "tsc && eslint src --ext .js,.ts"
   },
   "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-plugin-github": "^4.6.1",
+    "eslint-plugin-jest": "^27.2.1",
+    "jsonfile": "^6.1.0",
     "prettier": "^2.8.4",
     "typescript": "^5.0.2"
   }

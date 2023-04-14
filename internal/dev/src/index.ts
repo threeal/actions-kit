@@ -1,0 +1,1 @@
+export { eslintConfig } from "./eslint";

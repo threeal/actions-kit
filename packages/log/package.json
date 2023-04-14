@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "@actions-kit/dev": "^0.1.0",
-    "@actions-kit/dev-eslint": "^0.1.0",
     "@actions-kit/dev-jest": "^0.1.0",
     "@actions-kit/exec": "^0.2.0",
     "prettier": "^2.8.4"
