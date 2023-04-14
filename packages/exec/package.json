@@ -2,7 +2,11 @@
   "name": "@actions-kit/exec",
   "version": "0.2.0",
   "description": "An actions-kit command execution library",
-  "keywords": ["github", "actions", "exec"],
+  "keywords": [
+    "github",
+    "actions",
+    "exec"
+  ],
   "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/exec",
   "bugs": {
     "url": "https://github.com/threeal/actions-kit/issues",
@@ -10,7 +14,9 @@
   },
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
@@ -20,7 +26,7 @@
   },
   "scripts": {
     "build": "rm -rf lib && tsc",
-    "format": "prettier --write src/**/*.ts",
+    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
     "test": "jest --coverage --runInBand"
   },
