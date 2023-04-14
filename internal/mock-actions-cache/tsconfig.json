@@ -1,5 +1,5 @@
 {
-  "extends": "@actions-kit/dev-typescript/tsconfig.json",
+  "extends": "@actions-kit/dev/tsconfig.json",
   "compilerOptions": {
     "outDir": "lib"
   },
