@@ -18,6 +18,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3.5.0
+        with:
+          fetch-depth: 0
 
       - name: Cache dependencies
         id: cache-npm
@@ -30,7 +32,12 @@ jobs:
         run: npm run bootstrap
 
       - name: Build and test
-        run: npm run test
+        if: github.event_name != 'pull_request'
+        run: npm test
+
+      - name: Build and test since target branch
+        if: github.event_name == 'pull_request'
+        run: npm test -- "--since=origin/${{ github.base_ref }}"
 
       - name: Check diff
         run: git diff --exit-code HEAD
