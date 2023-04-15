@@ -28,7 +28,7 @@
     "build": "rm -rf lib && tsc",
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
-    "test": "jest --runInBand"
+    "test": "jest"
   },
   "dependencies": {
     "@actions-kit/exec": "^0.2.0",

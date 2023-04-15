@@ -14,6 +14,7 @@ export function jestConfig(config?: Config): Config {
       },
     },
     moduleFileExtensions: ["js", "ts"],
+    runner: "jest-serial-runner",
     testEnvironment: "node",
     testMatch: ["**/*.test.ts"],
     transform: {
