@@ -3,6 +3,7 @@ import { Config } from "jest";
 export function jestConfig(config?: Config): Config {
   return {
     clearMocks: true,
+    collectCoverage: true,
     coveragePathIgnorePatterns: ["/lib/"],
     coverageThreshold: {
       global: {
@@ -13,6 +14,7 @@ export function jestConfig(config?: Config): Config {
       },
     },
     moduleFileExtensions: ["js", "ts"],
+    runner: "jest-serial-runner",
     testEnvironment: "node",
     testMatch: ["**/*.test.ts"],
     transform: {
