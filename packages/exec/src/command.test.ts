@@ -1,8 +1,10 @@
 import { beforeAll, describe, expect, test } from "@jest/globals";
 import { Command } from "./command";
-import { Result } from "./result";
+import { newHook, testCheckRunResult } from "./helper.test";
+import { OutputResult } from "./output";
+import { RunResult } from "./run";
 
-describe("constrcuts a new command", () => {
+describe("constructs a new command", () => {
   let command: Command;
   test("should not throws an error", () => {
     expect(() => {
@@ -19,65 +21,44 @@ describe("constrcuts a new command", () => {
     });
   });
 
-  describe("executes the command", () => {
-    describe("on a successful command", () => {
-      let prom: Promise<Result>;
+  const runs = new Map([
+    ["", (...args: string[]) => command.run(...args)],
+    [" silently", (...args: string[]) => command.runSilently(...args)],
+  ]);
+  for (const [title, run] of runs) {
+    describe(`runs the command${title}`, () => {
+      let prom: Promise<RunResult>;
       test("should be resolved", () => {
-        prom = command.exec("-e", "process.exit();");
+        prom = run("-e", "console.log('some log')");
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should be ok", () => expect(res.isOk()).toBe(true));
+        const res = newHook<RunResult>();
+        beforeAll(async () => (res.data = await prom));
+        testCheckRunResult({ res, shouldBeOk: true });
       });
     });
+  }
 
-    describe("on a failed command", () => {
-      let prom: Promise<Result>;
+  const outputs = new Map([
+    ["", (...args: string[]) => command.output(...args)],
+    [" silently", (...args: string[]) => command.outputSilently(...args)],
+  ]);
+  for (const [title, output] of outputs) {
+    describe(`runs the command${title} and gets the output`, () => {
+      let prom: Promise<OutputResult>;
       test("should be resolved", () => {
-        prom = command.exec("-e", "process.exit(1)");
+        prom = output("-e", "console.log('some log')");
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should not be ok", () =>
-          expect(res.isOk()).toBe(false));
-      });
-    });
-  });
-
-  describe("executes the command and gets the output", () => {
-    describe("on a successful command", () => {
-      let prom: Promise<Result>;
-      test("should be resolved", () => {
-        prom = command.execOut("-e", "console.log('some log');");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should be ok", () => expect(res.isOk()).toBe(true));
+        const res = newHook<OutputResult>();
+        beforeAll(async () => (res.data = await prom));
+        testCheckRunResult({ res, shouldBeOk: true });
         test("the output should be correct", () => {
-          expect(res.output).toBe("some log\n");
+          expect(res.data!.output).toBe("some log\n");
         });
       });
     });
-
-    describe("on a failed command", () => {
-      let prom: Promise<Result>;
-      test("should be resolved", () => {
-        prom = command.execOut("-e", "process.exit(1)");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        let res: Result;
-        beforeAll(async () => (res = await prom));
-        test("the status should not be ok", () => {
-          expect(res.isOk()).toBe(false);
-        });
-      });
-    });
-  });
+  }
 });

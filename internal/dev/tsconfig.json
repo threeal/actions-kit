@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "target": "es2021"
+  },
+  "include": ["src"]
+}

@@ -16,10 +16,10 @@ describe("group output of an async function", () => {
     });
 
     describe("runs in a separate process", () => {
-      let prom: Promise<exec.Result>;
+      let prom: Promise<exec.OutputResult>;
       test("should be resolved", () => {
-        prom = node.execOut(
-          "const log = require('./packages/log/lib');\n\
+        prom = node.outputSilently(
+          "const log = require('./lib');\n\
           log.group('some group', async () => {\n\
             log.info('some info')\n\
             return true;\n\
@@ -28,7 +28,7 @@ describe("group output of an async function", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
-        let res: exec.Result;
+        let res: exec.OutputResult;
         beforeAll(async () => (res = await prom));
         test("group name should be written", () => {
           expect(res.output).toMatch(/some group/);
@@ -59,10 +59,10 @@ describe("group output of an async function", () => {
     });
 
     describe("runs in a separate process", () => {
-      let prom: Promise<exec.Result>;
+      let prom: Promise<exec.OutputResult>;
       test("should be resolved", () => {
-        prom = node.execOut(
-          "const log = require('./packages/log/lib');\n\
+        prom = node.outputSilently(
+          "const log = require('./lib');\n\
           log.group('some group', async () => {\n\
             log.info('some info');\n\
             throw new Error('some error');\n\
@@ -71,7 +71,7 @@ describe("group output of an async function", () => {
         return expect(prom).resolves.toBeTruthy();
       });
       describe("checks output", () => {
-        let res: exec.Result;
+        let res: exec.OutputResult;
         beforeAll(async () => (res = await prom));
         test("group name should be written", () => {
           expect(res.output).toMatch(/some group/);

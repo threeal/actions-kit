@@ -1,17 +1,17 @@
-import { exec, execOut } from "./exec";
-import { Result } from "./result";
+import { output, OutputResult, outputSilently } from "./output";
+import { run, RunResult, runSilently } from "./run";
 
-/** A helper for executing a command */
+/** A helper for running a command */
 export class Command {
-  /** Command to execute */
+  /** The command to run */
   command: string;
 
   /** Additional arguments for the command */
   args: string[];
 
   /**
-   * Constructs a new helper for executing a command
-   * @param command command to execute
+   * Constructs a new helper for running a command
+   * @param command a command to run
    * @param args additional arguments for the command
    */
   constructor(command: string, ...args: string[]) {
@@ -20,20 +20,38 @@ export class Command {
   }
 
   /**
-   * Executes the command
+   * Runs the command
    * @param args additional arguments for the command
-   * @returns a command execution result
+   * @returns a command run result
    */
-  async exec(...args: string[]): Promise<Result> {
-    return exec(this.command, ...this.args.concat(args));
+  async run(...args: string[]): Promise<RunResult> {
+    return run(this.command, ...this.args.concat(args));
   }
 
   /**
-   * Executes the command and gets the output
+   * Runs the command silently
    * @param args additional arguments for the command
-   * @returns a command execution result
+   * @returns a command run result
    */
-  async execOut(...args: string[]): Promise<Result> {
-    return execOut(this.command, ...this.args.concat(args));
+  async runSilently(...args: string[]): Promise<RunResult> {
+    return runSilently(this.command, ...this.args.concat(args));
+  }
+
+  /**
+   * Runs the command and gets the output
+   * @param args additional arguments for the command
+   * @returns a command run result
+   */
+  async output(...args: string[]): Promise<OutputResult> {
+    return output(this.command, ...this.args.concat(args));
+  }
+
+  /**
+   * Runs the command silently and gets the output
+   * @param args additional arguments for the command
+   * @returns a command run result
+   */
+  async outputSilently(...args: string[]): Promise<OutputResult> {
+    return outputSilently(this.command, ...this.args.concat(args));
   }
 }

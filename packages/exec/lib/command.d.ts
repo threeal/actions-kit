@@ -1,26 +1,39 @@
-import { Result } from "./result";
-/** A helper for executing a command */
+import { OutputResult } from "./output";
+import { RunResult } from "./run";
+/** A helper for running a command */
 export declare class Command {
-    /** Command to execute */
+    /** The command to run */
     command: string;
     /** Additional arguments for the command */
     args: string[];
     /**
-     * Constructs a new helper for executing a command
-     * @param command command to execute
+     * Constructs a new helper for running a command
+     * @param command a command to run
      * @param args additional arguments for the command
      */
     constructor(command: string, ...args: string[]);
     /**
-     * Executes the command
+     * Runs the command
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    exec(...args: string[]): Promise<Result>;
+    run(...args: string[]): Promise<RunResult>;
     /**
-     * Executes the command and gets the output
+     * Runs the command silently
      * @param args additional arguments for the command
-     * @returns a command execution result
+     * @returns a command run result
      */
-    execOut(...args: string[]): Promise<Result>;
+    runSilently(...args: string[]): Promise<RunResult>;
+    /**
+     * Runs the command and gets the output
+     * @param args additional arguments for the command
+     * @returns a command run result
+     */
+    output(...args: string[]): Promise<OutputResult>;
+    /**
+     * Runs the command silently and gets the output
+     * @param args additional arguments for the command
+     * @returns a command run result
+     */
+    outputSilently(...args: string[]): Promise<OutputResult>;
 }
