@@ -1,1 +1,2 @@
-module.exports = require("@actions-kit/dev-eslint");
+const dev = require("@actions-kit/dev");
+module.exports = dev.eslintConfig();

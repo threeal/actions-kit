@@ -38,11 +38,8 @@
     "jsonfile": "^6.1.0"
   },
   "devDependencies": {
-    "@actions-kit/dev-eslint": "^0.1.0",
-    "@actions-kit/dev-jest": "^0.1.0",
-    "@actions-kit/dev-typescript": "^0.1.0",
+    "@actions-kit/dev": "^0.1.0",
     "@actions-kit/mock-actions-cache": "^0.1.0",
-    "@types/jsonfile": "^6.1.1",
-    "prettier": "^2.8.4"
+    "@types/jsonfile": "^6.1.1"
   }
 }

@@ -1,7 +1,7 @@
-import config from "@actions-kit/dev-jest";
+import { jestConfig } from "@actions-kit/dev";
 
-config.moduleNameMapper = {
-  "actions/cache": "@actions-kit/mock-actions-cache/lib/index.js",
-};
-
-export default config;
+export default jestConfig({
+  moduleNameMapper: {
+    "actions/cache": "@actions-kit/mock-actions-cache/lib/index.js",
+  },
+});
