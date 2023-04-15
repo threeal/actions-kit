@@ -1,17 +1,12 @@
 {
-  "include": [
-    "mocks"
-  ],
   "compilerOptions": {
     "strict": true,
     "module": "commonjs",
     "declaration": true,
+    "outDir": "lib",
     "sourceMap": true,
     "esModuleInterop": true,
     "target": "es2021"
   },
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts"
-  ]
+  "include": ["src"]
 }
