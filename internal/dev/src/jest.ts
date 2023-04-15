@@ -3,6 +3,7 @@ import { Config } from "jest";
 export function jestConfig(config?: Config): Config {
   return {
     clearMocks: true,
+    collectCoverage: true,
     coveragePathIgnorePatterns: ["/lib/"],
     coverageThreshold: {
       global: {
