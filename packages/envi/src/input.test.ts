@@ -1,23 +1,25 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
+import * as core from "@actions/core";
+import { beforeAll, describe, expect, jest, test } from "@jest/globals";
 import { getBooleanInput, getNumberInput, getStringInput } from "./input";
+
+jest.mock("@actions/core");
+const mockedCore = jest.mocked(core, { shallow: true });
 
 function setInput(name: string, value: string) {
   process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] = value;
 }
 
 describe("gets string from an input", () => {
-  describe("from a valid input", () => {
-    beforeAll(() => setInput("input", "some string"));
-    test("should returns a correct string", () => {
-      expect(getStringInput("input")).toBe("some string");
-    });
+  test("from a valid input", () => {
+    mockedCore.getInput.mockReturnValue("some string");
+    expect(getStringInput("key")).toBe("some string");
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("key");
   });
 
-  describe("from an empty input", () => {
-    beforeAll(() => setInput("input", ""));
-    test("should returns null", () => {
-      expect(getStringInput("input")).toBeNull();
-    });
+  test("from an empty input", () => {
+    mockedCore.getInput.mockReturnValue("");
+    expect(getStringInput("key")).toBeNull();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("key");
   });
 });
 
