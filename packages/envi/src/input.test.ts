@@ -1,13 +1,9 @@
 import * as core from "@actions/core";
-import { beforeAll, describe, expect, jest, test } from "@jest/globals";
+import { describe, expect, jest, test } from "@jest/globals";
 import { getBooleanInput, getNumberInput, getStringInput } from "./input";
 
 jest.mock("@actions/core");
 const mockedCore = jest.mocked(core, { shallow: true });
-
-function setInput(name: string, value: string) {
-  process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] = value;
-}
 
 describe("gets string from an input", () => {
   test("from a valid input", () => {
@@ -24,33 +20,16 @@ describe("gets string from an input", () => {
 });
 
 describe("gets boolean from an input", () => {
-  describe("from a valid input", () => {
-    beforeAll(() => setInput("input", "true"));
-    describe("with a true value", () => {
-      test("should returns true", () => {
-        expect(getBooleanInput("input")).toBe(true);
-      });
-    });
-    describe("with a false value", () => {
-      beforeAll(() => setInput("input", "false"));
-      test("should returns false", () => {
-        expect(getBooleanInput("input")).toBe(false);
-      });
-    });
+  test("from a true input", () => {
+    mockedCore.getBooleanInput.mockReturnValue(true);
+    expect(getBooleanInput("true-key")).toBe(true);
+    expect(mockedCore.getBooleanInput.mock.lastCall?.[0]).toBe("true-key");
   });
 
-  describe("from an invalid input", () => {
-    beforeAll(() => setInput("input", "some invalid boolean"));
-    test("should throws an error", () => {
-      expect(() => getBooleanInput("input")).toThrow();
-    });
-  });
-
-  describe("from an empty input", () => {
-    beforeAll(() => setInput("input", ""));
-    test("should throws an error", () => {
-      expect(() => getBooleanInput("input")).toThrow();
-    });
+  test("from a false input", () => {
+    mockedCore.getBooleanInput.mockReturnValue(false);
+    expect(getBooleanInput("false-key")).toBe(false);
+    expect(mockedCore.getBooleanInput.mock.lastCall?.[0]).toBe("false-key");
   });
 });
 
