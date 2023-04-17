@@ -12,14 +12,14 @@ function setInput(name: string, value: string) {
 describe("gets string from an input", () => {
   test("from a valid input", () => {
     mockedCore.getInput.mockReturnValue("some string");
-    expect(getStringInput("key")).toBe("some string");
-    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("key");
+    expect(getStringInput("string-key")).toBe("some string");
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("string-key");
   });
 
   test("from an empty input", () => {
     mockedCore.getInput.mockReturnValue("");
-    expect(getStringInput("key")).toBeNull();
-    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("key");
+    expect(getStringInput("empty-key")).toBeNull();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });
 
@@ -55,24 +55,21 @@ describe("gets boolean from an input", () => {
 });
 
 describe("gets number from an input", () => {
-  describe("from a valid input", () => {
-    beforeAll(() => setInput("input", "123"));
-    test("should returns a correct number", () => {
-      expect(getNumberInput("input")).toBe(123);
-    });
+  test("from a valid input", () => {
+    mockedCore.getInput.mockReturnValue("123");
+    expect(getNumberInput("number-key")).toBe(123);
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("number-key");
   });
 
-  describe("from an invalid input", () => {
-    beforeAll(() => setInput("input", "some invalid number"));
-    test("should returns NaN", () => {
-      expect(getNumberInput("input")).toBeNaN();
-    });
+  test("from an invalid input", () => {
+    mockedCore.getInput.mockReturnValue("some invalid number");
+    expect(getNumberInput("invalid-number-key")).toBeNaN();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("invalid-number-key");
   });
 
-  describe("from an empty input", () => {
-    beforeAll(() => setInput("input", ""));
-    test("should returns null", () => {
-      expect(getNumberInput("input")).toBeNull();
-    });
+  test("from an empty input", () => {
+    mockedCore.getInput.mockReturnValue("");
+    expect(getNumberInput("empty-key")).toBeNull();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });
