@@ -28,9 +28,10 @@
     "directory": "internal/dev"
   },
   "scripts": {
-    "build": "rm -rf lib && tsc",
+    "build": "tsc",
     "format": "prettier --write \"*.{js,json}\" \"src/**/*.ts\"",
-    "lint": "tsc && eslint src --ext .js,.ts"
+    "lint": "tsc && eslint src --ext .js,.ts",
+    "test": "tsc"
   },
   "devDependencies": {
     "eslint": "^8.34.0",
