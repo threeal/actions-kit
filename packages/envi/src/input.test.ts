@@ -21,15 +21,27 @@ describe("gets string from an input", () => {
 
 describe("gets boolean from an input", () => {
   test("from a true input", () => {
-    mockedCore.getBooleanInput.mockReturnValue(true);
+    mockedCore.getInput.mockReturnValue("true");
     expect(getBooleanInput("true-key")).toBe(true);
-    expect(mockedCore.getBooleanInput.mock.lastCall?.[0]).toBe("true-key");
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("true-key");
   });
 
   test("from a false input", () => {
-    mockedCore.getBooleanInput.mockReturnValue(false);
+    mockedCore.getInput.mockReturnValue("false");
     expect(getBooleanInput("false-key")).toBe(false);
-    expect(mockedCore.getBooleanInput.mock.lastCall?.[0]).toBe("false-key");
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("false-key");
+  });
+
+  test("from an invalid input", () => {
+    mockedCore.getInput.mockReturnValue("some invalid boolean");
+    expect(getBooleanInput("invalid-boolean-key")).toBeUndefined();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("invalid-boolean-key");
+  });
+
+  test("from an empty input", () => {
+    mockedCore.getInput.mockReturnValue("");
+    expect(getBooleanInput("empty-key")).toBeUndefined();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });
 
