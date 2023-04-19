@@ -1,3 +1,3 @@
-export { getBooleanInput } from "@actions/core";
-export declare function getStringInput(key: string): string | null;
-export declare function getNumberInput(key: string): number | null;
+export declare function getStringInput(key: string): string | undefined;
+export declare function getBooleanInput(key: string): boolean | undefined;
+export declare function getNumberInput(key: string): number | undefined;
