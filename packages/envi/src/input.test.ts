@@ -14,7 +14,7 @@ describe("gets string from an input", () => {
 
   test("from an empty input", () => {
     mockedCore.getInput.mockReturnValue("");
-    expect(getStringInput("empty-key")).toBeNull();
+    expect(getStringInput("empty-key")).toBeUndefined();
     expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });

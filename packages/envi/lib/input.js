@@ -29,12 +29,12 @@ var core_1 = require("@actions/core");
 Object.defineProperty(exports, "getBooleanInput", { enumerable: true, get: function () { return core_1.getBooleanInput; } });
 function getStringInput(key) {
     const val = core.getInput(key);
-    return val.length > 0 ? val : null;
+    return val.length > 0 ? val : undefined;
 }
 exports.getStringInput = getStringInput;
 function getNumberInput(key) {
     const val = getStringInput(key);
-    if (val === null)
+    if (val === undefined)
         return null;
     return parseInt(val, 10);
 }

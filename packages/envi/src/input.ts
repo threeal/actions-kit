@@ -2,13 +2,13 @@ import * as core from "@actions/core";
 
 export { getBooleanInput } from "@actions/core";
 
-export function getStringInput(key: string): string | null {
+export function getStringInput(key: string): string | undefined {
   const val = core.getInput(key);
-  return val.length > 0 ? val : null;
+  return val.length > 0 ? val : undefined;
 }
 
 export function getNumberInput(key: string): number | null {
   const val = getStringInput(key);
-  if (val === null) return null;
+  if (val === undefined) return null;
   return parseInt(val, 10);
 }
