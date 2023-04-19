@@ -35,7 +35,7 @@ exports.getStringInput = getStringInput;
 function getNumberInput(key) {
     const val = getStringInput(key);
     if (val === undefined)
-        return null;
+        return undefined;
     return parseInt(val, 10);
 }
 exports.getNumberInput = getNumberInput;

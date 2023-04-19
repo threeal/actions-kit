@@ -7,8 +7,8 @@ export function getStringInput(key: string): string | undefined {
   return val.length > 0 ? val : undefined;
 }
 
-export function getNumberInput(key: string): number | null {
+export function getNumberInput(key: string): number | undefined {
   const val = getStringInput(key);
-  if (val === undefined) return null;
+  if (val === undefined) return undefined;
   return parseInt(val, 10);
 }

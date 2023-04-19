@@ -48,7 +48,7 @@ describe("gets number from an input", () => {
 
   test("from an empty input", () => {
     mockedCore.getInput.mockReturnValue("");
-    expect(getNumberInput("empty-key")).toBeNull();
+    expect(getNumberInput("empty-key")).toBeUndefined();
     expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });
