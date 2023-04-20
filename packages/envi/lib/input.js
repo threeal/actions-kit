@@ -70,6 +70,13 @@ function getBooleanInput(key) {
     return undefined;
 }
 exports.getBooleanInput = getBooleanInput;
+/**
+ * Gets the number value of an input.
+ * Returns undefined if the input is empty or not defined.
+ *
+ * @param key key of the input
+ * @returns number or undefined
+ */
 function getNumberInput(key) {
     const val = getStringInput(key);
     if (val === undefined)

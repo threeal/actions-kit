@@ -23,4 +23,11 @@ export declare function getMultilineInput(key: string): string[];
  * @returns boolean or undefined
  */
 export declare function getBooleanInput(key: string): boolean | undefined;
+/**
+ * Gets the number value of an input.
+ * Returns undefined if the input is empty or not defined.
+ *
+ * @param key key of the input
+ * @returns number or undefined
+ */
 export declare function getNumberInput(key: string): number | undefined;
