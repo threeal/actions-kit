@@ -8,6 +8,18 @@ An environment management library of [Actions Kit](https://github.com/threeal/ac
 npm install @actions-kit/envi
 ```
 
+## Usage
+
+### Get Action Inputs
+
+Use `getStringInput(key)` to get a string from an action input.
+
+```js
+const envi = require('@actions-kit/envi');
+
+const stringInput = envi.getStringInput("string-input");
+```
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
