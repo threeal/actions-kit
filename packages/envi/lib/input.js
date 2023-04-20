@@ -25,6 +25,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNumberInput = exports.getBooleanInput = exports.getMultilineInput = exports.getStringInput = void 0;
 const core = __importStar(require("@actions/core"));
+/**
+ * Gets the string value of an input.
+ * Returns undefined if the input is empty or not defined.
+ *
+ * @param key key of the input
+ * @returns string or undefined
+ */
 function getStringInput(key) {
     const val = core.getInput(key);
     return val.length > 0 ? val : undefined;
