@@ -37,6 +37,13 @@ function getStringInput(key) {
     return val.length > 0 ? val : undefined;
 }
 exports.getStringInput = getStringInput;
+/**
+ * Gets the multiline string value of an input.
+ * Returns empty list if the input is not defined.
+ *
+ * @param key key of the input
+ * @returns list of string
+ */
 function getMultilineInput(key) {
     return core.getMultilineInput(key);
 }
