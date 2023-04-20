@@ -14,5 +14,13 @@ export declare function getStringInput(key: string): string | undefined;
  * @returns list of string
  */
 export declare function getMultilineInput(key: string): string[];
+/**
+ * Gets the boolean value of an input.
+ * Supports `true` and `false` input case insensitively.
+ * Returns undefined if the input is invalid or not defined.
+ *
+ * @param key key of the input
+ * @returns boolean or undefined
+ */
 export declare function getBooleanInput(key: string): boolean | undefined;
 export declare function getNumberInput(key: string): number | undefined;

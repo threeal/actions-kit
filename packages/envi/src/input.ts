@@ -23,6 +23,14 @@ export function getMultilineInput(key: string): string[] {
   return core.getMultilineInput(key);
 }
 
+/**
+ * Gets the boolean value of an input.
+ * Supports `true` and `false` input case insensitively.
+ * Returns undefined if the input is invalid or not defined.
+ *
+ * @param key key of the input
+ * @returns boolean or undefined
+ */
 export function getBooleanInput(key: string): boolean | undefined {
   const val = getStringInput(key);
   if (val === undefined) {
