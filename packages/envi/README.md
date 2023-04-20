@@ -1,5 +1,7 @@
 # Actions Kit - Envi
 
+[![build status](https://img.shields.io/github/actions/workflow/status/threeal/actions-kit/build.yml?branch=envi@latest)](https://github.com/threeal/actions-kit/actions/workflows/build.yml?query=branch%3Aenvi%40latest)
+
 An environment management library of [Actions Kit](https://github.com/threeal/actions-kit), an additional [toolkit](https://github.com/actions/toolkit) for developing [GitHub Actions](https://github.com/features/actions).
 
 ## Installation
