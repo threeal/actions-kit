@@ -2,96 +2,43 @@ name: build
 on:
   workflow_dispatch:
   pull_request:
+    branches: ["*", "!*@latest"]
   push:
     branches: [main]
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
-
-      - name: Cache dependencies
-        id: cache-npm
-        uses: actions/cache@v3.2.6
-        with:
-          path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm run bootstrap
-
-      - name: Run formatter
-        run: npm run format
-
-      - name: Check diff
-        run: git diff --exit-code HEAD
-
-  test:
+  build:
     runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
       matrix:
         os: [windows, ubuntu, macos]
     steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
+      - name: Disable auto CRLF on Windows
+        if: matrix.os == 'windows'
+        run: git config --global core.autocrlf false
+
+      - name: Checkout repository
+        uses: actions/checkout@v3.5.2
+        with:
+          fetch-depth: 0
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.3.1
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm run bootstrap
 
-      - name: Run unit tests
+      - name: Build and test
+        if: github.event_name != 'pull_request'
         run: npm test
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
-
-      - name: Cache dependencies
-        id: cache-npm
-        uses: actions/cache@v3.2.6
-        with:
-          path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm run bootstrap
-
-      - name: Run static analysis
-        run: npm run lint
-
-  build:
-    needs: [test, lint]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout this repository
-        uses: actions/checkout@v3.3.0
-
-      - name: Cache dependencies
-        id: cache-npm
-        uses: actions/cache@v3.2.6
-        with:
-          path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm run bootstrap
-
-      - name: Build this project
-        run: npm run clean-build
+      - name: Build and test since target branch
+        if: github.event_name == 'pull_request'
+        run: npm test -- "--since=origin/${{ github.base_ref }}"
 
       - name: Check diff
         run: git diff --exit-code HEAD
@@ -102,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pkg: [exec, io, log]
+        pkg: [envi, exec, log]
     steps:
       - name: Init project
         run: npm init --yes
