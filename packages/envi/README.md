@@ -1,6 +1,6 @@
-# `@actions-kit/envi`
+# Actions Kit - Envi
 
-An environment management library of [Actions Kit](https://github.com/threeal/actions-kit), a toolkit for developing [GitHub Actions](https://github.com/features/actions).
+An environment management library of [Actions Kit](https://github.com/threeal/actions-kit), an additional [toolkit](https://github.com/actions/toolkit) for developing [GitHub Actions](https://github.com/features/actions).
 
 ## License
 
