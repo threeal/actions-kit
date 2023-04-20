@@ -1,6 +1,7 @@
 # Actions Kit
 
 [![build status](https://img.shields.io/github/actions/workflow/status/threeal/actions-kit/build.yml?branch=main)](https://github.com/threeal/actions-kit/actions/workflows/build.yml)
+[![license](https://img.shields.io/github/license/threeal/actions-kit)](./LICENSE)
 
 An additional [toolKit](https://github.com/actions/toolkit) for developing [GitHub Actions](https://github.com/features/actions).
 
