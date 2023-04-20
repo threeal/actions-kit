@@ -23,13 +23,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNumberInput = exports.getBooleanInput = exports.getStringInput = void 0;
+exports.getNumberInput = exports.getBooleanInput = exports.getMultilineInput = exports.getStringInput = void 0;
 const core = __importStar(require("@actions/core"));
 function getStringInput(key) {
     const val = core.getInput(key);
     return val.length > 0 ? val : undefined;
 }
 exports.getStringInput = getStringInput;
+function getMultilineInput(key) {
+    return core.getMultilineInput(key);
+}
+exports.getMultilineInput = getMultilineInput;
 function getBooleanInput(key) {
     const val = getStringInput(key);
     if (val === undefined) {

@@ -1,6 +1,11 @@
 import * as core from "@actions/core";
 import { describe, expect, jest, test } from "@jest/globals";
-import { getBooleanInput, getNumberInput, getStringInput } from "./input";
+import {
+  getBooleanInput,
+  getMultilineInput,
+  getNumberInput,
+  getStringInput,
+} from "./input";
 
 jest.mock("@actions/core");
 const mockedCore = jest.mocked(core, { shallow: true });
@@ -16,6 +21,25 @@ describe("gets string from an input", () => {
     mockedCore.getInput.mockReturnValue("");
     expect(getStringInput("empty-key")).toBeUndefined();
     expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
+  });
+});
+
+describe("gets multiline string from an input", () => {
+  test("from a valid input", () => {
+    const expected = ["some", "list", "of", "string"];
+    mockedCore.getMultilineInput.mockReturnValue(expected);
+    expect(getMultilineInput("multiline-key")).toBe(expected);
+    expect(mockedCore.getMultilineInput.mock.lastCall?.[0]).toBe(
+      "multiline-key"
+    );
+  });
+
+  test("from an empty input", () => {
+    mockedCore.getMultilineInput.mockReturnValue([]);
+    expect(getMultilineInput("empty-multiline-key")).toHaveLength(0);
+    expect(mockedCore.getMultilineInput.mock.lastCall?.[0]).toBe(
+      "empty-multiline-key"
+    );
   });
 });
 
