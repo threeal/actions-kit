@@ -20,6 +20,14 @@ const envi = require('@actions-kit/envi');
 const stringInput = envi.getStringInput("string-input");
 ```
 
+Or use `getMultilineInput(key)`, `getBooleanInput(key)` or `getNumberInput(key)` to respectively get a multiline string, boolean or number from an action input.
+
+```js
+const multilineInput = envi.getMultilineInput("multiline-input");
+const booleanInput = envi.getBooleanInput("boolean-input");
+const numberInput = envi.getNumberInput("number-input");
+```
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
