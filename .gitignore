@@ -5,4 +5,5 @@
 tsconfig.eslint.json
 
 coverage/
+lib/
 node_modules/
