@@ -1,7 +1,7 @@
 {
   "name": "@actions-kit/pip",
   "version": "0.1.0",
-  "description": "An actions-kit pip package management library",
+  "description": "Pip package management library of Actions Kit",
   "keywords": [
     "github",
     "actions",
