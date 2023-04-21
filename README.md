@@ -7,10 +7,10 @@ An additional [toolKit](https://github.com/actions/toolkit) for developing [GitH
 
 ## Packages
 
-- [@actions-kit/envi](./packages/envi).
-- [@actions-kit/exec](./packages/exec).
-- [@actions-kit/log](./packages/log/README.md).
-- [@actions-kit/pip](./packages/pip).
+- [@actions-kit/envi](./packages/envi), an environment management library.
+- [@actions-kit/exec](./packages/exec), a command execution library.
+- [@actions-kit/log](./packages/log), a log library.
+- [@actions-kit/pip](./packages/pip), a [pip](https://pypi.org/project/pip) package management library.
 
 ## License
 
