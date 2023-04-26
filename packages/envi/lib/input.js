@@ -23,19 +23,64 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNumberInput = exports.getStringInput = exports.getBooleanInput = void 0;
+exports.getNumberInput = exports.getBooleanInput = exports.getMultilineInput = exports.getStringInput = void 0;
 const core = __importStar(require("@actions/core"));
-var core_1 = require("@actions/core");
-Object.defineProperty(exports, "getBooleanInput", { enumerable: true, get: function () { return core_1.getBooleanInput; } });
+/**
+ * Gets the string value of an input.
+ * Returns undefined if the input is empty or not defined.
+ *
+ * @param key key of the input
+ * @returns string or undefined
+ */
 function getStringInput(key) {
     const val = core.getInput(key);
-    return val.length > 0 ? val : null;
+    return val.length > 0 ? val : undefined;
 }
 exports.getStringInput = getStringInput;
+/**
+ * Gets the multiline string value of an input.
+ * Returns empty list if the input is not defined.
+ *
+ * @param key key of the input
+ * @returns list of string
+ */
+function getMultilineInput(key) {
+    return core.getMultilineInput(key);
+}
+exports.getMultilineInput = getMultilineInput;
+/**
+ * Gets the boolean value of an input.
+ * Supports `true` and `false` input case insensitively.
+ * Returns undefined if the input is invalid or not defined.
+ *
+ * @param key key of the input
+ * @returns boolean or undefined
+ */
+function getBooleanInput(key) {
+    const val = getStringInput(key);
+    if (val === undefined) {
+        return undefined;
+    }
+    switch (val.toLowerCase()) {
+        case "true":
+            return true;
+        case "false":
+            return false;
+    }
+    return undefined;
+}
+exports.getBooleanInput = getBooleanInput;
+/**
+ * Gets the number value of an input.
+ * Returns undefined if the input is empty or not defined.
+ *
+ * @param key key of the input
+ * @returns number or undefined
+ */
 function getNumberInput(key) {
     const val = getStringInput(key);
-    if (val === null)
-        return null;
+    if (val === undefined)
+        return undefined;
     return parseInt(val, 10);
 }
 exports.getNumberInput = getNumberInput;

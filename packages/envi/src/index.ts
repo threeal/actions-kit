@@ -1,1 +1,6 @@
-export { getBooleanInput, getNumberInput, getStringInput } from "./input";
+export {
+  getBooleanInput,
+  getMultilineInput,
+  getNumberInput,
+  getStringInput,
+} from "./input";

@@ -1,76 +1,90 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
-import { getBooleanInput, getNumberInput, getStringInput } from "./input";
+import * as core from "@actions/core";
+import { describe, expect, jest, test } from "@jest/globals";
+import {
+  getBooleanInput,
+  getMultilineInput,
+  getNumberInput,
+  getStringInput,
+} from "./input";
 
-function setInput(name: string, value: string) {
-  process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] = value;
-}
+jest.mock("@actions/core");
+const mockedCore = jest.mocked(core, { shallow: true });
 
 describe("gets string from an input", () => {
-  describe("from a valid input", () => {
-    beforeAll(() => setInput("input", "some string"));
-    test("should returns a correct string", () => {
-      expect(getStringInput("input")).toBe("some string");
-    });
+  test("from a valid input", () => {
+    mockedCore.getInput.mockReturnValue("some string");
+    expect(getStringInput("string-key")).toBe("some string");
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("string-key");
   });
 
-  describe("from an empty input", () => {
-    beforeAll(() => setInput("input", ""));
-    test("should returns null", () => {
-      expect(getStringInput("input")).toBeNull();
-    });
+  test("from an empty input", () => {
+    mockedCore.getInput.mockReturnValue("");
+    expect(getStringInput("empty-key")).toBeUndefined();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
+  });
+});
+
+describe("gets multiline string from an input", () => {
+  test("from a valid input", () => {
+    const expected = ["some", "list", "of", "string"];
+    mockedCore.getMultilineInput.mockReturnValue(expected);
+    expect(getMultilineInput("multiline-key")).toBe(expected);
+    expect(mockedCore.getMultilineInput.mock.lastCall?.[0]).toBe(
+      "multiline-key"
+    );
+  });
+
+  test("from an empty input", () => {
+    mockedCore.getMultilineInput.mockReturnValue([]);
+    expect(getMultilineInput("empty-multiline-key")).toHaveLength(0);
+    expect(mockedCore.getMultilineInput.mock.lastCall?.[0]).toBe(
+      "empty-multiline-key"
+    );
   });
 });
 
 describe("gets boolean from an input", () => {
-  describe("from a valid input", () => {
-    beforeAll(() => setInput("input", "true"));
-    describe("with a true value", () => {
-      test("should returns true", () => {
-        expect(getBooleanInput("input")).toBe(true);
-      });
-    });
-    describe("with a false value", () => {
-      beforeAll(() => setInput("input", "false"));
-      test("should returns false", () => {
-        expect(getBooleanInput("input")).toBe(false);
-      });
-    });
+  test("from a true input", () => {
+    mockedCore.getInput.mockReturnValue("true");
+    expect(getBooleanInput("true-key")).toBe(true);
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("true-key");
   });
 
-  describe("from an invalid input", () => {
-    beforeAll(() => setInput("input", "some invalid boolean"));
-    test("should throws an error", () => {
-      expect(() => getBooleanInput("input")).toThrow();
-    });
+  test("from a false input", () => {
+    mockedCore.getInput.mockReturnValue("false");
+    expect(getBooleanInput("false-key")).toBe(false);
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("false-key");
   });
 
-  describe("from an empty input", () => {
-    beforeAll(() => setInput("input", ""));
-    test("should throws an error", () => {
-      expect(() => getBooleanInput("input")).toThrow();
-    });
+  test("from an invalid input", () => {
+    mockedCore.getInput.mockReturnValue("some invalid boolean");
+    expect(getBooleanInput("invalid-boolean-key")).toBeUndefined();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("invalid-boolean-key");
+  });
+
+  test("from an empty input", () => {
+    mockedCore.getInput.mockReturnValue("");
+    expect(getBooleanInput("empty-key")).toBeUndefined();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });
 
 describe("gets number from an input", () => {
-  describe("from a valid input", () => {
-    beforeAll(() => setInput("input", "123"));
-    test("should returns a correct number", () => {
-      expect(getNumberInput("input")).toBe(123);
-    });
+  test("from a valid input", () => {
+    mockedCore.getInput.mockReturnValue("123");
+    expect(getNumberInput("number-key")).toBe(123);
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("number-key");
   });
 
-  describe("from an invalid input", () => {
-    beforeAll(() => setInput("input", "some invalid number"));
-    test("should returns NaN", () => {
-      expect(getNumberInput("input")).toBeNaN();
-    });
+  test("from an invalid input", () => {
+    mockedCore.getInput.mockReturnValue("some invalid number");
+    expect(getNumberInput("invalid-number-key")).toBeNaN();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("invalid-number-key");
   });
 
-  describe("from an empty input", () => {
-    beforeAll(() => setInput("input", ""));
-    test("should returns null", () => {
-      expect(getNumberInput("input")).toBeNull();
-    });
+  test("from an empty input", () => {
+    mockedCore.getInput.mockReturnValue("");
+    expect(getNumberInput("empty-key")).toBeUndefined();
+    expect(mockedCore.getInput.mock.lastCall?.[0]).toBe("empty-key");
   });
 });

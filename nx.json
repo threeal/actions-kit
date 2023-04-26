@@ -12,13 +12,16 @@
       "dependsOn": ["^format"]
     },
     "lint": {
-      "dependsOn": ["^build", "^lint", "format"]
+      "dependsOn": ["^build", "^lint", "format"],
+      "implicitDependencies": ["@actions-kit/dev"]
     },
     "build": {
-      "dependsOn": ["^build", "lint"]
+      "dependsOn": ["^build", "lint"],
+      "implicitDependencies": ["@actions-kit/dev"]
     },
     "test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "implicitDependencies": ["@actions-kit/dev"]
     }
   }
 }

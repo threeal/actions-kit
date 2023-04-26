@@ -1,7 +1,7 @@
 {
   "name": "@actions-kit/log",
   "version": "0.1.0",
-  "description": "An actions-kit log library",
+  "description": "Console log library of Actions Kit",
   "keywords": [
     "github",
     "actions",

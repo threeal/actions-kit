@@ -1,7 +1,7 @@
 {
   "name": "@actions-kit/exec",
   "version": "0.2.0",
-  "description": "An actions-kit command execution library",
+  "description": "Command execution library of Actions Kit",
   "keywords": [
     "github",
     "actions",
