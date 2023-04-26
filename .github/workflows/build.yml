@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: ["*", "!*@latest"]
   push:
-    branches: [main]
+    branches: ["*@latest", "main"]
 jobs:
   build:
     runs-on: ${{ matrix.os }}-latest
