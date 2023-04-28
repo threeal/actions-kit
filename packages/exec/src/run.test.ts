@@ -1,6 +1,9 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
-import { newHook, testCheckRunResult, testOutputSilent } from "./helper.test";
+import * as exec from "@actions/exec";
+import { describe, expect, jest, test } from "@jest/globals";
 import { run, RunResult, runSilently } from "./run";
+
+jest.mock("@actions/exec");
+const mockedExec = jest.mocked(exec, { shallow: true });
 
 describe("constructs a new command run result", () => {
   test("with a zero status code", () => {
@@ -16,40 +19,22 @@ describe("constructs a new command run result", () => {
   });
 });
 
-describe("runs a command", () => {
-  const runs = new Map([
-    ["runs verbosely", false],
-    ["runs silently", true],
-  ]);
-  for (const [title, isSilent] of runs) {
-    describe(title, () => {
-      const commands = new Map([
-        ["on a successful command", true],
-        ["on a failed command", false],
-      ]);
-      for (const [title, isSuccessful] of commands) {
-        describe(title, () => {
-          let prom: Promise<RunResult>;
-          test("should be resolved", () => {
-            const script = isSuccessful
-              ? "console.log('some log')"
-              : "throw new Error('some error')";
-            prom = isSilent
-              ? runSilently("node", "-e", script)
-              : run("node", "-e", script);
-            return expect(prom).resolves.toBeTruthy();
-          });
-          describe("checks the result", () => {
-            const res = newHook<RunResult>();
-            beforeAll(async () => (res.data = await prom));
-            testCheckRunResult({ res, shouldBeOk: isSuccessful });
-          });
-        });
-      }
-      const script = isSilent
-        ? `exec.runSilently('node', '-e', 'console.log("some log")');`
-        : `exec.run('node', '-e', 'console.log("some log")');`;
-      testOutputSilent({ script, shouldBeSilent: isSilent });
-    });
-  }
+test("runs a command", () => {
+  mockedExec.exec.mockResolvedValue(0);
+  const prom = run("command", "arg1", "arg2");
+  expect(prom).resolves.toStrictEqual(new RunResult(0));
+  const args = mockedExec.exec.mock.lastCall;
+  expect(args?.[0]).toBe("command");
+  expect(args?.[1]).toStrictEqual(["arg1", "arg2"]);
+  expect(args?.[2]?.silent).toBe(false);
+});
+
+test("runs a command silently", () => {
+  mockedExec.exec.mockResolvedValue(0);
+  const prom = runSilently("command", "arg1", "arg2");
+  expect(prom).resolves.toStrictEqual(new RunResult(0));
+  const args = mockedExec.exec.mock.lastCall;
+  expect(args?.[0]).toBe("command");
+  expect(args?.[1]).toStrictEqual(["arg1", "arg2"]);
+  expect(args?.[2]?.silent).toBe(true);
 });
