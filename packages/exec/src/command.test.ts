@@ -35,7 +35,7 @@ describe("constructs a new command", () => {
       describe("checks the result", () => {
         const res = newHook<RunResult>();
         beforeAll(async () => (res.data = await prom));
-        testCheckRunResult({ res, shouldBeOk: true });
+        testCheckRunResult({ res });
       });
     });
   }
@@ -54,7 +54,7 @@ describe("constructs a new command", () => {
       describe("checks the result", () => {
         const res = newHook<OutputResult>();
         beforeAll(async () => (res.data = await prom));
-        testCheckRunResult({ res, shouldBeOk: true });
+        testCheckRunResult({ res });
         test("the output should be correct", () => {
           expect(res.data!.output).toBe("some log\n");
         });
