@@ -1,6 +1,9 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
-import { newHook, testCheckRunResult, testOutputSilent } from "./helper.test";
+import * as exec from "@actions/exec";
+import { expect, jest, test } from "@jest/globals";
 import { output, OutputResult, outputSilently } from "./output";
+
+jest.mock("@actions/exec");
+const mockedExec = jest.mocked(exec, { shallow: true });
 
 test("constructs a new command run and output get result", () => {
   const res = new OutputResult(0, "some message");
@@ -8,45 +11,30 @@ test("constructs a new command run and output get result", () => {
   expect(res.output).toBe("some message");
 });
 
-describe("runs a command and gets the output", () => {
-  const runs = new Map([
-    ["runs verbosely", false],
-    ["runs silently", true],
-  ]);
-  for (const [title, isSilent] of runs) {
-    describe(title, () => {
-      const commands = new Map([
-        ["on a successful command", true],
-        ["on a failed command", false],
-      ]);
-      for (const [title, isSuccessful] of commands) {
-        describe(title, () => {
-          let prom: Promise<OutputResult>;
-          test("should be resolved", () => {
-            const script = isSuccessful
-              ? "console.log('some log')"
-              : "throw new Error('some error')";
-            prom = isSilent
-              ? outputSilently("node", "-e", script)
-              : output("node", "-e", script);
-            return expect(prom).resolves.toBeTruthy();
-          });
-          describe("checks the result", () => {
-            const res = newHook<OutputResult>();
-            beforeAll(async () => (res.data = await prom));
-            testCheckRunResult({ res, shouldBeOk: isSuccessful });
-            if (isSuccessful) {
-              test("the output should be correct", () => {
-                expect(res.data!.output).toBe("some log\n");
-              });
-            }
-          });
-        });
-      }
-      const script = isSilent
-        ? `exec.outputSilently('node', '-e', 'console.log("some log")');`
-        : `exec.output('node', '-e', 'console.log("some log")');`;
-      testOutputSilent({ script, shouldBeSilent: isSilent });
-    });
-  }
+test("runs a command and gets the output", () => {
+  mockedExec.getExecOutput.mockResolvedValue({
+    exitCode: 0,
+    stdout: "some message",
+    stderr: "",
+  });
+  const prom = output("command", "arg1", "arg2");
+  expect(prom).resolves.toStrictEqual(new OutputResult(0, "some message"));
+  const args = mockedExec.getExecOutput.mock.lastCall;
+  expect(args?.[0]).toBe("command");
+  expect(args?.[1]).toStrictEqual(["arg1", "arg2"]);
+  expect(args?.[2]?.silent).toBe(false);
+});
+
+test("runs a command and gets the output silently", () => {
+  mockedExec.getExecOutput.mockResolvedValue({
+    exitCode: 0,
+    stdout: "some message",
+    stderr: "",
+  });
+  const prom = outputSilently("command", "arg1", "arg2");
+  expect(prom).resolves.toStrictEqual(new OutputResult(0, "some message"));
+  const args = mockedExec.getExecOutput.mock.lastCall;
+  expect(args?.[0]).toBe("command");
+  expect(args?.[1]).toStrictEqual(["arg1", "arg2"]);
+  expect(args?.[2]?.silent).toBe(true);
 });
