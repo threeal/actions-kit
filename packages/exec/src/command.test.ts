@@ -1,11 +1,15 @@
-import * as exec from "@actions/exec";
 import { expect, jest, test } from "@jest/globals";
 import { Command } from "./command";
-import { OutputResult } from "./output";
-import { RunResult } from "./run";
+import { output, OutputResult, outputSilently } from "./output";
+import { run, RunResult, runSilently } from "./run";
 
-jest.mock("@actions/exec");
-const mockedExec = jest.mocked(exec, { shallow: true });
+jest.mock("./output");
+jest.mock("./run");
+
+const mocked = jest.mocked(
+  { output, outputSilently, run, runSilently },
+  { shallow: true }
+);
 
 test("constructs a new command", () => {
   const command = new Command("command", "arg1", "arg2");
@@ -13,54 +17,40 @@ test("constructs a new command", () => {
   expect(command.args).toEqual(["arg1", "arg2"]);
 });
 
+const command = new Command("command", "arg1", "arg2");
+
+const runRes = new RunResult(0);
+mocked.run.mockImplementation(async () => runRes);
+mocked.runSilently.mockImplementation(async () => runRes);
+
 test("runs a constructed command", () => {
-  const command = new Command("command", "arg1", "arg2");
-  mockedExec.exec.mockResolvedValue(0);
-  const prom = command.run("arg1", "arg2", "arg3");
-  expect(prom).resolves.toStrictEqual(new RunResult(0));
-  const args = mockedExec.exec.mock.lastCall;
-  expect(args?.[0]).toBe("command");
-  expect(args?.[1]).toStrictEqual(["arg1", "arg2", "arg1", "arg2", "arg3"]);
-  expect(args?.[2]?.silent).toBe(false);
+  const prom = command.run("arg3");
+  expect(prom).resolves.toStrictEqual(runRes);
+  const args = mocked.run.mock.lastCall;
+  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
 });
 
 test("runs a constructed command silently", () => {
-  const command = new Command("command", "arg1", "arg2");
-  mockedExec.exec.mockResolvedValue(0);
-  const prom = command.runSilently("arg1", "arg2", "arg3");
-  expect(prom).resolves.toStrictEqual(new RunResult(0));
-  const args = mockedExec.exec.mock.lastCall;
-  expect(args?.[0]).toBe("command");
-  expect(args?.[1]).toStrictEqual(["arg1", "arg2", "arg1", "arg2", "arg3"]);
-  expect(args?.[2]?.silent).toBe(true);
+  const prom = command.runSilently("arg3");
+  expect(prom).resolves.toStrictEqual(runRes);
+  const args = mocked.runSilently.mock.lastCall;
+  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
 });
 
+const outputRes = new OutputResult(0, "some message");
+mocked.output.mockImplementation(async () => outputRes);
+mocked.outputSilently.mockImplementation(async () => outputRes);
+
 test("runs a constructed command and gets the output", () => {
-  const command = new Command("command", "arg1", "arg2");
-  mockedExec.getExecOutput.mockResolvedValue({
-    exitCode: 0,
-    stdout: "some message",
-    stderr: "",
-  });
-  const prom = command.output("arg1", "arg2", "arg3");
-  expect(prom).resolves.toStrictEqual(new OutputResult(0, "some message"));
-  const args = mockedExec.getExecOutput.mock.lastCall;
-  expect(args?.[0]).toBe("command");
-  expect(args?.[1]).toStrictEqual(["arg1", "arg2", "arg1", "arg2", "arg3"]);
-  expect(args?.[2]?.silent).toBe(false);
+  const prom = command.output("arg3");
+  expect(prom).resolves.toStrictEqual(outputRes);
+  const args = mocked.output.mock.lastCall;
+  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
 });
 
 test("runs a constructed command and gets the output silently", () => {
-  const command = new Command("command", "arg1", "arg2");
-  mockedExec.getExecOutput.mockResolvedValue({
-    exitCode: 0,
-    stdout: "some message",
-    stderr: "",
-  });
-  const prom = command.outputSilently("arg1", "arg2", "arg3");
-  expect(prom).resolves.toStrictEqual(new OutputResult(0, "some message"));
-  const args = mockedExec.getExecOutput.mock.lastCall;
-  expect(args?.[0]).toBe("command");
-  expect(args?.[1]).toStrictEqual(["arg1", "arg2", "arg1", "arg2", "arg3"]);
-  expect(args?.[2]?.silent).toBe(true);
+  const prom = command.outputSilently("arg3");
+  expect(prom).resolves.toStrictEqual(outputRes);
+  const args = mocked.outputSilently.mock.lastCall;
+  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
 });
