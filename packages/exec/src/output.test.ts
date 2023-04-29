@@ -2,16 +2,10 @@ import { beforeAll, describe, expect, test } from "@jest/globals";
 import { newHook, testCheckRunResult, testOutputSilent } from "./helper.test";
 import { output, OutputResult, outputSilently } from "./output";
 
-describe("constructs a new command run and output get result", () => {
-  let res: OutputResult;
-  test("should not throws an error", () => {
-    expect(() => (res = new OutputResult(0, "some message"))).not.toThrow();
-  });
-  describe("checks the properties", () => {
-    test("the log output should be equals", () => {
-      expect(res.output).toBe("some message");
-    });
-  });
+test("constructs a new command run and output get result", () => {
+  const res = new OutputResult(0, "some message");
+  expect(res.code).toBe(0);
+  expect(res.output).toBe("some message");
 });
 
 describe("runs a command and gets the output", () => {
