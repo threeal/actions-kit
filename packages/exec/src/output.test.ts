@@ -1,9 +1,29 @@
-import * as exec from "@actions/exec";
+import { getExecOutput, ExecOutput } from "@actions/exec";
 import { expect, jest, test } from "@jest/globals";
 import { output, OutputResult, outputSilently } from "./output";
 
 jest.mock("@actions/exec");
-const mockedExec = jest.mocked(exec, { shallow: true });
+
+const mocked = jest.mocked({ getExecOutput });
+
+mocked.getExecOutput.mockImplementation(async (commandLine, args, options) => {
+  expect(commandLine).toBe("test");
+  if (args === undefined) throw new Error("args should not be undefined");
+  if (options === undefined) throw new Error("options should not be undefined");
+  let silent = false;
+  const out: ExecOutput = { exitCode: 0, stdout: "", stderr: "" };
+  for (const arg of args) {
+    switch (arg) {
+      case "--silent":
+        silent = true;
+        break;
+      default:
+        out.stdout += arg;
+    }
+  }
+  expect(options.silent).toBe(silent);
+  return out;
+});
 
 test("constructs a new command run and output get result", () => {
   const res = new OutputResult(0, "some message");
@@ -11,30 +31,14 @@ test("constructs a new command run and output get result", () => {
   expect(res.output).toBe("some message");
 });
 
-test("runs a command and gets the output", () => {
-  mockedExec.getExecOutput.mockResolvedValue({
-    exitCode: 0,
-    stdout: "some message",
-    stderr: "",
-  });
-  const prom = output("command", "arg1", "arg2");
-  expect(prom).resolves.toStrictEqual(new OutputResult(0, "some message"));
-  const args = mockedExec.getExecOutput.mock.lastCall;
-  expect(args?.[0]).toBe("command");
-  expect(args?.[1]).toStrictEqual(["arg1", "arg2"]);
-  expect(args?.[2]?.silent).toBe(false);
+test("runs a command and gets the output", async () => {
+  const res = await output("test", "some message");
+  expect(res.isOk()).toBe(true);
+  expect(res.output).toBe("some message");
 });
 
-test("runs a command and gets the output silently", () => {
-  mockedExec.getExecOutput.mockResolvedValue({
-    exitCode: 0,
-    stdout: "some message",
-    stderr: "",
-  });
-  const prom = outputSilently("command", "arg1", "arg2");
-  expect(prom).resolves.toStrictEqual(new OutputResult(0, "some message"));
-  const args = mockedExec.getExecOutput.mock.lastCall;
-  expect(args?.[0]).toBe("command");
-  expect(args?.[1]).toStrictEqual(["arg1", "arg2"]);
-  expect(args?.[2]?.silent).toBe(true);
+test("runs a command and gets the output silently", async () => {
+  const res = await outputSilently("test", "--silent", "some message");
+  expect(res.isOk()).toBe(true);
+  expect(res.output).toBe("some message");
 });
