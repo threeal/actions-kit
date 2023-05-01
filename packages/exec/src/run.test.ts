@@ -1,14 +1,12 @@
-import * as exec from "@actions/exec";
+import { exec } from "@actions/exec";
 import { describe, expect, jest, test } from "@jest/globals";
 import { run, RunResult, runSilently } from "./run";
 
 jest.mock("@actions/exec");
 
-const mocked = {
-  exec: jest.mocked(exec, { shallow: true }),
-};
+const mocked = jest.mocked({ exec });
 
-mocked.exec.exec.mockImplementation(async (commandLine, args, options) => {
+mocked.exec.mockImplementation(async (commandLine, args, options) => {
   expect(commandLine).toBe("test");
   if (args === undefined) throw new Error("args should not be undefined");
   if (options === undefined) throw new Error("options should not be undefined");
