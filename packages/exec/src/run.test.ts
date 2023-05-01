@@ -10,14 +10,12 @@ mocked.exec.mockImplementation(async (commandLine, args, options) => {
   expect(commandLine).toBe("test");
   if (args === undefined) throw new Error("args should not be undefined");
   if (options === undefined) throw new Error("options should not be undefined");
+  let silent = false;
   let code = 0;
   for (const arg of args) {
     switch (arg) {
-      case "--no-silent":
-        expect(options.silent).toBe(false);
-        break;
       case "--silent":
-        expect(options.silent).toBe(true);
+        silent = true;
         break;
       case "--fail":
         code = 1;
@@ -26,6 +24,7 @@ mocked.exec.mockImplementation(async (commandLine, args, options) => {
         throw new Error(`unknown argument: ${arg}`);
     }
   }
+  expect(options.silent).toBe(silent);
   return code;
 });
 
@@ -45,12 +44,12 @@ describe("constructs a new command run result", () => {
 
 describe("runs a command", () => {
   test("on a successful command", async () => {
-    const res = await run("test", "--no-silent");
+    const res = await run("test");
     expect(res.isOk()).toBe(true);
   });
 
   test("on a failed command", async () => {
-    const res = await run("test", "--no-silent", "--fail");
+    const res = await run("test", "--fail");
     expect(res.isOk()).toBe(false);
   });
 });
