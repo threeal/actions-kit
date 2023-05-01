@@ -1,5 +1,5 @@
 import { getExecOutput, ExecOutput } from "@actions/exec";
-import { expect, jest, test } from "@jest/globals";
+import { describe, expect, jest, test } from "@jest/globals";
 import { output, OutputResult, outputSilently } from "./output";
 
 jest.mock("@actions/exec");
@@ -25,10 +25,18 @@ mocked.getExecOutput.mockImplementation(async (commandLine, args, options) => {
   return out;
 });
 
-test("constructs a new command run and output get result", () => {
-  const res = new OutputResult(0, "some message");
-  expect(res.code).toBe(0);
-  expect(res.output).toBe("some message");
+describe("constructs a new command run and output get result", () => {
+  test("with a zero status code", () => {
+    const res = new OutputResult(0, "some message");
+    expect(res.code).toBe(0);
+    expect(res.isOk()).toBe(true);
+  });
+
+  test("with a non zero status code", () => {
+    const res = new OutputResult(8, "some message");
+    expect(res.code).toBe(8);
+    expect(res.isOk()).toBe(false);
+  });
 });
 
 test("runs a command and gets the output", async () => {
