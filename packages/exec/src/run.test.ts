@@ -23,11 +23,11 @@ mocked.exec.exec.mockImplementation(async (commandLine, args, options) => {
         break;
       }
       default: {
-        throw new Error(`unknown argument ${arg}`);
+        return parseInt(arg);
       }
     }
   }
-  return 0;
+  throw new Error("args should contains an exit code");
 });
 
 describe("constructs a new command run result", () => {
@@ -44,12 +44,26 @@ describe("constructs a new command run result", () => {
   });
 });
 
-test("runs a command", async () => {
-  const res = await run("test", "--no-silent");
-  expect(res.isOk()).toBe(true);
+describe("runs a command", () => {
+  test("on a successful command", async () => {
+    const res = await run("test", "--no-silent", "0");
+    expect(res.isOk()).toBe(true);
+  });
+
+  test("on a failed command", async () => {
+    const res = await run("test", "--no-silent", "1");
+    expect(res.isOk()).toBe(false);
+  });
 });
 
-test("runs a command silently", async () => {
-  const res = await runSilently("test", "--silent");
-  expect(res.isOk()).toBe(true);
+describe("runs a command silently", () => {
+  test("on a successful command", async () => {
+    const res = await runSilently("test", "--silent", "0");
+    expect(res.isOk()).toBe(true);
+  });
+
+  test("on a failed command", async () => {
+    const res = await runSilently("test", "--silent", "1");
+    expect(res.isOk()).toBe(false);
+  });
 });
