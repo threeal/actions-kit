@@ -8,22 +8,8 @@ jest.mock("@actions/exec", () => {
     ...actual,
     exec: async (commandLine: string, args: string[], options: ExecOptions) => {
       expect(commandLine).toBe("test");
-      let silent = false;
-      let code = 0;
-      for (const arg of args) {
-        switch (arg) {
-          case "--silent":
-            silent = true;
-            break;
-          case "--fail":
-            code = 1;
-            break;
-          default:
-            throw new Error(`unknown argument: ${arg}`);
-        }
-      }
-      expect(options.silent).toBe(silent);
-      return code;
+      expect(options.silent).toBe(args.includes("--silent"));
+      return args.includes("--fail") ? 1 : 0;
     },
   };
 });
