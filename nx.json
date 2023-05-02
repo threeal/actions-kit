@@ -1,5 +1,8 @@
 {
   "namedInputs": {
+    "eslintConfig": [
+      "{projectRoot}/.eslintrc.js"
+    ],
     "rootFiles": [
       "{projectRoot}/*.js",
       "{projectRoot}/*.ts",
@@ -17,7 +20,8 @@
     },
     "lint": {
       "dependsOn": ["^build", "^lint", "format"],
-      "implicitDependencies": ["@actions-kit/dev"]
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": ["eslintConfig", "sourceFiles"]
     },
     "build": {
       "dependsOn": ["^build", "lint"],
