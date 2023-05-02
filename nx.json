@@ -1,16 +1,19 @@
 {
   "namedInputs": {
-    "format": [
+    "rootFiles": [
       "{projectRoot}/*.js",
       "{projectRoot}/*.ts",
-      "{projectRoot}/*.json",
+      "{projectRoot}/*.json"
+    ],
+    "sourceFiles": [
+      "{projectRoot}/src/*.js",
       "{projectRoot}/src/*.ts"
     ]
   },
   "targetDefaults": {
     "format": {
       "dependsOn": ["^format"],
-      "inputs": ["format"]
+      "inputs": ["rootFiles", "sourceFiles"]
     },
     "lint": {
       "dependsOn": ["^build", "^lint", "format"],
