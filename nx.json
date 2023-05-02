@@ -11,21 +11,42 @@
     "sourceFiles": [
       "{projectRoot}/src/*.js",
       "{projectRoot}/src/*.ts"
+    ],
+    "sourceOnlyFiles": [
+      "{projectRoot}/src/*.js",
+      "{projectRoot}/src/*.ts",
+      "!{projectRoot}/src/*.test.js",
+      "!{projectRoot}/src/*.test.ts"
+    ],
+    "typescriptConfig": [
+      "{projectRoot}/tsconfig.json"
     ]
   },
   "targetDefaults": {
     "format": {
       "dependsOn": ["^format"],
-      "inputs": ["eslintConfig", "rootFiles", "sourceFiles"]
+      "inputs": [
+        "eslintConfig",
+        "rootFiles",
+        "sourceFiles",
+        "typescriptConfig"
+      ]
     },
     "lint": {
       "dependsOn": ["^build", "^lint", "format"],
       "implicitDependencies": ["@actions-kit/dev"],
-      "inputs": ["eslintConfig", "sourceFiles"]
+      "inputs": [
+        "eslintConfig",
+        "sourceFiles"
+      ]
     },
     "build": {
       "dependsOn": ["^build", "lint"],
-      "implicitDependencies": ["@actions-kit/dev"]
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": [
+        "sourceOnlyFiles",
+        "typescriptConfig"
+      ]
     },
     "test": {
       "dependsOn": ["build"],
