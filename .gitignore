@@ -2,6 +2,7 @@
 !.eslint*
 !.git*
 
+*.log
 tsconfig.eslint.json
 
 coverage/
