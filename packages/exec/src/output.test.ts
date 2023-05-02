@@ -1,31 +1,35 @@
-import { getExecOutput, ExecOutput } from "@actions/exec";
+import { ExecOptions, ExecOutput } from "@actions/exec";
 import { describe, expect, jest, test } from "@jest/globals";
 import { output, OutputResult, outputSilently } from "./output";
 
-jest.mock("@actions/exec");
-
-const mocked = jest.mocked({ getExecOutput });
-
-mocked.getExecOutput.mockImplementation(async (commandLine, args, options) => {
-  expect(commandLine).toBe("test");
-  if (args === undefined) throw new Error("args should not be undefined");
-  if (options === undefined) throw new Error("options should not be undefined");
-  let silent = false;
-  const out: ExecOutput = { exitCode: 0, stdout: "", stderr: "" };
-  for (const arg of args) {
-    switch (arg) {
-      case "--silent":
-        silent = true;
-        break;
-      case "--fail":
-        out.exitCode = 1;
-        break;
-      default:
-        out.stdout += arg;
-    }
-  }
-  expect(options.silent).toBe(silent);
-  return out;
+jest.mock("@actions/exec", () => {
+  const actual = jest.requireActual<object>("@actions/exec");
+  return {
+    ...actual,
+    getExecOutput: async (
+      commandLine: string,
+      args: string[],
+      options: ExecOptions
+    ) => {
+      expect(commandLine).toBe("test");
+      let silent = false;
+      const out: ExecOutput = { exitCode: 0, stdout: "", stderr: "" };
+      for (const arg of args) {
+        switch (arg) {
+          case "--silent":
+            silent = true;
+            break;
+          case "--fail":
+            out.exitCode = 1;
+            break;
+          default:
+            out.stdout += arg;
+        }
+      }
+      expect(options.silent).toBe(silent);
+      return out;
+    },
+  };
 });
 
 describe("constructs a new command run and output get result", () => {

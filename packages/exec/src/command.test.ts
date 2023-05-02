@@ -4,7 +4,7 @@ import { OutputResult } from "./output";
 import { RunResult } from "./run";
 
 jest.mock("./output", () => {
-  const actual = jest.requireActual("./output") as object;
+  const actual = jest.requireActual<object>("./output");
   return {
     ...actual,
     output: async (command: string, ...args: string[]) => {
@@ -23,7 +23,7 @@ jest.mock("./output", () => {
 });
 
 jest.mock("./run", () => {
-  const actual = jest.requireActual("./run") as object;
+  const actual = jest.requireActual<object>("./run");
   return {
     ...actual,
     run: async (command: string, ...args: string[]) => {

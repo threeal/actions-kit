@@ -1,31 +1,31 @@
-import { exec } from "@actions/exec";
+import { ExecOptions } from "@actions/exec";
 import { describe, expect, jest, test } from "@jest/globals";
 import { run, RunResult, runSilently } from "./run";
 
-jest.mock("@actions/exec");
-
-const mocked = jest.mocked({ exec });
-
-mocked.exec.mockImplementation(async (commandLine, args, options) => {
-  expect(commandLine).toBe("test");
-  if (args === undefined) throw new Error("args should not be undefined");
-  if (options === undefined) throw new Error("options should not be undefined");
-  let silent = false;
-  let code = 0;
-  for (const arg of args) {
-    switch (arg) {
-      case "--silent":
-        silent = true;
-        break;
-      case "--fail":
-        code = 1;
-        break;
-      default:
-        throw new Error(`unknown argument: ${arg}`);
-    }
-  }
-  expect(options.silent).toBe(silent);
-  return code;
+jest.mock("@actions/exec", () => {
+  const actual = jest.requireActual<object>("@actions/exec");
+  return {
+    ...actual,
+    exec: async (commandLine: string, args: string[], options: ExecOptions) => {
+      expect(commandLine).toBe("test");
+      let silent = false;
+      let code = 0;
+      for (const arg of args) {
+        switch (arg) {
+          case "--silent":
+            silent = true;
+            break;
+          case "--fail":
+            code = 1;
+            break;
+          default:
+            throw new Error(`unknown argument: ${arg}`);
+        }
+      }
+      expect(options.silent).toBe(silent);
+      return code;
+    },
+  };
 });
 
 describe("constructs a new command run result", () => {
