@@ -1,64 +1,79 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
+import { expect, jest, test } from "@jest/globals";
 import { Command } from "./command";
-import { newHook, testCheckRunResult } from "./helper.test";
 import { OutputResult } from "./output";
 import { RunResult } from "./run";
 
-describe("constructs a new command", () => {
-  let command: Command;
-  test("should not throws an error", () => {
-    expect(() => {
-      command = new Command("node", "--no-addons", "--no-deprecation");
-    }).not.toThrow();
-  });
+jest.mock("./output", () => {
+  const actual = jest.requireActual<object>("./output");
+  const outputCheck = (command: string, ...args: string[]) => {
+    expect(command).toBe("test");
+    const output = args
+      .filter((arg) => !["--success", "--silent"].includes(arg))
+      .join();
+    const code = args.includes("--success") ? 0 : 1;
+    return new OutputResult(code, output);
+  };
+  return {
+    ...actual,
+    output: async (command: string, ...args: string[]) => {
+      expect(args).not.toContain("--silent");
+      return outputCheck(command, ...args);
+    },
+    outputSilently: async (command: string, ...args: string[]) => {
+      expect(args).toContain("--silent");
+      return outputCheck(command, ...args);
+    },
+  };
+});
 
-  describe("checks the properties", () => {
-    test("the command should be equals", () => {
-      expect(command.command).toEqual("node");
-    });
-    test("the arguments should be equal", () => {
-      expect(command.args).toEqual(["--no-addons", "--no-deprecation"]);
-    });
-  });
+jest.mock("./run", () => {
+  const actual = jest.requireActual<object>("./run");
+  const runCheck = (command: string, ...args: string[]) => {
+    expect(command).toBe("test");
+    const code = args.includes("--success") ? 0 : 1;
+    return new RunResult(code);
+  };
+  return {
+    ...actual,
+    run: async (command: string, ...args: string[]) => {
+      expect(args).not.toContain("--silent");
+      return runCheck(command, ...args);
+    },
+    runSilently: async (command: string, ...args: string[]) => {
+      expect(args).toContain("--silent");
+      return runCheck(command, ...args);
+    },
+  };
+});
 
-  const runs = new Map([
-    ["", (...args: string[]) => command.run(...args)],
-    [" silently", (...args: string[]) => command.runSilently(...args)],
-  ]);
-  for (const [title, run] of runs) {
-    describe(`runs the command${title}`, () => {
-      let prom: Promise<RunResult>;
-      test("should be resolved", () => {
-        prom = run("-e", "console.log('some log')");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        const res = newHook<RunResult>();
-        beforeAll(async () => (res.data = await prom));
-        testCheckRunResult({ res, shouldBeOk: true });
-      });
-    });
-  }
+test("constructs a new command", () => {
+  const command = new Command("command", "arg1", "arg2");
+  expect(command.command).toEqual("command");
+  expect(command.args).toEqual(["arg1", "arg2"]);
+});
 
-  const outputs = new Map([
-    ["", (...args: string[]) => command.output(...args)],
-    [" silently", (...args: string[]) => command.outputSilently(...args)],
-  ]);
-  for (const [title, output] of outputs) {
-    describe(`runs the command${title} and gets the output`, () => {
-      let prom: Promise<OutputResult>;
-      test("should be resolved", () => {
-        prom = output("-e", "console.log('some log')");
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks the result", () => {
-        const res = newHook<OutputResult>();
-        beforeAll(async () => (res.data = await prom));
-        testCheckRunResult({ res, shouldBeOk: true });
-        test("the output should be correct", () => {
-          expect(res.data!.output).toBe("some log\n");
-        });
-      });
-    });
-  }
+test("runs a constructed command", async () => {
+  const command = new Command("test", "--success");
+  const res = await command.run();
+  expect(res.isOk()).toBe(true);
+});
+
+test("runs a constructed command silently", async () => {
+  const command = new Command("test", "--success");
+  const res = await command.runSilently("--silent");
+  expect(res.isOk()).toBe(true);
+});
+
+test("runs a constructed command and gets the output", async () => {
+  const command = new Command("test", "--success");
+  const res = await command.output("some output");
+  expect(res.isOk()).toBe(true);
+  expect(res.output).toBe("some output");
+});
+
+test("runs a constructed command and gets the output silently", async () => {
+  const command = new Command("test", "--success");
+  const res = await command.outputSilently("--silent", "some output");
+  expect(res.isOk()).toBe(true);
+  expect(res.output).toBe("some output");
 });

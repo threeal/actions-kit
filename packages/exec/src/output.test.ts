@@ -1,58 +1,68 @@
-import { beforeAll, describe, expect, test } from "@jest/globals";
-import { newHook, testCheckRunResult, testOutputSilent } from "./helper.test";
+import { ExecOptions, ExecOutput } from "@actions/exec";
+import { describe, expect, jest, test } from "@jest/globals";
 import { output, OutputResult, outputSilently } from "./output";
 
+jest.mock("@actions/exec", () => {
+  const actual = jest.requireActual<object>("@actions/exec");
+  return {
+    ...actual,
+    getExecOutput: async (
+      commandLine: string,
+      args: string[],
+      options: ExecOptions
+    ): Promise<ExecOutput> => {
+      expect(commandLine).toBe("test");
+      expect(options.silent).toBe(args.includes("--silent"));
+      return {
+        exitCode: args.includes("--fail") ? 1 : 0,
+        stdout: args
+          .filter((arg) => !["--silent", "--fail"].includes(arg))
+          .join(),
+        stderr: "",
+      };
+    },
+  };
+});
+
 describe("constructs a new command run and output get result", () => {
-  let res: OutputResult;
-  test("should not throws an error", () => {
-    expect(() => (res = new OutputResult(0, "some message"))).not.toThrow();
+  test("with a zero status code", () => {
+    const res = new OutputResult(0, "some message");
+    expect(res.code).toBe(0);
+    expect(res.isOk()).toBe(true);
   });
-  describe("checks the properties", () => {
-    test("the log output should be equals", () => {
-      expect(res.output).toBe("some message");
-    });
+
+  test("with a non zero status code", () => {
+    const res = new OutputResult(8, "some message");
+    expect(res.code).toBe(8);
+    expect(res.isOk()).toBe(false);
   });
 });
 
 describe("runs a command and gets the output", () => {
-  const runs = new Map([
-    ["runs verbosely", false],
-    ["runs silently", true],
-  ]);
-  for (const [title, isSilent] of runs) {
-    describe(title, () => {
-      const commands = new Map([
-        ["on a successful command", true],
-        ["on a failed command", false],
-      ]);
-      for (const [title, isSuccessful] of commands) {
-        describe(title, () => {
-          let prom: Promise<OutputResult>;
-          test("should be resolved", () => {
-            const script = isSuccessful
-              ? "console.log('some log')"
-              : "throw new Error('some error')";
-            prom = isSilent
-              ? outputSilently("node", "-e", script)
-              : output("node", "-e", script);
-            return expect(prom).resolves.toBeTruthy();
-          });
-          describe("checks the result", () => {
-            const res = newHook<OutputResult>();
-            beforeAll(async () => (res.data = await prom));
-            testCheckRunResult({ res, shouldBeOk: isSuccessful });
-            if (isSuccessful) {
-              test("the output should be correct", () => {
-                expect(res.data!.output).toBe("some log\n");
-              });
-            }
-          });
-        });
-      }
-      const script = isSilent
-        ? `exec.outputSilently('node', '-e', 'console.log("some log")');`
-        : `exec.output('node', '-e', 'console.log("some log")');`;
-      testOutputSilent({ script, shouldBeSilent: isSilent });
-    });
-  }
+  test("on a successful command", async () => {
+    const res = await output("test", "some message");
+    expect(res.isOk()).toBe(true);
+    expect(res.output).toBe("some message");
+  });
+
+  test("on a failed command", async () => {
+    const res = await output("test", "--fail", "some message");
+    expect(res.isOk()).toBe(false);
+    expect(res.output).toBe("some message");
+  });
+});
+
+describe("runs a command and gets the output silently", () => {
+  test("on a successful command", async () => {
+    const res = await outputSilently("test", "--silent", "some message");
+    expect(res.isOk()).toBe(true);
+    expect(res.output).toBe("some message");
+  });
+
+  test("on a failed command", async () => {
+    const args = ["--silent", "--fail", "some message"];
+    const res = await outputSilently("test", ...args);
+    expect(res.isOk()).toBe(false);
+    expect(res.output).toBe("some message");
+  });
 });
