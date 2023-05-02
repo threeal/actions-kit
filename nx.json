@@ -16,7 +16,7 @@
   "targetDefaults": {
     "format": {
       "dependsOn": ["^format"],
-      "inputs": ["rootFiles", "sourceFiles"]
+      "inputs": ["eslintConfig", "rootFiles", "sourceFiles"]
     },
     "lint": {
       "dependsOn": ["^build", "^lint", "format"],
