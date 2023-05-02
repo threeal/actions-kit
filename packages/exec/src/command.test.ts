@@ -1,15 +1,43 @@
 import { expect, jest, test } from "@jest/globals";
 import { Command } from "./command";
-import { output, OutputResult, outputSilently } from "./output";
-import { run, RunResult, runSilently } from "./run";
+import { OutputResult } from "./output";
+import { RunResult } from "./run";
 
-jest.mock("./output");
-jest.mock("./run");
+jest.mock("./output", () => {
+  const actual = jest.requireActual("./output") as object;
+  return {
+    ...actual,
+    output: async (command: string, ...args: string[]) => {
+      expect(command).toBe("test");
+      expect(args).not.toContain("--silent");
+      const output = args.join();
+      return new OutputResult(0, output);
+    },
+    outputSilently: async (command: string, ...args: string[]) => {
+      expect(command).toBe("test");
+      expect(args).toContain("--silent");
+      const output = args.filter((arg) => arg !== "--silent").join();
+      return new OutputResult(0, output);
+    },
+  };
+});
 
-const mocked = jest.mocked(
-  { output, outputSilently, run, runSilently },
-  { shallow: true }
-);
+jest.mock("./run", () => {
+  const actual = jest.requireActual("./run") as object;
+  return {
+    ...actual,
+    run: async (command: string, ...args: string[]) => {
+      expect(command).toBe("test");
+      expect(args).not.toContain("--silent");
+      return new RunResult(0);
+    },
+    runSilently: async (command: string, ...args: string[]) => {
+      expect(command).toBe("test");
+      expect(args).toContain("--silent");
+      return new RunResult(0);
+    },
+  };
+});
 
 test("constructs a new command", () => {
   const command = new Command("command", "arg1", "arg2");
@@ -17,40 +45,28 @@ test("constructs a new command", () => {
   expect(command.args).toEqual(["arg1", "arg2"]);
 });
 
-const command = new Command("command", "arg1", "arg2");
-
-const runRes = new RunResult(0);
-mocked.run.mockImplementation(async () => runRes);
-mocked.runSilently.mockImplementation(async () => runRes);
-
-test("runs a constructed command", () => {
-  const prom = command.run("arg3");
-  expect(prom).resolves.toStrictEqual(runRes);
-  const args = mocked.run.mock.lastCall;
-  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
+test("runs a constructed command", async () => {
+  const command = new Command("test");
+  const res = await command.run();
+  expect(res.isOk()).toBe(true);
 });
 
-test("runs a constructed command silently", () => {
-  const prom = command.runSilently("arg3");
-  expect(prom).resolves.toStrictEqual(runRes);
-  const args = mocked.runSilently.mock.lastCall;
-  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
+test("runs a constructed command silently", async () => {
+  const command = new Command("test");
+  const res = await command.runSilently("--silent");
+  expect(res.isOk()).toBe(true);
 });
 
-const outputRes = new OutputResult(0, "some message");
-mocked.output.mockImplementation(async () => outputRes);
-mocked.outputSilently.mockImplementation(async () => outputRes);
-
-test("runs a constructed command and gets the output", () => {
-  const prom = command.output("arg3");
-  expect(prom).resolves.toStrictEqual(outputRes);
-  const args = mocked.output.mock.lastCall;
-  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
+test("runs a constructed command and gets the output", async () => {
+  const command = new Command("test");
+  const res = await command.output("some output");
+  expect(res.isOk()).toBe(true);
+  expect(res.output).toBe("some output");
 });
 
-test("runs a constructed command and gets the output silently", () => {
-  const prom = command.outputSilently("arg3");
-  expect(prom).resolves.toStrictEqual(outputRes);
-  const args = mocked.outputSilently.mock.lastCall;
-  expect(args).toStrictEqual(["command", "arg1", "arg2", "arg3"]);
+test("runs a constructed command and gets the output silently", async () => {
+  const command = new Command("test");
+  const res = await command.outputSilently("--silent", "some output");
+  expect(res.isOk()).toBe(true);
+  expect(res.output).toBe("some output");
 });
