@@ -10,24 +10,16 @@ jest.mock("@actions/exec", () => {
       commandLine: string,
       args: string[],
       options: ExecOptions
-    ) => {
+    ): Promise<ExecOutput> => {
       expect(commandLine).toBe("test");
-      let silent = false;
-      const out: ExecOutput = { exitCode: 0, stdout: "", stderr: "" };
-      for (const arg of args) {
-        switch (arg) {
-          case "--silent":
-            silent = true;
-            break;
-          case "--fail":
-            out.exitCode = 1;
-            break;
-          default:
-            out.stdout += arg;
-        }
-      }
-      expect(options.silent).toBe(silent);
-      return out;
+      expect(options.silent).toBe(args.includes("--silent"));
+      return {
+        exitCode: args.includes("--fail") ? 1 : 0,
+        stdout: args
+          .filter((arg) => !["--silent", "--fail"].includes(arg))
+          .join(),
+        stderr: "",
+      };
     },
   };
 });
