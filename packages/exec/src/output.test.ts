@@ -2,27 +2,24 @@ import { ExecOptions, ExecOutput } from "@actions/exec";
 import { describe, expect, jest, test } from "@jest/globals";
 import { output, OutputResult, outputSilently } from "./output";
 
-jest.mock("@actions/exec", () => {
-  const actual = jest.requireActual<object>("@actions/exec");
-  return {
-    ...actual,
-    getExecOutput: async (
-      commandLine: string,
-      args: string[],
-      options: ExecOptions
-    ): Promise<ExecOutput> => {
-      expect(commandLine).toBe("test");
-      expect(options.silent).toBe(args.includes("--silent"));
-      return {
-        exitCode: args.includes("--fail") ? 1 : 0,
-        stdout: args
-          .filter((arg) => !["--silent", "--fail"].includes(arg))
-          .join(),
-        stderr: "",
-      };
-    },
-  };
-});
+jest.mock("@actions/exec", () => ({
+  ...jest.requireActual<object>("@actions/exec"),
+  getExecOutput: async (
+    commandLine: string,
+    args: string[],
+    options: ExecOptions
+  ): Promise<ExecOutput> => {
+    expect(commandLine).toBe("test");
+    expect(options.silent).toBe(args.includes("--silent"));
+    return {
+      exitCode: args.includes("--fail") ? 1 : 0,
+      stdout: args
+        .filter((arg) => !["--silent", "--fail"].includes(arg))
+        .join(),
+      stderr: "",
+    };
+  },
+}));
 
 describe("constructs a new command run and output get result", () => {
   test("with a zero status code", () => {
