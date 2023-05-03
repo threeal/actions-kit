@@ -1,27 +1,73 @@
 {
+  "namedInputs": {
+    "eslintConfig": [
+      "{projectRoot}/.eslintrc.js"
+    ],
+    "jestConfig": [
+      "{projectRoot}/jest.config.ts"
+    ],
+    "packageConfig": [
+      "{projectRoot}/package.json"
+    ],
+    "sourceFiles": [
+      "{projectRoot}/src/*.js",
+      "{projectRoot}/src/*.ts"
+    ],
+    "sourceNoTestFiles": [
+      "{projectRoot}/src/*.js",
+      "{projectRoot}/src/*.ts",
+      "!{projectRoot}/src/*.test.js",
+      "!{projectRoot}/src/*.test.ts"
+    ],
+    "typescriptConfig": [
+      "{projectRoot}/tsconfig.json"
+    ]
+  },
+  "targetDefaults": {
+    "format": {
+      "dependsOn": ["^format"],
+      "inputs": [
+        "eslintConfig",
+        "jestConfig",
+        "packageConfig",
+        "sourceFiles",
+        "typescriptConfig"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^build", "^lint", "format"],
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": [
+        "eslintConfig",
+        "packageConfig",
+        "sourceFiles"
+      ]
+    },
+    "build": {
+      "dependsOn": ["^build", "lint"],
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": [
+        "packageConfig",
+        "sourceNoTestFiles",
+        "typescriptConfig"
+      ]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": [
+        "jestConfig",
+        "packageConfig",
+        "sourceFiles"
+      ]
+    }
+  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": ["build", "format", "lint", "test"]
       }
-    }
-  },
-  "targetDefaults": {
-    "format": {
-      "dependsOn": ["^format"]
-    },
-    "lint": {
-      "dependsOn": ["^build", "^lint", "format"],
-      "implicitDependencies": ["@actions-kit/dev"]
-    },
-    "build": {
-      "dependsOn": ["^build", "lint"],
-      "implicitDependencies": ["@actions-kit/dev"]
-    },
-    "test": {
-      "dependsOn": ["build"],
-      "implicitDependencies": ["@actions-kit/dev"]
     }
   }
 }
