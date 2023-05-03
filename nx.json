@@ -3,6 +3,9 @@
     "eslintConfig": [
       "{projectRoot}/.eslintrc.js"
     ],
+    "jestConfig": [
+      "{projectRoot}/jest.config.ts"
+    ],
     "rootFiles": [
       "{projectRoot}/*.js",
       "{projectRoot}/*.ts",
@@ -12,7 +15,7 @@
       "{projectRoot}/src/*.js",
       "{projectRoot}/src/*.ts"
     ],
-    "sourceOnlyFiles": [
+    "sourceNoTestFiles": [
       "{projectRoot}/src/*.js",
       "{projectRoot}/src/*.ts",
       "!{projectRoot}/src/*.test.js",
@@ -44,13 +47,17 @@
       "dependsOn": ["^build", "lint"],
       "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
-        "sourceOnlyFiles",
+        "sourceNoTestFiles",
         "typescriptConfig"
       ]
     },
     "test": {
       "dependsOn": ["build"],
-      "implicitDependencies": ["@actions-kit/dev"]
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": [
+        "jestConfig",
+        "sourceFiles"
+      ]
     }
   },
   "tasksRunnerOptions": {
