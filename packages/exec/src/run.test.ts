@@ -2,17 +2,14 @@ import { ExecOptions } from "@actions/exec";
 import { describe, expect, jest, test } from "@jest/globals";
 import { run, RunResult, runSilently } from "./run";
 
-jest.mock("@actions/exec", () => {
-  const actual = jest.requireActual<object>("@actions/exec");
-  return {
-    ...actual,
-    exec: async (commandLine: string, args: string[], options: ExecOptions) => {
-      expect(commandLine).toBe("test");
-      expect(options.silent).toBe(args.includes("--silent"));
-      return args.includes("--fail") ? 1 : 0;
-    },
-  };
-});
+jest.mock("@actions/exec", () => ({
+  ...jest.requireActual<object>("@actions/exec"),
+  exec: async (commandLine: string, args: string[], options: ExecOptions) => {
+    expect(commandLine).toBe("test");
+    expect(options.silent).toBe(args.includes("--silent"));
+    return args.includes("--fail") ? 1 : 0;
+  },
+}));
 
 describe("constructs a new command run result", () => {
   test("with a zero status code", () => {
