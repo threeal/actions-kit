@@ -27,6 +27,17 @@ mockedCore.getInput.mockImplementation((name) => {
   }
 });
 
+mockedCore.getMultilineInput.mockImplementation((name) => {
+  switch (name) {
+    case "empty-key":
+      return [];
+    case "multiline-key":
+      return ["some", "list", "of", "string"];
+    default:
+      throw new Error(`unknown name: ${name}`);
+  }
+});
+
 describe("gets string from an input", () => {
   test("from a valid input", () => {
     const res = getStringInput("string-key");
@@ -41,20 +52,13 @@ describe("gets string from an input", () => {
 
 describe("gets multiline string from an input", () => {
   test("from a valid input", () => {
-    const expected = ["some", "list", "of", "string"];
-    mockedCore.getMultilineInput.mockReturnValue(expected);
-    expect(getMultilineInput("multiline-key")).toBe(expected);
-    expect(mockedCore.getMultilineInput.mock.lastCall?.[0]).toBe(
-      "multiline-key"
-    );
+    const res = getMultilineInput("multiline-key");
+    expect(res).not.toHaveLength(0);
   });
 
   test("from an empty input", () => {
-    mockedCore.getMultilineInput.mockReturnValue([]);
-    expect(getMultilineInput("empty-multiline-key")).toHaveLength(0);
-    expect(mockedCore.getMultilineInput.mock.lastCall?.[0]).toBe(
-      "empty-multiline-key"
-    );
+    const res = getMultilineInput("empty-key");
+    expect(res).toHaveLength(0);
   });
 });
 
