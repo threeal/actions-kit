@@ -9,11 +9,6 @@
     "packageConfig": [
       "{projectRoot}/package.json"
     ],
-    "rootFiles": [
-      "{projectRoot}/*.js",
-      "{projectRoot}/*.ts",
-      "{projectRoot}/*.json"
-    ],
     "sourceFiles": [
       "{projectRoot}/src/*.js",
       "{projectRoot}/src/*.ts"
@@ -33,8 +28,8 @@
       "dependsOn": ["^format"],
       "inputs": [
         "eslintConfig",
+        "jestConfig",
         "packageConfig",
-        "rootFiles",
         "sourceFiles",
         "typescriptConfig"
       ]
