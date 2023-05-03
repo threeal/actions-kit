@@ -3,28 +3,26 @@ import { Command } from "./command";
 import { OutputResult } from "./output";
 import { RunResult } from "./run";
 
-jest.mock("./output", () => {
-  const actual = jest.requireActual<object>("./output");
-  const outputCheck = (command: string, ...args: string[]) => {
-    expect(command).toBe("test");
-    const output = args
-      .filter((arg) => !["--success", "--silent"].includes(arg))
-      .join();
-    const code = args.includes("--success") ? 0 : 1;
-    return new OutputResult(code, output);
-  };
-  return {
-    ...actual,
-    output: async (command: string, ...args: string[]) => {
-      expect(args).not.toContain("--silent");
-      return outputCheck(command, ...args);
-    },
-    outputSilently: async (command: string, ...args: string[]) => {
-      expect(args).toContain("--silent");
-      return outputCheck(command, ...args);
-    },
-  };
-});
+function outputCheck(command: string, ...args: string[]) {
+  expect(command).toBe("test");
+  const output = args
+    .filter((arg) => !["--success", "--silent"].includes(arg))
+    .join();
+  const code = args.includes("--success") ? 0 : 1;
+  return new OutputResult(code, output);
+}
+
+jest.mock("./output", () => ({
+  ...jest.requireActual<object>("./output"),
+  output: async (command: string, ...args: string[]) => {
+    expect(args).not.toContain("--silent");
+    return outputCheck(command, ...args);
+  },
+  outputSilently: async (command: string, ...args: string[]) => {
+    expect(args).toContain("--silent");
+    return outputCheck(command, ...args);
+  },
+}));
 
 jest.mock("./run", () => {
   const actual = jest.requireActual<object>("./run");
