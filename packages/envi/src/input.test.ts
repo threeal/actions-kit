@@ -1,4 +1,3 @@
-import * as core from "@actions/core";
 import { describe, expect, jest, test } from "@jest/globals";
 import {
   getBooleanInput,
@@ -7,36 +6,35 @@ import {
   getStringInput,
 } from "./input";
 
-jest.mock("@actions/core");
-const mockedCore = jest.mocked(core, { shallow: true });
-
-mockedCore.getInput.mockImplementation((name) => {
-  switch (name) {
-    case "empty-key":
-      return "";
-    case "string-key":
-      return "some string";
-    case "number-key":
-      return "123";
-    case "true-key":
-      return "true";
-    case "false-key":
-      return "false";
-    default:
-      throw new Error(`unknown name: ${name}`);
-  }
-});
-
-mockedCore.getMultilineInput.mockImplementation((name) => {
-  switch (name) {
-    case "empty-key":
-      return [];
-    case "multiline-key":
-      return ["some", "list", "of", "string"];
-    default:
-      throw new Error(`unknown name: ${name}`);
-  }
-});
+jest.mock("@actions/core", () => ({
+  ...jest.requireActual<object>("@actions/core"),
+  getInput: (name: string): string => {
+    switch (name) {
+      case "empty-key":
+        return "";
+      case "string-key":
+        return "some string";
+      case "number-key":
+        return "123";
+      case "true-key":
+        return "true";
+      case "false-key":
+        return "false";
+      default:
+        throw new Error(`unknown name: ${name}`);
+    }
+  },
+  getMultilineInput: (name: string): string[] => {
+    switch (name) {
+      case "empty-key":
+        return [];
+      case "multiline-key":
+        return ["some", "list", "of", "string"];
+      default:
+        throw new Error(`unknown name: ${name}`);
+    }
+  },
+}));
 
 describe("gets string from an input", () => {
   test("from a valid input", () => {
