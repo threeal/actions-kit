@@ -10,14 +10,14 @@
       "{projectRoot}/package.json"
     ],
     "sourceFiles": [
-      "{projectRoot}/src/*.js",
-      "{projectRoot}/src/*.ts"
+      "{projectRoot}/src/**/*.js",
+      "{projectRoot}/src/**/*.ts"
     ],
     "sourceNoTestFiles": [
-      "{projectRoot}/src/*.js",
-      "{projectRoot}/src/*.ts",
-      "!{projectRoot}/src/*.test.js",
-      "!{projectRoot}/src/*.test.ts"
+      "{projectRoot}/src/**/*.js",
+      "{projectRoot}/src/**/*.ts",
+      "!{projectRoot}/src/**/*.test.js",
+      "!{projectRoot}/src/**/*.test.ts"
     ],
     "typescriptConfig": [
       "{projectRoot}/tsconfig.json"
