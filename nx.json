@@ -6,6 +6,9 @@
     "jestConfig": [
       "{projectRoot}/jest.config.ts"
     ],
+    "packageConfig": [
+      "{projectRoot}/package.json"
+    ],
     "rootFiles": [
       "{projectRoot}/*.js",
       "{projectRoot}/*.ts",
@@ -30,6 +33,7 @@
       "dependsOn": ["^format"],
       "inputs": [
         "eslintConfig",
+        "packageConfig",
         "rootFiles",
         "sourceFiles",
         "typescriptConfig"
@@ -40,6 +44,7 @@
       "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
         "eslintConfig",
+        "packageConfig",
         "sourceFiles"
       ]
     },
@@ -47,6 +52,7 @@
       "dependsOn": ["^build", "lint"],
       "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
+        "packageConfig",
         "sourceNoTestFiles",
         "typescriptConfig"
       ]
@@ -56,6 +62,7 @@
       "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
         "jestConfig",
+        "packageConfig",
         "sourceFiles"
       ]
     }
