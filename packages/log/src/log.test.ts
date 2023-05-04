@@ -1,20 +1,34 @@
-import { describe, expect, test } from "@jest/globals";
+import { expect, jest, test } from "@jest/globals";
 import { error, fatal, warning } from "./log";
 
-describe("writes warning to log", () => {
-  test("should not throw", () => {
-    expect(() => warning("some message")).not.toThrow();
-  });
+let warningOut = "";
+let errorOut = "";
+let setFailedOut = "";
+
+jest.mock("@actions/core", () => ({
+  ...jest.requireActual<object>("@actions/core"),
+  warning: (message: string) => {
+    warningOut = message;
+  },
+  error: (message: string) => {
+    errorOut = message;
+  },
+  setFailed: (message: string) => {
+    setFailedOut = message;
+  },
+}));
+
+test("writes a warning message to log", () => {
+  warning("some warning message");
+  expect(warningOut).toBe("some warning message");
 });
 
-describe("writes error to log", () => {
-  test("should not throw", () => {
-    expect(() => error("some message")).not.toThrow();
-  });
+test("writes an error message to log", () => {
+  error("some error message");
+  expect(errorOut).toBe("some error message");
 });
 
-describe("writes a fatal message to the log", () => {
-  test("should not throws an error", () => {
-    expect(() => fatal("some message")).not.toThrow();
-  });
+test("writes a fatal message to log", () => {
+  fatal("some fatal message");
+  expect(setFailedOut).toBe("some fatal message");
 });
