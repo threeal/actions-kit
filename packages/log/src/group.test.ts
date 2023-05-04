@@ -1,25 +1,46 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, jest, test } from "@jest/globals";
 import { group } from "./group";
 import { info } from "./log";
 
+const out: string[] = [];
+
+jest.mock("@actions/core", () => ({
+  ...jest.requireActual<object>("@actions/core"),
+  startGroup: (name: string) => {
+    out.push(`START ${name}`);
+  },
+  endGroup: () => {
+    out.push("END");
+  },
+}));
+
+jest.mock("./log", () => ({
+  ...jest.requireActual<object>("./log"),
+  info: (message: string) => {
+    out.push(message);
+  },
+}));
+
 describe("group output of an async function", () => {
-  describe("on a successful function", () => {
-    test("should be resolved", () => {
-      const prom = group("some group", async () => {
-        info("some info");
-        return true;
-      });
-      return expect(prom).resolves.toBe(true);
+  test("on a successful function", async () => {
+    const prom = group("some group", async () => {
+      info("some info message");
+      return true;
     });
+    await expect(prom).resolves.toBe(true);
+    expect(out).toContain("START some group");
+    expect(out).toContain("some info message");
+    expect(out).toContain("END");
   });
 
-  describe("on a failed function", () => {
-    test("should be rejected", () => {
-      const prom = group("some group", async () => {
-        info("some info");
-        throw new Error("some error");
-      });
-      return expect(prom).rejects.toThrow();
+  test("on a failed function", async () => {
+    const prom = group("some group", async () => {
+      info("some info message");
+      throw new Error("some error");
     });
+    await expect(prom).rejects.toThrow();
+    expect(out).toContain("START some group");
+    expect(out).toContain("some info message");
+    expect(out).toContain("END");
   });
 });
