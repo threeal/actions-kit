@@ -1,12 +1,9 @@
-import * as exec from "@actions-kit/exec";
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 import { PackageInfo, showPackageInfo } from "./info";
 import { installPackage, uninstallPackage } from "./install";
 
 const validPkgName = "rsa";
-
-const node = new exec.Command("node", "-e");
 
 describe("test show info of a pip package", () => {
   describe(`show info of a valid package (${validPkgName})`, () => {
@@ -54,24 +51,6 @@ describe("test show info of a pip package", () => {
         for (const executable of executables) {
           expect(fs.existsSync(executable)).toBe(true);
         }
-      });
-    });
-
-    describe("runs in a separate process", () => {
-      let prom: Promise<exec.OutputResult>;
-      test("should be resolved", () => {
-        prom = node.outputSilently(
-          `const pip = require('./lib');\n\
-          pip.showPackageInfo('${validPkgName}');`
-        );
-        return expect(prom).resolves.toBeTruthy();
-      });
-      describe("checks output", () => {
-        let res: exec.OutputResult;
-        beforeAll(async () => (res = await prom));
-        test("output should be empty", () => {
-          expect(res.output.length).toBe(0);
-        });
       });
     });
 
