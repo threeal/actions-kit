@@ -21,33 +21,13 @@ function expectValidCacheInfoKey(key: string, packageName: string) {
   expect(key).toMatch(new RegExp(packageName));
 }
 
-describe("test create cache info of a pip package", () => {
-  describe(`using any package name`, () => {
-    const packageName = "any-package-name";
-    let res: PackageCacheInfo;
-    test("should not error", () => {
-      expect(() => {
-        res = new PackageCacheInfo(packageName);
-      }).not.toThrow();
-      expect(res).toBeInstanceOf(PackageCacheInfo);
-    });
-
-    describe("check the result", () => {
-      test("name should be valid", () => {
-        expectValidCacheInfoName(res.name, packageName);
-      });
-
-      test("key should be valid", () => {
-        expectValidCacheInfoKey(res.key, packageName);
-      });
-
-      test("path should be valid", () => {
-        expect(res.path).not.toHaveLength(0);
-        expect(res.path.includes(PackageCacheInfo.root())).toBe(true);
-        expect(res.path.includes(packageName)).toBe(true);
-      });
-    });
-  });
+test("creates cache info of a pip package", () => {
+  const info = new PackageCacheInfo("some-package");
+  expect(info.name).toBe("some-package");
+  expect(info.key).toMatch(new RegExp(`${os.type()}.*some-package`));
+  expect(info.path).toMatch(
+    new RegExp(`${PackageCacheInfo.root()}.*some-package`)
+  );
 });
 
 describe("test accumulate content info of a pip package cache info", () => {
