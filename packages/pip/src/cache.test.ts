@@ -1,14 +1,7 @@
 import { describe, expect, jest, test } from "@jest/globals";
-import * as fs from "fs";
 import * as os from "os";
 import { PackageCacheInfo, PackageContentCacheInfo } from "./cache";
 import { PackageInfo } from "./info";
-
-export const validPkgName = "rsa";
-
-export function packageCacheInfoRemoveRoot() {
-  fs.rmSync(PackageCacheInfo.root(), { recursive: true, force: true });
-}
 
 jest.mock("fs", () => ({
   ...jest.requireActual<object>("fs"),

@@ -4,9 +4,9 @@ import { PackageCacheInfo, PackageContentCacheInfo } from "./cache";
 import { installPackage, uninstallPackage } from "./install";
 import { PackageInfo, showPackageInfo } from "./info";
 
-export const validPkgName = "rsa";
+const validPkgName = "rsa";
 
-export function packageCacheInfoRemoveRoot() {
+function packageCacheInfoRemoveRoot() {
   fs.rmSync(PackageCacheInfo.root(), { recursive: true, force: true });
 }
 
