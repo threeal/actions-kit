@@ -1,84 +1,50 @@
-import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
+import { RunResult } from "@actions-kit/exec";
+import { expect, jest, test } from "@jest/globals";
 import { PackageInfo, showPackageInfo } from "./info";
 import { installPackage, uninstallPackage } from "./install";
 
-const validPkgName = "rsa";
+let installed: string[] = [];
 
-describe("test install a pip package", () => {
-  describe(`install a valid package (${validPkgName})`, () => {
-    beforeAll(async () => {
-      await uninstallPackage(validPkgName);
-    }, 30000);
+jest.mock("./pip", () => ({
+  ...jest.requireActual<object>("./pip"),
+  pip: {
+    run: async (...args: string[]): Promise<RunResult> => {
+      args = args.filter((arg) => !arg.startsWith("-"));
+      expect(args).toHaveLength(2);
+      const [command, pkg] = args;
+      switch (command) {
+        case "install":
+          if (pkg !== "valid-package") return new RunResult(1);
+          installed.push(pkg);
+          break;
+        case "uninstall":
+          installed = installed.filter((installedPkg) => installedPkg !== pkg);
+          break;
+        default:
+          return new RunResult(2);
+      }
+      return new RunResult(0);
+    },
+  },
+}));
 
-    const testInstallPackage = async () => {
-      const res = installPackage(validPkgName);
-      await expect(res).resolves.toBeUndefined();
-    };
+jest.mock("./info", () => ({
+  ...jest.requireActual<object>("./info"),
+  showPackageInfo: async (
+    packageName: string
+  ): Promise<PackageInfo | undefined> => {
+    return installed.includes(packageName) ? new PackageInfo() : undefined;
+  },
+}));
 
-    const testShowPackageInfo = async () => {
-      const res = showPackageInfo(validPkgName);
-      await expect(res).resolves.toBeInstanceOf(PackageInfo);
-    };
-
-    test("should be resolved", testInstallPackage, 30000);
-
-    describe("show the package info", () => {
-      test("should be valid", testShowPackageInfo);
-    });
-
-    describe("install the package again", () => {
-      test("should be resolved", testInstallPackage, 30000);
-    });
-
-    describe("show the package info again", () => {
-      test("should be valid", testShowPackageInfo);
-    });
-
-    afterAll(async () => {
-      await uninstallPackage(validPkgName);
-    }, 30000);
-  });
-
-  describe("install an invalid package", () => {
-    test("should be rejected", async () => {
-      const res = installPackage("an-invalid-package");
-      await expect(res).rejects.toThrow();
-    }, 30000);
-  });
+test("installs and uninstalls a valid pip package", async () => {
+  await expect(showPackageInfo("valid-package")).resolves.toBeUndefined();
+  await expect(installPackage("valid-package")).resolves.toBeUndefined();
+  await expect(showPackageInfo("valid-package")).resolves.not.toBeUndefined();
+  await expect(uninstallPackage("valid-package")).resolves.toBeUndefined();
+  await expect(showPackageInfo("valid-package")).resolves.toBeUndefined();
 });
 
-describe("test uninstall a pip package", () => {
-  describe(`uninstall a valid package (${validPkgName})`, () => {
-    beforeAll(async () => {
-      await installPackage(validPkgName);
-    }, 30000);
-
-    const testUninstallPackage = async () => {
-      const res = uninstallPackage(validPkgName);
-      await expect(res).resolves.toBeUndefined();
-    };
-
-    const testShowPackageInfo = async () => {
-      const res = showPackageInfo(validPkgName);
-      await expect(res).resolves.toBeUndefined();
-    };
-
-    test("should be resolved", testUninstallPackage, 30000);
-
-    describe("show the package info", () => {
-      test("should be undefined", testShowPackageInfo);
-    });
-
-    describe("uninstall the package again", () => {
-      test("should be resolved", testUninstallPackage, 30000);
-    });
-
-    describe("show the package info again", () => {
-      test("should be undefined", testShowPackageInfo);
-    });
-
-    afterAll(async () => {
-      await uninstallPackage(validPkgName);
-    }, 30000);
-  });
+test("installs an invalid pip package", () => {
+  return expect(installPackage("invalid-package")).rejects.toThrow();
 });
