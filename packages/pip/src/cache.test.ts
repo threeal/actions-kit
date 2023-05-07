@@ -1,4 +1,4 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeAll, describe, expect, jest, test } from "@jest/globals";
 import * as os from "os";
 import { PackageCacheInfo, PackageContentCacheInfo } from "./cache";
 import { PackageInfo } from "./info";
@@ -8,11 +8,46 @@ jest.mock("fs", () => ({
   existsSync: () => true,
 }));
 
+const caches = new Map<string, Map<string, any>>();
+jest.mock("@actions/cache", () => ({
+  ...jest.requireActual<object>("@actions/cache"),
+  async restoreCache(
+    paths: string[],
+    key: string
+  ): Promise<string | undefined> {
+    const cacheFiles = caches.get(key);
+    if (cacheFiles === undefined) return undefined;
+    for (const path of paths) {
+      files.set(path, cacheFiles.get(path));
+    }
+    return key;
+  },
+  async saveCache(paths: string[], key: string): Promise<number> {
+    const cacheFiles = new Map<string, any>();
+    for (const path of paths) {
+      cacheFiles.set(path, files.get(path));
+    }
+    caches.set(key, cacheFiles);
+    return caches.size;
+  },
+}));
+
 jest.mock("@actions/io", () => ({
   ...jest.requireActual<object>("@actions/io"),
   which: async (tool: string, check: boolean): Promise<string> => {
     expect(check).toBe(true);
     return `/path/to/bin/${tool}`;
+  },
+}));
+
+const files = new Map<string, any>();
+jest.mock("jsonfile", () => ({
+  ...jest.requireActual<object>("jsonfile"),
+  readFileSync(path: string): any {
+    return files.get(path);
+  },
+  writeFileSync(path: string, obj: any): void {
+    files.set(path, obj);
   },
 }));
 
@@ -97,5 +132,33 @@ describe("accumulates content info of a pip package cache info", () => {
   test("with an invalid package", () => {
     const info = new PackageCacheInfo("invalid-package");
     return expect(info.accumulateContentInfo()).rejects.toThrow();
+  });
+});
+
+describe("saves and restores content info of a pip package cache info", () => {
+  beforeAll(() => {
+    caches.clear();
+    files.clear();
+  });
+
+  let info: PackageCacheInfo;
+  test("creates cache info of a pip package", () => {
+    info = new PackageCacheInfo("valid-package");
+  });
+
+  let content: PackageContentCacheInfo;
+  test("accumulates content info of a cache info", async () => {
+    content = await info.accumulateContentInfo();
+  });
+
+  test("saves content info", () => {
+    const prom = info.saveContentInfo(content);
+    return expect(prom).resolves.toBeUndefined();
+  });
+
+  test("restores content info", () => {
+    files.clear();
+    const prom = info.restoreContentInfo();
+    return expect(prom).resolves.toStrictEqual(content);
   });
 });
