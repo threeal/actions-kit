@@ -5,7 +5,14 @@ import { PackageInfo } from "./info";
 
 jest.mock("fs", () => ({
   ...jest.requireActual<object>("fs"),
-  existsSync: () => true,
+  existsSync(path: string): boolean {
+    const roots = ["/path/to/bin", "/path/to/package"];
+    for (const root of roots) {
+      if (path.startsWith(root)) return true;
+    }
+    return false;
+  },
+  mkdirSync() {},
 }));
 
 const caches = new Map<string, Map<string, any>>();
