@@ -3,6 +3,11 @@ import * as os from "os";
 import { PackageCacheInfo, PackageContentCacheInfo } from "./cache";
 import { PackageInfo } from "./info";
 
+const mock = {
+  caches: new Map<string, Map<string, any>>(),
+  files: new Map<string, any>(),
+};
+
 jest.mock("fs", () => ({
   ...jest.requireActual<object>("fs"),
   existsSync(path: string): boolean {
@@ -15,27 +20,26 @@ jest.mock("fs", () => ({
   mkdirSync() {},
 }));
 
-const caches = new Map<string, Map<string, any>>();
 jest.mock("@actions/cache", () => ({
   ...jest.requireActual<object>("@actions/cache"),
   async restoreCache(
     paths: string[],
     key: string
   ): Promise<string | undefined> {
-    const cacheFiles = caches.get(key);
-    if (cacheFiles === undefined) return undefined;
+    const cache = mock.caches.get(key);
+    if (cache === undefined) return undefined;
     for (const path of paths) {
-      files.set(path, cacheFiles.get(path));
+      mock.files.set(path, cache.get(path));
     }
     return key;
   },
   async saveCache(paths: string[], key: string): Promise<number> {
-    const cacheFiles = new Map<string, any>();
+    const cache = new Map<string, any>();
     for (const path of paths) {
-      cacheFiles.set(path, files.get(path));
+      cache.set(path, mock.files.get(path));
     }
-    caches.set(key, cacheFiles);
-    return caches.size;
+    mock.caches.set(key, cache);
+    return mock.caches.size;
   },
 }));
 
@@ -47,14 +51,13 @@ jest.mock("@actions/io", () => ({
   },
 }));
 
-const files = new Map<string, any>();
 jest.mock("jsonfile", () => ({
   ...jest.requireActual<object>("jsonfile"),
   readFileSync(path: string): any {
-    return files.get(path);
+    return mock.files.get(path);
   },
   writeFileSync(path: string, obj: any): void {
-    files.set(path, obj);
+    mock.files.set(path, obj);
   },
 }));
 
@@ -145,8 +148,8 @@ describe("accumulates content info of a pip package cache info", () => {
 describe("saves and restores content info of a pip package cache info", () => {
   let info: PackageCacheInfo;
   beforeAll(() => {
-    caches.clear();
-    files.clear();
+    mock.caches.clear();
+    mock.files.clear();
     info = new PackageCacheInfo("valid-package");
   });
 
@@ -163,7 +166,7 @@ describe("saves and restores content info of a pip package cache info", () => {
   });
 
   test("restores content info", () => {
-    files.clear();
+    mock.files.clear();
     const prom = info.restoreContentInfo();
     return expect(prom).resolves.toStrictEqual(content);
   });
