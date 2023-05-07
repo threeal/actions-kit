@@ -143,22 +143,21 @@ describe("accumulates content info of a pip package cache info", () => {
 });
 
 describe("saves and restores content info of a pip package cache info", () => {
+  let info: PackageCacheInfo;
   beforeAll(() => {
     caches.clear();
     files.clear();
-  });
-
-  let info: PackageCacheInfo;
-  test("creates cache info of a pip package", () => {
     info = new PackageCacheInfo("valid-package");
   });
 
-  let content: PackageContentCacheInfo;
-  test("accumulates content info of a cache info", async () => {
-    content = await info.accumulateContentInfo();
+  test("restores non existent content info", () => {
+    const prom = info.restoreContentInfo();
+    return expect(prom).resolves.toBeUndefined();
   });
 
-  test("saves content info", () => {
+  let content: PackageContentCacheInfo;
+  test("accumulates and saves content info", async () => {
+    content = await info.accumulateContentInfo();
     const prom = info.saveContentInfo(content);
     return expect(prom).resolves.toBeUndefined();
   });
