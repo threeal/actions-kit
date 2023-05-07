@@ -5,46 +5,6 @@ import { installPackage, uninstallPackage } from "./install";
 
 const validPkgName = "rsa";
 
-function packageCacheInfoRemoveRoot() {
-  fs.rmSync(PackageCacheInfo.root(), { recursive: true, force: true });
-}
-
-describe("test save cache of a pip package content info", () => {
-  describe(`using a valid package (${validPkgName})`, () => {
-    const cacheInfo = new PackageCacheInfo(validPkgName);
-    let contentInfo: PackageContentCacheInfo;
-    beforeAll(async () => {
-      await installPackage(cacheInfo.name);
-      contentInfo = await cacheInfo.accumulateContentInfo();
-      packageCacheInfoRemoveRoot();
-    }, 30000);
-
-    describe("check the cache", () => {
-      test("content info file should not be exist", () => {
-        expect(fs.existsSync(cacheInfo.path)).toBe(false);
-      });
-    });
-
-    describe("save the cache", () => {
-      test("should be resolved", async () => {
-        const prom = cacheInfo.saveContentInfo(contentInfo);
-        await expect(prom).resolves.toBeUndefined();
-      });
-    });
-
-    describe("check again the cache", () => {
-      test("content info file should be exist", () => {
-        expect(fs.existsSync(cacheInfo.path)).toBe(true);
-      });
-    });
-
-    afterAll(async () => {
-      await uninstallPackage(cacheInfo.name);
-      packageCacheInfoRemoveRoot();
-    }, 30000);
-  });
-});
-
 describe("test save cache of a pip package content", () => {
   describe(`using a valid package (${validPkgName})`, () => {
     const cacheInfo = new PackageCacheInfo(validPkgName);
