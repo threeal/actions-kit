@@ -1,5 +1,6 @@
 import { OutputResult } from "@actions-kit/exec";
 import { describe, expect, jest, test } from "@jest/globals";
+import * as path from "path";
 import { PackageInfo, showPackageInfo } from "./info";
 
 jest.mock("fs", () => ({
@@ -9,9 +10,9 @@ jest.mock("fs", () => ({
 
 jest.mock("@actions/io", () => ({
   ...jest.requireActual<object>("@actions/io"),
-  which: async (tool: string, check: boolean): Promise<string> => {
+  async which(tool: string, check: boolean): Promise<string> {
     expect(check).toBe(true);
-    return `/path/to/bin/${tool}`;
+    return path.join("/", "path", "to", "bin", tool);
   },
 }));
 
@@ -47,24 +48,24 @@ describe("shows info of a pip package", () => {
     const info = (await prom) as PackageInfo;
     expect(info.name).toBe("valid-package");
     expect(info.version).toBe("0.1.0");
-    expect(info.location).toBe("/path/to/package");
+    expect(info.location).toBe(path.join("/", "path", "to", "package"));
     expect(info.requires).toStrictEqual([
       "some-dependency",
       "some-other-dependency",
     ]);
     expect(info.files).toStrictEqual([
-      "../../bin/valid-package",
-      "../../bin/some-executable",
-      "valid-package/__init__.py",
-      "valid-package/some_source.py",
-      "valid-package/some_other_source.py",
+      path.join("..", "..", "bin", "valid-package"),
+      path.join("..", "..", "bin", "some-executable"),
+      path.join("valid-package", "__init__.py"),
+      path.join("valid-package", "some_source.py"),
+      path.join("valid-package", "some_other_source.py"),
     ]);
     expect(info.directories()).toStrictEqual([
-      "/path/to/package/valid-package",
+      path.join("/", "path", "to", "package", "valid-package"),
     ]);
     return expect(info.executables()).resolves.toStrictEqual([
-      "/path/to/bin/valid-package",
-      "/path/to/bin/some-executable",
+      path.join("/", "path", "to", "bin", "valid-package"),
+      path.join("/", "path", "to", "bin", "some-executable"),
     ]);
   });
 
