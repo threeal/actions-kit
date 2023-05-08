@@ -15,13 +15,6 @@ updates:
       prefix: chore
 
   - package-ecosystem: npm
-    directory: /internal/mock-actions-cache
-    schedule:
-      interval: daily
-    commit-message:
-      prefix: chore
-
-  - package-ecosystem: npm
     directory: /packages/dev
     schedule:
       interval: daily
