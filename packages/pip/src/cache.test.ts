@@ -114,9 +114,8 @@ test("creates cache info of a pip package", () => {
   const info = new PackageCacheInfo("some-package");
   expect(info.name).toBe("some-package");
   expect(info.key).toMatch(new RegExp(`${os.type()}.*some-package`));
-  expect(info.path).toMatch(
-    new RegExp(`${PackageCacheInfo.root()}.*some-package`)
-  );
+  expect(info.path).toContain(PackageCacheInfo.root());
+  expect(info.path).toContain("some-package");
 });
 
 describe("accumulates content info of a pip package cache info", () => {
