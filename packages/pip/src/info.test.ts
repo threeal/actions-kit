@@ -5,7 +5,9 @@ import { PackageInfo, showPackageInfo } from "./info";
 
 jest.mock("fs", () => ({
   ...jest.requireActual<object>("fs"),
-  existsSync: () => true,
+  existsSync() {
+    return true;
+  },
 }));
 
 jest.mock("@actions/io", () => ({
@@ -19,7 +21,7 @@ jest.mock("@actions/io", () => ({
 jest.mock("./pip", () => ({
   ...jest.requireActual<object>("./pip"),
   pip: {
-    outputSilently: async (...args: string[]): Promise<OutputResult> => {
+    async outputSilently(...args: string[]): Promise<OutputResult> {
       expect(args).toHaveLength(3);
       expect(args[0]).toBe("show");
       expect(args[1]).toBe("-f");

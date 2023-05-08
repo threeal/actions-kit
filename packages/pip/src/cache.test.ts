@@ -67,9 +67,7 @@ jest.mock("jsonfile", () => ({
 
 jest.mock("./info", () => ({
   ...jest.requireActual<object>("./info"),
-  showPackageInfo: async (
-    packageName: string
-  ): Promise<PackageInfo | undefined> => {
+  async showPackageInfo(packageName: string): Promise<PackageInfo | undefined> {
     const info = new PackageInfo();
     info.location = path.join("/", "path", "to", "package");
     switch (packageName) {

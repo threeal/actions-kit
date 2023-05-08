@@ -8,7 +8,7 @@ let installed: string[] = [];
 jest.mock("./pip", () => ({
   ...jest.requireActual<object>("./pip"),
   pip: {
-    run: async (...args: string[]): Promise<RunResult> => {
+    async run(...args: string[]): Promise<RunResult> {
       args = args.filter((arg) => !arg.startsWith("-"));
       expect(args).toHaveLength(2);
       const [command, pkg] = args;
@@ -30,9 +30,7 @@ jest.mock("./pip", () => ({
 
 jest.mock("./info", () => ({
   ...jest.requireActual<object>("./info"),
-  showPackageInfo: async (
-    packageName: string
-  ): Promise<PackageInfo | undefined> => {
+  async showPackageInfo(packageName: string): Promise<PackageInfo | undefined> {
     return installed.includes(packageName) ? new PackageInfo() : undefined;
   },
 }));
