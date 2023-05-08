@@ -58,7 +58,8 @@ export async function showPackageInfo(
         const line = lines[j].trim();
         // Check if the first line does not contain this error message
         if (line.length > 0 && !line.includes("Cannot locate")) {
-          packageInfo.files.push(line);
+          const file = path.normalize(line);
+          packageInfo.files.push(file);
         }
       }
       break;
@@ -71,7 +72,7 @@ export async function showPackageInfo(
           packageInfo.version = strs[1].trim();
           break;
         case "Location":
-          packageInfo.location = strs[1].trim();
+          packageInfo.location = path.normalize(strs[1].trim());
           break;
         case "Requires":
           packageInfo.requires = strs[1]
