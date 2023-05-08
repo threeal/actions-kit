@@ -38,7 +38,7 @@
     "jsonfile": "^6.1.0"
   },
   "devDependencies": {
-    "@actions-kit/dev": "^0.1.0",
+    "@actions-kit/dev": "^0.2.0",
     "@types/jsonfile": "^6.1.1"
   }
 }
