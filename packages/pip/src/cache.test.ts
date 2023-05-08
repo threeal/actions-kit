@@ -122,7 +122,7 @@ test("creates cache info of a pip package", () => {
   expect(info.path).toContain("some-package");
 });
 
-describe("accumulates content info of a pip package cache info", () => {
+describe("accumulates content info of a pip package cache", () => {
   test("with a valid package", async () => {
     const info = new PackageCacheInfo("valid-package");
     const prom = info.accumulateContentInfo();
@@ -148,7 +148,7 @@ describe("accumulates content info of a pip package cache info", () => {
   });
 });
 
-describe("saves and restores content info of a pip package cache info", () => {
+describe("saves and restores content info of a pip package cache", () => {
   let info: PackageCacheInfo;
   beforeAll(() => {
     mock.caches.clear();
@@ -172,5 +172,31 @@ describe("saves and restores content info of a pip package cache info", () => {
     mock.files.clear();
     const prom = info.restoreContentInfo();
     return expect(prom).resolves.toStrictEqual(content);
+  });
+});
+
+describe("saves and restores content of a pip package cache", () => {
+  let content: PackageContentCacheInfo;
+  beforeAll(async () => {
+    mock.caches.clear();
+    mock.files.clear();
+    const info = new PackageCacheInfo("valid-package");
+    content = await info.accumulateContentInfo();
+  });
+
+  test("restores non existent content", () => {
+    const prom = content.restore();
+    return expect(prom).resolves.toBeUndefined();
+  });
+
+  test("saves content", async () => {
+    const prom = content.save();
+    return expect(prom).resolves.toBeUndefined();
+  });
+
+  test("restores content", () => {
+    mock.files.clear();
+    const prom = content.restore();
+    return expect(prom).resolves.toStrictEqual(content.key);
   });
 });
