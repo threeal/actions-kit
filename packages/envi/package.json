@@ -26,7 +26,7 @@
     "directory": "packages/envi"
   },
   "scripts": {
-    "build": "rm -rf lib && tsc",
+    "build": "rimraf lib && tsc",
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
     "test": "jest"
@@ -35,6 +35,6 @@
     "@actions/core": "^1.10.0"
   },
   "devDependencies": {
-    "@actions-kit/dev": "^0.1.0"
+    "@actions-kit/dev": "^0.2.0"
   }
 }
