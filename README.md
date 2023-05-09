@@ -7,6 +7,9 @@ An additional [toolKit](https://github.com/actions/toolkit) for developing [GitH
 
 ## Packages
 
+- [@actions-kit/cache](./packages/cache)
+  [WIP],
+  a file caching library.
 - [@actions-kit/dev](./packages/dev)
   [[v0.1.1]](https://github.com/threeal/actions-kit/releases/tag/dev%40v0.1.1),
   a development configuration library.
