@@ -18,5 +18,11 @@
     "type": "git",
     "url": "git+https://github.com/threeal/actions-kit.git",
     "directory": "packages/cache"
+  },
+  "scripts": {
+    "format": "prettier --write \"*.json\""
+  },
+  "devDependencies": {
+    "@actions-kit/dev": "^0.2.0"
   }
 }
