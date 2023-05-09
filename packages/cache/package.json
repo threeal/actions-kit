@@ -26,8 +26,9 @@
   },
   "scripts": {
     "build": "rimraf lib && tsc",
-    "format": "prettier --write \"*.{js,json}\" \"src/**/*.ts\"",
-    "lint": "eslint src --ext .ts"
+    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
+    "lint": "eslint src --ext .ts",
+    "test": "jest"
   },
   "dependencies": {
     "@actions/cache": "^3.2.1"
