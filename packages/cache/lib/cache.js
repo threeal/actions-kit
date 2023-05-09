@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.save = void 0;
+exports.restore = exports.save = void 0;
 const cache = __importStar(require("@actions/cache"));
 /**
  * Saves files to the cache with a specified key.
@@ -36,4 +36,16 @@ async function save(key, paths) {
     await cache.saveCache(paths, key);
 }
 exports.save = save;
+/**
+ * Restores files from the cache with a specified key.
+ *
+ * @param key a key for restoring the cache
+ * @param paths a list of file paths to be restored (may contains wildcards)
+ * @returns `true` if the files were successfully restored, `false` otherwise
+ */
+async function restore(key, paths) {
+    const restoredKey = await cache.restoreCache(paths, key);
+    return restoredKey !== undefined;
+}
+exports.restore = restore;
 //# sourceMappingURL=cache.js.map
