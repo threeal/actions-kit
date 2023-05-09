@@ -14,13 +14,19 @@
   },
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/threeal/actions-kit.git",
     "directory": "packages/cache"
   },
   "scripts": {
-    "format": "prettier --write \"*.json\""
+    "build": "rimraf lib && tsc",
+    "format": "prettier --write \"*.json\" \"src/**/*.ts\""
   },
   "devDependencies": {
     "@actions-kit/dev": "^0.2.0"
