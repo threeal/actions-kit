@@ -29,6 +29,9 @@
     "format": "prettier --write \"*.{js,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .ts"
   },
+  "dependencies": {
+    "@actions/cache": "^3.2.1"
+  },
   "devDependencies": {
     "@actions-kit/dev": "^0.2.0"
   }
