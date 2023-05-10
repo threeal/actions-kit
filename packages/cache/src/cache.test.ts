@@ -1,4 +1,3 @@
-import { restore, save } from "./cache";
 import {
   afterAll,
   beforeAll,
@@ -7,35 +6,50 @@ import {
   jest,
   test,
 } from "@jest/globals";
+import * as path from "path";
+import { restore, save } from "./cache";
 
-interface Mock {
-  caches: Map<string, string[]>;
-  files: string[];
+interface Dictionary<T> {
+  [key: string]: T;
 }
 
-const mock: Mock = { caches: new Map(), files: [] };
+interface Entry extends Dictionary<Entry> {}
+
+function copyEntry(src: Entry, dst: Entry, fullPath: string) {
+  const names = fullPath.split(path.sep);
+  for (let i = 0; i < names.length; ++i) {
+    const name = names[i];
+    if (src[name] === undefined) return;
+    if (dst[name] === undefined) {
+      dst[name] = i === names.length - 1 ? src[name] : {};
+    }
+    src = src[name];
+    dst = dst[name];
+  }
+}
+
+class Mock {
+  static caches: Map<string, Entry> = new Map();
+  static root: Entry = {};
+}
 
 jest.mock("@actions/cache", () => ({
   async saveCache(paths: string[], key: string): Promise<number> {
-    const files: string[] = [];
-    for (const path of paths) {
-      if (mock.files.includes(path)) {
-        files.push(path);
-      }
+    const root: Entry = {};
+    for (const fullPath of paths) {
+      copyEntry(Mock.root, root, fullPath);
     }
-    mock.caches.set(key, files);
+    Mock.caches.set(key, root);
     return 0;
   },
   async restoreCache(
     paths: string[],
     primaryKey: string
   ): Promise<string | undefined> {
-    const files = mock.caches.get(primaryKey);
-    if (files === undefined) return undefined;
-    for (const path of paths) {
-      if (files.includes(path) && !mock.files.includes(path)) {
-        mock.files.push(path);
-      }
+    const root = Mock.caches.get(primaryKey);
+    if (root === undefined) return undefined;
+    for (const fullPath of paths) {
+      copyEntry(root, Mock.root, fullPath);
     }
     return primaryKey;
   },
@@ -43,43 +57,62 @@ jest.mock("@actions/cache", () => ({
 
 describe("saves and restores cache", () => {
   beforeAll(() => {
-    mock.caches.clear();
-    mock.files = [
-      "/path/to/some-file.ext",
-      "/path/to/some-other-file.ext",
-      "/path/to/some-directory/of-some-file.ext",
-      "/path/to/some-directory/of-some-other-file.ext",
-    ];
+    Mock.caches.clear();
+    Mock.root = {
+      path: {
+        to: {
+          "some-file.ext": {},
+          "some-other-file.ext": {},
+          "some-directory": {
+            "of-some-file.ext": {},
+            "of-some-other-file.ext": {},
+          },
+        },
+      },
+    };
   });
 
-  const paths = mock.files;
   test("restores nonexistent cache", () => {
-    const prom = restore("some-key", paths);
+    const prom = restore("some-key", [path.join("path", "to")]);
     return expect(prom).resolves.toBe(false);
   });
 
   test("saves cache", () => {
-    const prom = save("some-key", paths);
+    const prom = save("some-key", [
+      path.join("path", "to", "some-file.ext"),
+      path.join("path", "to", "some-other-file.ext"),
+      path.join("path", "to", "some-directory", "of-some-file.ext"),
+    ]);
     return expect(prom).resolves.toBeUndefined();
   });
 
   test("clear files", () => {
-    mock.files = [];
+    Mock.root = {};
   });
 
   test("restores cache", () => {
-    const prom = restore("some-key", paths);
+    const prom = restore("some-key", [
+      path.join("path", "to", "some-file.ext"),
+      path.join("path", "to", "some-directory"),
+    ]);
     return expect(prom).resolves.toBe(true);
   });
 
-  test("files should be exist", () => {
-    for (const path of paths) {
-      expect(mock.files).toContain(path);
-    }
+  test("check files", () => {
+    expect(Mock.root).toStrictEqual({
+      path: {
+        to: {
+          "some-file.ext": {},
+          "some-directory": {
+            "of-some-file.ext": {},
+          },
+        },
+      },
+    });
   });
 
   afterAll(() => {
-    mock.caches.clear();
-    mock.files = [];
+    Mock.caches.clear();
+    Mock.root = {};
   });
 });
