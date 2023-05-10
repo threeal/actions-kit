@@ -1,4 +1,4 @@
-import * as cache from "@actions/cache";
+import * as cache from "@actions-kit/cache";
 import * as fs from "fs";
 import hash from "hash-it";
 import * as jsonfile from "jsonfile";
@@ -25,12 +25,12 @@ export class PackageCacheInfo {
   async saveContentInfo(contentInfo: PackageContentCacheInfo) {
     PackageCacheInfo.createRoot();
     jsonfile.writeFileSync(this.path, contentInfo);
-    await cache.saveCache([this.path], this.key);
+    await cache.save(this.key, [this.path]);
   }
 
   async restoreContentInfo(): Promise<PackageContentCacheInfo | undefined> {
-    const restoreKey = await cache.restoreCache([this.path], this.key);
-    if (restoreKey === undefined) return undefined;
+    const success = await cache.restore(this.key, [this.path]);
+    if (!success) return undefined;
     const contentInfo = new PackageContentCacheInfo();
     Object.assign(contentInfo, jsonfile.readFileSync(this.path));
     return contentInfo;
@@ -82,10 +82,10 @@ export class PackageContentCacheInfo {
   }
 
   async save() {
-    await cache.saveCache([...this.paths], this.key);
+    await cache.save(this.key, [...this.paths]);
   }
 
-  async restore(): Promise<string | undefined> {
-    return await cache.restoreCache([...this.paths], this.key);
+  async restore(): Promise<boolean> {
+    return await cache.restore(this.key, [...this.paths]);
   }
 }

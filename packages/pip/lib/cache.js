@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PackageContentCacheInfo = exports.PackageCacheInfo = void 0;
-const cache = __importStar(require("@actions/cache"));
+const cache = __importStar(require("@actions-kit/cache"));
 const fs = __importStar(require("fs"));
 const hash_it_1 = __importDefault(require("hash-it"));
 const jsonfile = __importStar(require("jsonfile"));
@@ -50,11 +50,11 @@ class PackageCacheInfo {
     async saveContentInfo(contentInfo) {
         PackageCacheInfo.createRoot();
         jsonfile.writeFileSync(this.path, contentInfo);
-        await cache.saveCache([this.path], this.key);
+        await cache.save(this.key, [this.path]);
     }
     async restoreContentInfo() {
-        const restoreKey = await cache.restoreCache([this.path], this.key);
-        if (restoreKey === undefined)
+        const success = await cache.restore(this.key, [this.path]);
+        if (!success)
             return undefined;
         const contentInfo = new PackageContentCacheInfo();
         Object.assign(contentInfo, jsonfile.readFileSync(this.path));
@@ -99,10 +99,10 @@ class PackageContentCacheInfo {
         return paths;
     }
     async save() {
-        await cache.saveCache([...this.paths], this.key);
+        await cache.save(this.key, [...this.paths]);
     }
     async restore() {
-        return await cache.restoreCache([...this.paths], this.key);
+        return await cache.restore(this.key, [...this.paths]);
     }
 }
 exports.PackageContentCacheInfo = PackageContentCacheInfo;

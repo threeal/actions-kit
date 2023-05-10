@@ -184,7 +184,7 @@ describe("saves and restores content of a pip package cache", () => {
 
   test("restores non existent content", () => {
     const prom = content.restore();
-    return expect(prom).resolves.toBeUndefined();
+    return expect(prom).resolves.toBe(false);
   });
 
   test("saves content", async () => {
@@ -195,6 +195,6 @@ describe("saves and restores content of a pip package cache", () => {
   test("restores content", () => {
     mock.files.clear();
     const prom = content.restore();
-    return expect(prom).resolves.toStrictEqual(content.key);
+    return expect(prom).resolves.toBe(true);
   });
 });
