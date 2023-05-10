@@ -1,0 +1,40 @@
+{
+  "name": "@actions-kit/cache",
+  "version": "0.1.0",
+  "description": "File caching library of Actions Kit",
+  "keywords": [
+    "github",
+    "actions",
+    "cache"
+  ],
+  "homepage": "https://github.com/threeal/actions-kit/tree/main/packages/cache",
+  "bugs": {
+    "url": "https://github.com/threeal/actions-kit/issues",
+    "email": "alfi.maulana.f@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com> (https://github.com/threeal)",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threeal/actions-kit.git",
+    "directory": "packages/cache"
+  },
+  "scripts": {
+    "build": "rimraf lib && tsc",
+    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
+    "lint": "eslint src --ext .ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@actions/cache": "^3.2.1"
+  },
+  "devDependencies": {
+    "@actions-kit/dev": "^0.2.0",
+    "minimatch": "^9.0.0"
+  }
+}

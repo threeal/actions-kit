@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pkg: [dev, envi, exec, log]
+        pkg: [cache, dev, envi, exec, log]
     steps:
       - name: Init project
         run: npm init --yes
