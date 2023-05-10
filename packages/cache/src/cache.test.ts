@@ -15,17 +15,16 @@ interface Dictionary<T> {
 
 interface Entry extends Dictionary<Entry> {}
 
-function copyEntry(src: Entry, dst: Entry, fullPath: string) {
-  const names = fullPath.split(path.sep);
-  for (let i = 0; i < names.length; ++i) {
-    const name = names[i];
-    if (src[name] === undefined) return;
-    if (dst[name] === undefined) {
-      dst[name] = i === names.length - 1 ? src[name] : {};
+function copyEntry(src: Entry, dst: Entry, names: string[]): Entry {
+  if (names.length > 0) {
+    const name = names[0];
+    if (src[name] !== undefined) {
+      if (dst[name] === undefined) dst[name] = {};
+      dst[name] = copyEntry(src[name], dst[name], names.slice(1));
     }
-    src = src[name];
-    dst = dst[name];
+    return dst;
   }
+  return src;
 }
 
 class Mock {
@@ -35,9 +34,9 @@ class Mock {
 
 jest.mock("@actions/cache", () => ({
   async saveCache(paths: string[], key: string): Promise<number> {
-    const root: Entry = {};
+    let root: Entry = {};
     for (const fullPath of paths) {
-      copyEntry(Mock.root, root, fullPath);
+      root = copyEntry(Mock.root, root, fullPath.split(path.sep));
     }
     Mock.caches.set(key, root);
     return 0;
@@ -49,7 +48,7 @@ jest.mock("@actions/cache", () => ({
     const root = Mock.caches.get(primaryKey);
     if (root === undefined) return undefined;
     for (const fullPath of paths) {
-      copyEntry(root, Mock.root, fullPath);
+      Mock.root = copyEntry(root, Mock.root, fullPath.split(path.sep));
     }
     return primaryKey;
   },
@@ -86,7 +85,22 @@ describe("saves and restores cache", () => {
     return expect(prom).resolves.toBeUndefined();
   });
 
-  test("clear files", () => {
+  test("checks cache", () => {
+    const cache = Mock.caches.get("some-key");
+    expect(cache).toStrictEqual({
+      path: {
+        to: {
+          "some-file.ext": {},
+          "some-other-file.ext": {},
+          "some-directory": {
+            "of-some-file.ext": {},
+          },
+        },
+      },
+    });
+  });
+
+  test("clears files", () => {
     Mock.root = {};
   });
 
@@ -98,7 +112,7 @@ describe("saves and restores cache", () => {
     return expect(prom).resolves.toBe(true);
   });
 
-  test("check files", () => {
+  test("checks files", () => {
     expect(Mock.root).toStrictEqual({
       path: {
         to: {
