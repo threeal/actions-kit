@@ -6,6 +6,7 @@ import {
   jest,
   test,
 } from "@jest/globals";
+import { Minimatch } from "minimatch";
 import * as path from "path";
 import { restore, save } from "./cache";
 
@@ -15,12 +16,13 @@ interface Dictionary<T> {
 
 interface Entry extends Dictionary<Entry> {}
 
-function copyEntry(src: Entry, dst: Entry, names: string[]): Entry {
-  if (names.length > 0) {
-    const name = names[0];
-    if (src[name] !== undefined) {
+function copyEntry(src: Entry, dst: Entry, patterns: string[]): Entry {
+  if (patterns.length > 0) {
+    const mm = new Minimatch(patterns[0]);
+    for (const name in src) {
+      if (!mm.match(name)) continue;
       if (dst[name] === undefined) dst[name] = {};
-      dst[name] = copyEntry(src[name], dst[name], names.slice(1));
+      dst[name] = copyEntry(src[name], dst[name], patterns.slice(1));
     }
     return dst;
   }
@@ -78,8 +80,7 @@ describe("saves and restores cache", () => {
 
   test("saves cache", () => {
     const prom = save("some-key", [
-      path.join("path", "to", "some-file.ext"),
-      path.join("path", "to", "some-other-file.ext"),
+      path.join("path", "to", "*.ext"),
       path.join("path", "to", "some-directory", "of-some-file.ext"),
     ]);
     return expect(prom).resolves.toBeUndefined();

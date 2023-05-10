@@ -34,6 +34,7 @@
     "@actions/cache": "^3.2.1"
   },
   "devDependencies": {
-    "@actions-kit/dev": "^0.2.0"
+    "@actions-kit/dev": "^0.2.0",
+    "minimatch": "^9.0.0"
   }
 }
