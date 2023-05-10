@@ -29,7 +29,7 @@ const cache = __importStar(require("@actions/cache"));
  * Saves files to the cache with a specified key.
  *
  * @param key a key for restoring the cache
- * @param paths a list of file paths to be saved (may contains wildcards)
+ * @param paths a list of file paths to be saved (may contains glob expressions)
  * @throws an error if save fails
  */
 async function save(key, paths) {
@@ -40,7 +40,7 @@ exports.save = save;
  * Restores files from the cache with a specified key.
  *
  * @param key a key for restoring the cache
- * @param paths a list of file paths to be restored (may contains wildcards)
+ * @param paths a list of file paths to be restored (may contains glob expressions)
  * @returns `true` if the files were successfully restored, `false` otherwise
  */
 async function restore(key, paths) {
