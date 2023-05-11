@@ -44,11 +44,11 @@ describe("saves and restores cache", () => {
     Mock.root = {
       path: {
         to: {
-          "some-file.ext": {},
-          "some-other-file.ext": {},
+          "some-file.ext": "some content",
+          "some-other-file.ext": "some other content",
           "some-directory": {
-            "of-some-file.ext": {},
-            "of-some-other-file.ext": {},
+            "of-some-file.ext": "some content",
+            "of-some-other-file.ext": "some other content",
           },
         },
       },
@@ -73,10 +73,10 @@ describe("saves and restores cache", () => {
     expect(cache).toStrictEqual({
       path: {
         to: {
-          "some-file.ext": {},
-          "some-other-file.ext": {},
+          "some-file.ext": "some content",
+          "some-other-file.ext": "some other content",
           "some-directory": {
-            "of-some-file.ext": {},
+            "of-some-file.ext": "some content",
           },
         },
       },
@@ -99,9 +99,9 @@ describe("saves and restores cache", () => {
     expect(Mock.root).toStrictEqual({
       path: {
         to: {
-          "some-file.ext": {},
+          "some-file.ext": "some content",
           "some-directory": {
-            "of-some-file.ext": {},
+            "of-some-file.ext": "some content",
           },
         },
       },
