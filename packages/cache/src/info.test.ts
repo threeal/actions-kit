@@ -8,12 +8,59 @@ import {
 } from "@jest/globals";
 import * as path from "path";
 import { Entry, copyEntry } from "./helper.test";
-import { Info } from "./info";
+import { Info, restoreInfo, saveInfo } from "./info";
 
 class Mock {
   static caches: Map<string, Entry> = new Map();
   static root: Entry = {};
 }
+
+jest.mock("fs", () => ({
+  ...jest.requireActual<object>("fs"),
+  existsSync(): boolean {
+    return false;
+  },
+  mkdirSync() {},
+}));
+
+jest.mock("jsonfile", () => ({
+  ...jest.requireActual<object>("jsonfile"),
+  writeFileSync(file: string, obj: any) {
+    const names = file.split(path.sep).reverse();
+    let entry: Entry = {};
+    let once = true;
+    for (const name of names) {
+      if (once) {
+        once = false;
+        entry[name] = JSON.stringify(obj);
+      } else {
+        entry = { [name]: entry };
+      }
+    }
+    Mock.root = copyEntry(entry, Mock.root, names.reverse());
+  },
+  readFileSync(file: string): any {
+    const names = file.split(path.sep);
+    let entry = Mock.root;
+    for (const name of names) {
+      const subEntry = entry[name];
+      if (subEntry === undefined) break;
+      if (typeof subEntry == "string") {
+        return JSON.parse(subEntry);
+      } else {
+        entry = subEntry;
+      }
+    }
+    return undefined;
+  },
+}));
+
+jest.mock("os", () => ({
+  ...jest.requireActual<object>("os"),
+  homedir(): string {
+    return "home";
+  },
+}));
 
 jest.mock("./cache", () => ({
   ...jest.requireActual<object>("./cache"),
@@ -100,6 +147,42 @@ describe("saves and restores cache using a cache info object", () => {
         },
       },
     });
+  });
+
+  afterAll(() => {
+    Mock.caches.clear();
+    Mock.root = {};
+  });
+});
+
+describe("saves and restores cache of a cache info object", () => {
+  let info: Info;
+  beforeAll(() => {
+    Mock.caches.clear();
+    Mock.root = {};
+    info = new Info("some-key", [
+      path.normalize("path/to/*.ext"),
+      path.normalize("path/to/some-directory"),
+    ]);
+  });
+
+  test("restores nonexistent cache", () => {
+    const prom = restoreInfo("some-info-key");
+    return expect(prom).resolves.toBeUndefined();
+  });
+
+  test("saves cache", () => {
+    const prom = saveInfo("some-info-key", info);
+    return expect(prom).resolves.toBeUndefined();
+  });
+
+  test("clears files", () => {
+    Mock.root = {};
+  });
+
+  test("restores cache", () => {
+    const prom = restoreInfo("some-info-key");
+    return expect(prom).resolves.toStrictEqual(info);
   });
 
   afterAll(() => {
