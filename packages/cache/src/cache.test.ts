@@ -16,6 +16,7 @@ class Mock {
 }
 
 jest.mock("@actions/cache", () => ({
+  ...jest.requireActual<object>("@actions/cache"),
   async saveCache(paths: string[], key: string): Promise<number> {
     let root: Entry = {};
     for (const fullPath of paths) {
