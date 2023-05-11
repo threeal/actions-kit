@@ -24,3 +24,18 @@ export declare class Info {
      */
     restore(): Promise<boolean>;
 }
+/**
+ * Saves a cache info object to the cache.
+ *
+ * @param key a key for restoring the cache info object
+ * @param info a cache info object
+ * @throws an error if save fails
+ */
+export declare function saveInfo(key: string, info: Info): Promise<void>;
+/**
+ * Restores a cache info object from the cache.
+ *
+ * @param key a key for restoring the cache info object
+ * @returns a cache info object or `undefined`
+ */
+export declare function restoreInfo(key: string): Promise<Info | undefined>;
