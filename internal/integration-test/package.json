@@ -2,6 +2,7 @@
   "name": "integration-test",
   "private": true,
   "scripts": {
+    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
     "test": "jest"
   },
