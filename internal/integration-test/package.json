@@ -2,6 +2,7 @@
   "name": "integration-test",
   "private": true,
   "scripts": {
+    "lint": "eslint src --ext .js,.ts",
     "test": "jest"
   },
   "devDependencies": {
