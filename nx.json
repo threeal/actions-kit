@@ -60,6 +60,15 @@
         "packageConfig",
         "sourceFiles"
       ]
+    },
+    "integration-test": {
+      "dependsOn": ["test", "^test"],
+      "implicitDependencies": ["@actions-kit/dev"],
+      "inputs": [
+        "jestConfig",
+        "packageConfig",
+        "sourceFiles"
+      ]
     }
   },
   "tasksRunnerOptions": {

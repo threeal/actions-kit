@@ -6,7 +6,8 @@
     "build": "lerna run build",
     "format": "lerna run format",
     "lint": "lerna run lint",
-    "test": "lerna run test --ignore=integration-test"
+    "test": "lerna run test",
+    "integration-test": "lerna run integration-test"
   },
   "devDependencies": {
     "lerna": "^6.6.2"
