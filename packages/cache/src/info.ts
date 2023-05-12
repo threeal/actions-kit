@@ -6,7 +6,7 @@ import { restore, save } from "./cache";
 
 /** A cache info object */
 export class Info {
-  /** a key for restoring the cache */
+  /** a key of the cache */
   key: string;
 
   /** a list of file paths to be cached (may contains glob expressions) */
@@ -15,7 +15,7 @@ export class Info {
   /**
    * Constructs a new cache info object
    *
-   * @param key a key for restoring the cache
+   * @param key a key of the cache
    * @param paths a list of file paths to be cached (may contains glob expressions)
    */
   constructor(key: string, paths: string[]) {
@@ -47,7 +47,7 @@ const root = path.join(os.homedir(), ".cache/info");
 /**
  * Saves a cache info object to the cache.
  *
- * @param key a key for restoring the cache info object
+ * @param key a key of the cache
  * @param info a cache info object
  * @throws an error if save fails
  */
@@ -61,7 +61,7 @@ export async function saveInfo(key: string, info: Info) {
 /**
  * Restores a cache info object from the cache.
  *
- * @param key a key for restoring the cache info object
+ * @param key a key of the cache
  * @returns a cache info object or `undefined`
  */
 export async function restoreInfo(key: string): Promise<Info | undefined> {
