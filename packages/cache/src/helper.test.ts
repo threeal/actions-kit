@@ -1,4 +1,5 @@
 import { Minimatch } from "minimatch";
+import * as path from "path";
 
 interface Dictionary<T> {
   [key: string]: T;
@@ -6,9 +7,9 @@ interface Dictionary<T> {
 
 export interface Entry extends Dictionary<Entry | string> {}
 
-export function copyEntry(src: Entry, dst: Entry, patterns: string[]): Entry {
-  if (patterns.length > 0) {
-    const mm = new Minimatch(patterns[0]);
+function copyEntryRecursively(src: Entry, dst: Entry, names: string[]): Entry {
+  if (names.length > 0) {
+    const mm = new Minimatch(names[0]);
     for (const name in src) {
       if (!mm.match(name)) continue;
       const subSrc = src[name];
@@ -17,10 +18,14 @@ export function copyEntry(src: Entry, dst: Entry, patterns: string[]): Entry {
       } else {
         let subDst = dst[name];
         if (subDst === undefined || typeof subDst === "string") subDst = {};
-        dst[name] = copyEntry(subSrc, subDst, patterns.slice(1));
+        dst[name] = copyEntryRecursively(subSrc, subDst, names.slice(1));
       }
     }
     return dst;
   }
   return src;
+}
+
+export function copyEntry(src: Entry, dst: Entry, entryPath: string): Entry {
+  return copyEntryRecursively(src, dst, entryPath.split(path.sep));
 }

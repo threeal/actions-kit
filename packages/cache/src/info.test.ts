@@ -37,7 +37,7 @@ jest.mock("jsonfile", () => ({
         entry = { [name]: entry };
       }
     }
-    Mock.root = copyEntry(entry, Mock.root, names.reverse());
+    Mock.root = copyEntry(entry, Mock.root, file);
   },
   readFileSync(file: string): any {
     const names = file.split(path.sep);
@@ -67,7 +67,7 @@ jest.mock("./cache", () => ({
   async save(key: string, paths: string[]) {
     let root: Entry = {};
     for (const fullPath of paths) {
-      root = copyEntry(Mock.root, root, fullPath.split(path.sep));
+      root = copyEntry(Mock.root, root, fullPath);
     }
     Mock.caches.set(key, root);
   },
@@ -75,7 +75,7 @@ jest.mock("./cache", () => ({
     const root = Mock.caches.get(key);
     if (root === undefined) return false;
     for (const fullPath of paths) {
-      Mock.root = copyEntry(root, Mock.root, fullPath.split(path.sep));
+      Mock.root = copyEntry(root, Mock.root, fullPath);
     }
     return true;
   },

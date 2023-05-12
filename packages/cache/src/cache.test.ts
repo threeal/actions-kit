@@ -20,7 +20,7 @@ jest.mock("@actions/cache", () => ({
   async saveCache(paths: string[], key: string): Promise<number> {
     let root: Entry = {};
     for (const fullPath of paths) {
-      root = copyEntry(Mock.root, root, fullPath.split(path.sep));
+      root = copyEntry(Mock.root, root, fullPath);
     }
     Mock.caches.set(key, root);
     return 0;
@@ -32,7 +32,7 @@ jest.mock("@actions/cache", () => ({
     const root = Mock.caches.get(primaryKey);
     if (root === undefined) return undefined;
     for (const fullPath of paths) {
-      Mock.root = copyEntry(root, Mock.root, fullPath.split(path.sep));
+      Mock.root = copyEntry(root, Mock.root, fullPath);
     }
     return primaryKey;
   },
