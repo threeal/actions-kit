@@ -31,7 +31,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@actions/cache": "^3.2.1"
+    "@actions/cache": "^3.2.1",
+    "jsonfile": "^6.1.0"
   },
   "devDependencies": {
     "@actions-kit/dev": "^0.2.0",
