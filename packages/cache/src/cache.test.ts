@@ -8,19 +8,19 @@ import {
 } from "@jest/globals";
 import * as path from "path";
 import { restore, save } from "./cache";
-import { copyEntry, Entry } from "./helper.test";
+import { copyRoot, Directory, File } from "./helper.test";
 
 class Mock {
-  static caches: Map<string, Entry> = new Map();
-  static root: Entry = {};
+  static caches = new Map<string, Directory>();
+  static root = new Directory();
 }
 
 jest.mock("@actions/cache", () => ({
   ...jest.requireActual<object>("@actions/cache"),
   async saveCache(paths: string[], key: string): Promise<number> {
-    let root: Entry = {};
+    const root = new Directory();
     for (const fullPath of paths) {
-      root = copyEntry(Mock.root, root, fullPath);
+      copyRoot(Mock.root, root, fullPath);
     }
     Mock.caches.set(key, root);
     return 0;
@@ -32,7 +32,7 @@ jest.mock("@actions/cache", () => ({
     const root = Mock.caches.get(primaryKey);
     if (root === undefined) return undefined;
     for (const fullPath of paths) {
-      Mock.root = copyEntry(root, Mock.root, fullPath);
+      copyRoot(root, Mock.root, fullPath);
     }
     return primaryKey;
   },
@@ -41,18 +41,18 @@ jest.mock("@actions/cache", () => ({
 describe("saves and restores cache", () => {
   beforeAll(() => {
     Mock.caches.clear();
-    Mock.root = {
-      path: {
-        to: {
-          "some-file.ext": "some content",
-          "some-other-file.ext": "some other content",
-          "some-directory": {
-            "of-some-file.ext": "some content",
-            "of-some-other-file.ext": "some other content",
-          },
-        },
-      },
-    };
+    Mock.root = new Directory({
+      path: new Directory({
+        to: new Directory({
+          "some-file.ext": new File("some content"),
+          "some-other-file.ext": new File("some other content"),
+          "some-directory": new Directory({
+            "of-some-file.ext": new File("some content"),
+            "of-some-other-file.ext": new File("some other content"),
+          }),
+        }),
+      }),
+    });
   });
 
   test("restores nonexistent cache", () => {
@@ -70,21 +70,23 @@ describe("saves and restores cache", () => {
 
   test("checks cache", () => {
     const cache = Mock.caches.get("some-key");
-    expect(cache).toStrictEqual({
-      path: {
-        to: {
-          "some-file.ext": "some content",
-          "some-other-file.ext": "some other content",
-          "some-directory": {
-            "of-some-file.ext": "some content",
-          },
-        },
-      },
-    });
+    expect(cache).toStrictEqual(
+      new Directory({
+        path: new Directory({
+          to: new Directory({
+            "some-file.ext": new File("some content"),
+            "some-other-file.ext": new File("some other content"),
+            "some-directory": new Directory({
+              "of-some-file.ext": new File("some content"),
+            }),
+          }),
+        }),
+      })
+    );
   });
 
   test("clears files", () => {
-    Mock.root = {};
+    Mock.root.children.clear();
   });
 
   test("restores cache", () => {
@@ -96,20 +98,22 @@ describe("saves and restores cache", () => {
   });
 
   test("checks files", () => {
-    expect(Mock.root).toStrictEqual({
-      path: {
-        to: {
-          "some-file.ext": "some content",
-          "some-directory": {
-            "of-some-file.ext": "some content",
-          },
-        },
-      },
-    });
+    expect(Mock.root).toStrictEqual(
+      new Directory({
+        path: new Directory({
+          to: new Directory({
+            "some-file.ext": new File("some content"),
+            "some-directory": new Directory({
+              "of-some-file.ext": new File("some content"),
+            }),
+          }),
+        }),
+      })
+    );
   });
 
   afterAll(() => {
     Mock.caches.clear();
-    Mock.root = {};
+    Mock.root.children.clear();
   });
 });
