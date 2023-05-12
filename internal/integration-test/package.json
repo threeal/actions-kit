@@ -1,0 +1,10 @@
+{
+  "name": "integration-test",
+  "private": true,
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@actions-kit/dev": "^0.2.0"
+  }
+}
