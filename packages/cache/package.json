@@ -25,7 +25,8 @@
     "directory": "packages/cache"
   },
   "scripts": {
-    "build": "rimraf lib && tsc",
+    "build": "tsc",
+    "clean": "rimraf lib",
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .ts",
     "test": "jest"

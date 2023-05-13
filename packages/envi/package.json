@@ -26,7 +26,8 @@
     "directory": "packages/envi"
   },
   "scripts": {
-    "build": "rimraf lib && tsc",
+    "build": "tsc",
+    "clean": "rimraf lib",
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
     "test": "jest"
