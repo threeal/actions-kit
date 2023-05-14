@@ -34,11 +34,15 @@ jobs:
 
       - name: Build and test
         if: github.event_name != 'pull_request'
-        run: npm test
+        run: |
+          npm run clean
+          npm test
 
       - name: Build and test since target branch
         if: github.event_name == 'pull_request'
-        run: npm test -- "--since=origin/${{ github.base_ref }}"
+        run: |
+          npm run clean -- "--since=origin/${{ github.base_ref }}"
+          npm test -- "--since=origin/${{ github.base_ref }}"
 
       - name: Check diff
         run: git diff --exit-code HEAD

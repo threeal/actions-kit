@@ -29,9 +29,9 @@
   },
   "scripts": {
     "build": "tsc",
+    "clean": "rimraf lib",
     "format": "prettier --write \"*.{js,json}\" \"src/**/*.ts\"",
-    "lint": "tsc && eslint src --ext .js,.ts",
-    "test": "tsc"
+    "lint": "tsc && eslint src --ext .js,.ts"
   },
   "dependencies": {
     "eslint": "^8.34.0",

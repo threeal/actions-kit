@@ -25,7 +25,6 @@
   },
   "targetDefaults": {
     "format": {
-      "dependsOn": ["^format"],
       "inputs": [
         "eslintConfig",
         "jestConfig",
@@ -35,8 +34,7 @@
       ]
     },
     "lint": {
-      "dependsOn": ["^build", "^lint", "format"],
-      "implicitDependencies": ["@actions-kit/dev"],
+      "dependsOn": ["^build", "format"],
       "inputs": [
         "eslintConfig",
         "packageConfig",
@@ -45,7 +43,6 @@
     },
     "build": {
       "dependsOn": ["^build", "lint"],
-      "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
         "packageConfig",
         "sourceNoTestFiles",
@@ -53,8 +50,7 @@
       ]
     },
     "test": {
-      "dependsOn": ["build"],
-      "implicitDependencies": ["@actions-kit/dev"],
+      "dependsOn": ["^build", "build"],
       "inputs": [
         "jestConfig",
         "packageConfig",
