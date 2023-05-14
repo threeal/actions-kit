@@ -35,7 +35,6 @@
     },
     "lint": {
       "dependsOn": ["^build", "format"],
-      "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
         "eslintConfig",
         "packageConfig",
@@ -44,7 +43,6 @@
     },
     "build": {
       "dependsOn": ["^build", "lint"],
-      "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
         "packageConfig",
         "sourceNoTestFiles",
@@ -53,7 +51,6 @@
     },
     "test": {
       "dependsOn": ["^build", "build"],
-      "implicitDependencies": ["@actions-kit/dev"],
       "inputs": [
         "jestConfig",
         "packageConfig",
