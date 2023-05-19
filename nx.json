@@ -56,14 +56,6 @@
         "packageConfig",
         "sourceFiles"
       ]
-    },
-    "integration-test": {
-      "dependsOn": ["test", "^build", "build"],
-      "inputs": [
-        "jestConfig",
-        "packageConfig",
-        "sourceFiles"
-      ]
     }
   },
   "tasksRunnerOptions": {

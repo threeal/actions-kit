@@ -4,7 +4,7 @@
   "scripts": {
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
-    "integration-test": "jest"
+    "test": "jest"
   },
   "devDependencies": {
     "@actions-kit/dev": "^0.2.0"
