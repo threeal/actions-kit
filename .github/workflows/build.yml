@@ -35,13 +35,17 @@ jobs:
       - name: Build and test all packages
         if: github.event_name != 'pull_request'
         run: |
-          npm run clean
+          npm run clean -- --scope=@actions-kit/dev
+          npm run build -- --scope=@actions-kit/dev
+          npm run clean -- --ignore=@actions-kit/dev
           npm run test-all
 
       - name: Build and test changed packages
         if: github.event_name == 'pull_request'
         run: |
-          npm run clean -- "--since=origin/${{ github.base_ref }}"
+          npm run clean -- --scope=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
+          npm run build -- --scope=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
+          npm run clean -- --ignore=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
           npm test -- "--since=origin/${{ github.base_ref }}"
 
       - name: Check diff
