@@ -30,7 +30,7 @@ jobs:
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm run bootstrap
+        run: npm install
 
       - name: Build and test all packages
         if: github.event_name != 'pull_request'
