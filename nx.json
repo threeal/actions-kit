@@ -58,8 +58,7 @@
       ]
     },
     "integration-test": {
-      "dependsOn": ["test", "^test"],
-      "implicitDependencies": ["@actions-kit/dev"],
+      "dependsOn": ["test", "^build", "build"],
       "inputs": [
         "jestConfig",
         "packageConfig",
