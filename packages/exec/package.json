@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "dev build",
-    "clean": "rimraf lib",
+    "clean": "dev clean",
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
     "test": "jest"

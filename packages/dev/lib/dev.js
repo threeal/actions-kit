@@ -10,5 +10,11 @@ program
     .action(() => {
     (0, child_process_1.spawnSync)("tsc", [], { stdio: "inherit" });
 });
+program
+    .command("clean")
+    .description("clean the build output directory")
+    .action(() => {
+    (0, child_process_1.spawnSync)("rimraf", ["lib"], { stdio: "inherit" });
+});
 program.parse();
 //# sourceMappingURL=dev.js.map

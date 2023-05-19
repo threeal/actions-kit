@@ -12,4 +12,11 @@ program
     spawnSync("tsc", [], { stdio: "inherit" });
   });
 
+program
+  .command("clean")
+  .description("clean the build output directory")
+  .action(() => {
+    spawnSync("rimraf", ["lib"], { stdio: "inherit" });
+  });
+
 program.parse();
