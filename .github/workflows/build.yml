@@ -32,13 +32,13 @@ jobs:
       - name: Install dependencies
         run: npm run bootstrap
 
-      - name: Build and test
+      - name: Build and test all packages
         if: github.event_name != 'pull_request'
         run: |
           npm run clean
-          npm test
+          npm run test-all
 
-      - name: Build and test since target branch
+      - name: Build and test changed packages
         if: github.event_name == 'pull_request'
         run: |
           npm run clean -- "--since=origin/${{ github.base_ref }}"
