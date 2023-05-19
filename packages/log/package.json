@@ -17,7 +17,7 @@
     "directory": "packages/log"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "dev build",
     "clean": "rimraf lib",
     "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.ts",
