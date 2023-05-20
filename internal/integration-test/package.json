@@ -2,9 +2,9 @@
   "name": "integration-test",
   "private": true,
   "scripts": {
-    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
-    "lint": "eslint src --ext .js,.ts",
-    "test": "jest"
+    "format": "dev format",
+    "lint": "dev lint",
+    "test": "dev test"
   },
   "devDependencies": {
     "@actions-kit/dev": "^0.2.0"

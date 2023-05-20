@@ -25,11 +25,11 @@
     "directory": "packages/cache"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rimraf lib",
-    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
-    "lint": "eslint src --ext .ts",
-    "test": "jest"
+    "build": "dev build",
+    "clean": "dev clean",
+    "format": "dev format",
+    "lint": "dev lint",
+    "test": "dev test"
   },
   "dependencies": {
     "@actions/cache": "^3.2.1",
