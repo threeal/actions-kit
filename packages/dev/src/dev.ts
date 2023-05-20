@@ -19,4 +19,13 @@ program
     spawnSync("rimraf", ["lib"], { stdio: "inherit" });
   });
 
+program
+  .command("format")
+  .description("format the source files using Prettier")
+  .action(() => {
+    spawnSync("prettier", ["--write", "*.{js,ts,json}", "src/**/*.ts"], {
+      stdio: "inherit",
+    });
+  });
+
 program.parse();
