@@ -50,7 +50,7 @@
       ]
     },
     "test": {
-      "dependsOn": ["^build", "build"],
+      "dependsOn": ["^build", "format", "lint", "build"],
       "inputs": [
         "jestConfig",
         "packageConfig",
