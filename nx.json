@@ -42,7 +42,7 @@
       ]
     },
     "build": {
-      "dependsOn": ["^build", "lint"],
+      "dependsOn": ["^build", "format", "lint"],
       "inputs": [
         "packageConfig",
         "sourceNoTestFiles",
