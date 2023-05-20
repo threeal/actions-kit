@@ -19,5 +19,9 @@ program
     .command("format")
     .description("format the source files using Prettier")
     .action(() => exec("prettier", "--write", "*.{js,ts,json}", "src/**/*.ts"));
+program
+    .command("lint")
+    .description("lint the source files using ESLint")
+    .action(() => exec("eslint", "src", "--ext", ".js,.ts"));
 program.parse();
 //# sourceMappingURL=dev.js.map

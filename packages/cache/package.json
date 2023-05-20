@@ -28,7 +28,7 @@
     "build": "dev build",
     "clean": "dev clean",
     "format": "dev format",
-    "lint": "eslint src --ext .ts",
+    "lint": "dev lint",
     "test": "jest"
   },
   "dependencies": {
