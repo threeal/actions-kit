@@ -4,7 +4,7 @@
   "scripts": {
     "format": "dev format",
     "lint": "dev lint",
-    "test": "jest"
+    "test": "dev test"
   },
   "devDependencies": {
     "@actions-kit/dev": "^0.2.0"

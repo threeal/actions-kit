@@ -29,7 +29,7 @@
     "clean": "dev clean",
     "format": "dev format",
     "lint": "dev lint",
-    "test": "jest"
+    "test": "dev test"
   },
   "dependencies": {
     "@actions-kit/cache": "^0.1.0",

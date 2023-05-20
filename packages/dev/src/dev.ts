@@ -29,4 +29,9 @@ program
   .description("lint the source files using ESLint")
   .action(() => exec("eslint", "src", "--ext", ".js,.ts"));
 
+program
+  .command("test")
+  .description("run tests using Jest")
+  .action(() => exec("jest"));
+
 program.parse();
