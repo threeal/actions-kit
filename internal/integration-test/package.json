@@ -7,6 +7,7 @@
     "test": "dev test"
   },
   "devDependencies": {
-    "@actions-kit/dev": "^0.2.0"
+    "@actions-kit/dev": "^0.2.0",
+    "@actions-kit/pip": "^0.1.0"
   }
 }
