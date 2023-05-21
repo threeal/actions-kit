@@ -1,7 +1,7 @@
 {
   "name": "@actions-kit/dev",
   "version": "0.2.0",
-  "description": "Development configuration library of Actions Kit",
+  "description": "Development tool library of Actions Kit",
   "keywords": [
     "dev",
     "config",
