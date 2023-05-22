@@ -14,7 +14,7 @@ describe("installs and uninstalls a pip package (rsa)", () => {
     test("installs the package", () => {
       const prom = pip.installPackage("rsa");
       return expect(prom).resolves.toBeUndefined();
-    });
+    }, 30000);
 
     test("installs the package again", () => {
       const prom = pip.installPackage("rsa");
