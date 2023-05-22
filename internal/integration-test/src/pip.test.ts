@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 
 describe("installs and uninstalls a pip package (rsa)", () => {
-  beforeAll(() => pip.uninstallPackage("rsa"));
+  beforeAll(async () => await pip.uninstallPackage("rsa"));
 
   describe("installs the rsa package", () => {
     test("the package info should be undefined", () => {
@@ -84,5 +84,5 @@ describe("installs and uninstalls a pip package (rsa)", () => {
     });
   });
 
-  afterAll(() => pip.uninstallPackage("rsa"));
+  afterAll(async () => await pip.uninstallPackage("rsa"));
 });
