@@ -6,23 +6,28 @@ describe("installs and uninstalls a pip package (rsa)", () => {
   beforeAll(async () => await pip.uninstallPackage("rsa"));
 
   describe("installs the rsa package", () => {
-    test("the package info should be undefined", () => {
+    test("shows the package info, should be undefined", () => {
       const prom = pip.showPackageInfo("rsa");
       return expect(prom).resolves.toBeUndefined();
     });
 
-    test("installs the package", () => {
+    test("installs the package, should be success", () => {
       const prom = pip.installPackage("rsa");
       return expect(prom).resolves.toBeUndefined();
     }, 30000);
 
-    test("installs the package again", () => {
+    test("shows the package info, should not be undefined", () => {
+      const prom = pip.showPackageInfo("rsa");
+      return expect(prom).resolves.not.toBeUndefined();
+    });
+
+    test("installs the package again, should be success", () => {
       const prom = pip.installPackage("rsa");
       return expect(prom).resolves.toBeUndefined();
     });
   });
 
-  describe("checks info of the rsa package", () => {
+  describe("checks the rsa package info", () => {
     let info: pip.PackageInfo;
     beforeAll(async () => {
       const prom = pip.showPackageInfo("rsa");
@@ -30,27 +35,27 @@ describe("installs and uninstalls a pip package (rsa)", () => {
       info = (await prom) as pip.PackageInfo;
     });
 
-    test("name should be correct", () => {
+    test("the name should be correct", () => {
       expect(info.name).toBe("rsa");
     });
 
-    test("version should be valid", () => {
+    test("the version should be valid", () => {
       expect(info.version).toMatch(/^(\d+\.)?(\d+\.)?(\*|\d+)$/);
     });
 
-    test("location should be exist", () => {
+    test("the location should be exist", () => {
       expect(fs.existsSync(info.location)).toBe(true);
     });
 
-    test("dependencies should be correct", () => {
+    test("the dependencies should be correct", () => {
       expect(info.requires).toStrictEqual(["pyasn1"]);
     });
 
-    test("files should be correct", () => {
+    test("the files should be correct", () => {
       expect(info.files).toHaveLength(42);
     });
 
-    test("directories should be correct and exist", () => {
+    test("the directories should be correct and exist", () => {
       const dirs = info.directories();
       expect(dirs).toHaveLength(2);
       for (const dir of dirs) {
@@ -58,7 +63,7 @@ describe("installs and uninstalls a pip package (rsa)", () => {
       }
     });
 
-    test("executables should be correct and exist", async () => {
+    test("the executables should be correct and exist", async () => {
       const executables = await info.executables();
       expect(executables).toHaveLength(6);
       for (const executable of executables) {
@@ -68,17 +73,22 @@ describe("installs and uninstalls a pip package (rsa)", () => {
   });
 
   describe("uninstalls the rsa package", () => {
-    test("the package info should not be undefined", () => {
+    test("shows the package info, should not be undefined", () => {
       const prom = pip.showPackageInfo("rsa");
       return expect(prom).resolves.not.toBeUndefined();
     });
 
-    test("uninstalls the package", () => {
+    test("uninstalls the package, should be success", () => {
       const prom = pip.uninstallPackage("rsa");
       return expect(prom).resolves.toBeUndefined();
     });
 
-    test("uninstalls the package again", () => {
+    test("shows the package info, should be undefined", () => {
+      const prom = pip.showPackageInfo("rsa");
+      return expect(prom).resolves.toBeUndefined();
+    });
+
+    test("uninstalls the package again, should be success", () => {
       const prom = pip.uninstallPackage("rsa");
       return expect(prom).resolves.toBeUndefined();
     });
