@@ -22,7 +22,9 @@ jobs:
         id: cache-npm
         uses: actions/cache@v3.3.1
         with:
-          path: node_modules
+          path: |
+            node_modules
+            !node_modules/.cache
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
