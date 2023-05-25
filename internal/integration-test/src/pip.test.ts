@@ -1,9 +1,12 @@
 import * as pip from "@actions-kit/pip";
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
+import { repeat } from "./helper.test";
 
 describe("installs and uninstalls a pip package (rsa)", () => {
-  beforeAll(async () => await pip.uninstallPackage("rsa"));
+  beforeAll(() => {
+    return repeat(() => pip.uninstallPackage("rsa"), 5000);
+  }, 3 * 5000);
 
   describe("installs the rsa package", () => {
     test("shows the package info, should be undefined", () => {
@@ -11,10 +14,11 @@ describe("installs and uninstalls a pip package (rsa)", () => {
       return expect(prom).resolves.toBeUndefined();
     });
 
+    // prettier-ignore
     test("installs the package, should be success", () => {
-      const prom = pip.installPackage("rsa");
+      const prom = repeat(() => pip.installPackage("rsa"), 10000);
       return expect(prom).resolves.toBeUndefined();
-    }, 30000);
+    }, 3 * 10000);
 
     test("shows the package info, should not be undefined", () => {
       const prom = pip.showPackageInfo("rsa");
@@ -94,5 +98,5 @@ describe("installs and uninstalls a pip package (rsa)", () => {
     });
   });
 
-  afterAll(async () => await pip.uninstallPackage("rsa"));
+  afterAll(() => pip.uninstallPackage("rsa"));
 });
