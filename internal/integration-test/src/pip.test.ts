@@ -5,8 +5,8 @@ import { repeat } from "./helper.test";
 
 describe("installs and uninstalls a pip package (rsa)", () => {
   beforeAll(() => {
-    return repeat(() => pip.uninstallPackage("rsa"), 5000);
-  }, 3 * 5000);
+    return repeat(() => pip.uninstallPackage("rsa"), 10000);
+  }, 3 * 10000);
 
   describe("installs the rsa package", () => {
     test("shows the package info, should be undefined", () => {
@@ -16,9 +16,9 @@ describe("installs and uninstalls a pip package (rsa)", () => {
 
     // prettier-ignore
     test("installs the package, should be success", () => {
-      const prom = repeat(() => pip.installPackage("rsa"), 10000);
+      const prom = repeat(() => pip.installPackage("rsa"), 30000);
       return expect(prom).resolves.toBeUndefined();
-    }, 3 * 10000);
+    }, 3 * 30000);
 
     test("shows the package info, should not be undefined", () => {
       const prom = pip.showPackageInfo("rsa");
