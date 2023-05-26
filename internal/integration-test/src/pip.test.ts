@@ -3,72 +3,72 @@ import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 import { repeat } from "./helper.test";
 
-describe("installs and uninstalls a pip package (rsa)", () => {
+describe("Pip package installation and uninstallation (rsa)", () => {
   beforeAll(() => {
     return repeat(() => pip.uninstallPackage("rsa"), 10000);
   }, 3 * 10000);
 
-  describe("installs the rsa package", () => {
-    test("shows the package info, should be undefined", () => {
-      const prom = pip.showPackageInfo("rsa");
-      return expect(prom).resolves.toBeUndefined();
+  describe("Installing the rsa package", () => {
+    test("should show the package info as undefined", () => {
+      const promise = pip.showPackageInfo("rsa");
+      return expect(promise).resolves.toBeUndefined();
     });
 
     // prettier-ignore
-    test("installs the package, should be success", () => {
-      const prom = repeat(() => pip.installPackage("rsa"), 30000);
-      return expect(prom).resolves.toBeUndefined();
+    test("should install the package successfully", () => {
+      const promise = repeat(() => pip.installPackage("rsa"), 30000);
+      return expect(promise).resolves.toBeUndefined();
     }, 3 * 30000);
 
-    test("shows the package info, should not be undefined", () => {
-      const prom = pip.showPackageInfo("rsa");
-      return expect(prom).resolves.not.toBeUndefined();
+    test("should show the package info as not undefined", () => {
+      const promise = pip.showPackageInfo("rsa");
+      return expect(promise).resolves.not.toBeUndefined();
     });
 
-    test("installs the package again, should be success", () => {
-      const prom = pip.installPackage("rsa");
-      return expect(prom).resolves.toBeUndefined();
+    test("should install the package again successfully", () => {
+      const promise = pip.installPackage("rsa");
+      return expect(promise).resolves.toBeUndefined();
     });
   });
 
-  describe("checks the rsa package info", () => {
-    let info: pip.PackageInfo;
+  describe("Checking the rsa package info", () => {
+    let packageInfo: pip.PackageInfo;
     beforeAll(async () => {
-      const prom = pip.showPackageInfo("rsa");
-      expect(prom).resolves.not.toBeUndefined();
-      info = (await prom) as pip.PackageInfo;
+      const promise = pip.showPackageInfo("rsa");
+      expect(promise).resolves.not.toBeUndefined();
+      packageInfo = (await promise) as pip.PackageInfo;
     });
 
-    test("the name should be correct", () => {
-      expect(info.name).toBe("rsa");
+    test("should have the correct package name", () => {
+      expect(packageInfo.name).toBe("rsa");
     });
 
-    test("the version should be valid", () => {
-      expect(info.version).toMatch(/^(\d+\.)?(\d+\.)?(\*|\d+)$/);
+    test("should have a valid version", () => {
+      expect(packageInfo.version).toMatch(/^(\d+\.)?(\d+\.)?(\*|\d+)$/);
     });
 
-    test("the location should be exist", () => {
-      expect(fs.existsSync(info.location)).toBe(true);
+    test("should have a valid location", () => {
+      expect(fs.existsSync(packageInfo.location)).toBe(true);
     });
 
-    test("the dependencies should be correct", () => {
-      expect(info.requires).toStrictEqual(["pyasn1"]);
+    test("should have the correct dependencies", () => {
+      expect(packageInfo.requires).toStrictEqual(["pyasn1"]);
     });
 
-    test("the files should be correct", () => {
-      expect(info.files).toHaveLength(42);
+    test("should have the correct number of files", () => {
+      expect(packageInfo.files).toHaveLength(42);
     });
 
-    test("the directories should be correct and exist", () => {
-      const dirs = info.directories();
-      expect(dirs).toHaveLength(2);
-      for (const dir of dirs) {
-        expect(fs.existsSync(dir)).toBe(true);
+    test("should have the correct directories that exist", () => {
+      const directories = packageInfo.directories();
+      expect(directories).toHaveLength(2);
+      for (const directory of directories) {
+        expect(fs.existsSync(directory)).toBe(true);
       }
     });
 
-    test("the executables should be correct and exist", async () => {
-      const executables = await info.executables();
+    test("should have the correct executables that exist", async () => {
+      const executables = await packageInfo.executables();
       expect(executables).toHaveLength(6);
       for (const executable of executables) {
         expect(fs.existsSync(executable)).toBe(true);
@@ -76,25 +76,25 @@ describe("installs and uninstalls a pip package (rsa)", () => {
     });
   });
 
-  describe("uninstalls the rsa package", () => {
-    test("shows the package info, should not be undefined", () => {
-      const prom = pip.showPackageInfo("rsa");
-      return expect(prom).resolves.not.toBeUndefined();
+  describe("Uninstalling the rsa package", () => {
+    test("should show the package info as not undefined", () => {
+      const promise = pip.showPackageInfo("rsa");
+      return expect(promise).resolves.not.toBeUndefined();
     });
 
-    test("uninstalls the package, should be success", () => {
-      const prom = pip.uninstallPackage("rsa");
-      return expect(prom).resolves.toBeUndefined();
+    test("should uninstall the package successfully", () => {
+      const promise = pip.uninstallPackage("rsa");
+      return expect(promise).resolves.toBeUndefined();
     });
 
-    test("shows the package info, should be undefined", () => {
-      const prom = pip.showPackageInfo("rsa");
-      return expect(prom).resolves.toBeUndefined();
+    test("should show the package info as undefined", () => {
+      const promise = pip.showPackageInfo("rsa");
+      return expect(promise).resolves.toBeUndefined();
     });
 
-    test("uninstalls the package again, should be success", () => {
-      const prom = pip.uninstallPackage("rsa");
-      return expect(prom).resolves.toBeUndefined();
+    test("should uninstall the package again successfully", () => {
+      const promise = pip.uninstallPackage("rsa");
+      return expect(promise).resolves.toBeUndefined();
     });
   });
 
