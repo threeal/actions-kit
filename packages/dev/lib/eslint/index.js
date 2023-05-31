@@ -26,12 +26,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.eslintConfig = void 0;
 const jsonfile = __importStar(require("jsonfile"));
 const default_1 = require("./default");
+/**
+ * Create an ESLint configuration with optional additional configuration or a function that alters the configuration.
+ * This function also automatically creates a TypeScript configuration that will be used by the ESLint configuration.
+ * @param config Optional additional configuration or a function that alters the configuration.
+ * @returns The resulting ESLint configuration.
+ */
 function eslintConfig(config) {
+    // Write a TypeScript configuration for ESLint.
     jsonfile.writeFileSync("tsconfig.eslint.json", {
         extends: "./tsconfig.json",
         exclude: [],
     });
-    return { ...default_1.defaultEslintConfig, ...config };
+    return typeof config === "function"
+        ? config(default_1.defaultEslintConfig)
+        : { ...default_1.defaultEslintConfig, ...config };
 }
 exports.eslintConfig = eslintConfig;
 //# sourceMappingURL=index.js.map

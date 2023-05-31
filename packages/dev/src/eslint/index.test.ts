@@ -33,4 +33,17 @@ describe("ESLint configuration creation", () => {
       },
     });
   });
+
+  test("creates configuration with a function argument", () => {
+    const config = eslintConfig((config) => {
+      return { ...config, disabled: true };
+    });
+    expect(config).toStrictEqual({
+      enabled: false,
+      disabled: true,
+      options: {
+        enabled: false,
+      },
+    });
+  });
 });
