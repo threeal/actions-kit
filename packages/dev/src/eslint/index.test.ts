@@ -1,6 +1,13 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import { defaultEslintConfig } from "./default";
 import { eslintConfig } from "./index";
+
+const fileMap = new Map<string, any>();
+
+jest.mock("jsonfile", () => ({
+  ...jest.requireActual<object>("jsonfile"),
+  writeFileSync: (file: string, obj: any) => fileMap.set(file, obj),
+}));
 
 jest.mock("./default", () => ({
   ...jest.requireActual<object>("./default"),
@@ -13,9 +20,12 @@ jest.mock("./default", () => ({
 }));
 
 describe("ESLint configuration creation", () => {
+  beforeEach(() => fileMap.clear());
+
   test("creates configuration without any arguments", () => {
     const config = eslintConfig();
     expect(config).toStrictEqual(defaultEslintConfig);
+    expect(fileMap.get("tsconfig.eslint.json")).not.toBeUndefined();
   });
 
   test("creates configuration with an object argument", () => {
@@ -32,6 +42,7 @@ describe("ESLint configuration creation", () => {
         disabled: true,
       },
     });
+    expect(fileMap.get("tsconfig.eslint.json")).not.toBeUndefined();
   });
 
   test("creates configuration with a function argument", () => {
@@ -45,5 +56,6 @@ describe("ESLint configuration creation", () => {
         enabled: false,
       },
     });
+    expect(fileMap.get("tsconfig.eslint.json")).not.toBeUndefined();
   });
 });
