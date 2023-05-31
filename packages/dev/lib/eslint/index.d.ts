@@ -6,4 +6,4 @@ export type AlterEslintConfig = (config: object) => object;
  * @param config Optional additional configuration or a function that alters the configuration.
  * @returns The resulting ESLint configuration.
  */
-export declare function eslintConfig(config?: object | AlterEslintConfig): object;
+export declare function createEslintConfig(config?: object | AlterEslintConfig): object;

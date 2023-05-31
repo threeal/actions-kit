@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import { defaultEslintConfig } from "./default";
-import { eslintConfig } from "./index";
+import { createEslintConfig } from "./index";
 
 const fileMap = new Map<string, any>();
 
@@ -23,13 +23,13 @@ describe("ESLint configuration creation", () => {
   beforeEach(() => fileMap.clear());
 
   test("creates configuration without any arguments", () => {
-    const config = eslintConfig();
+    const config = createEslintConfig();
     expect(config).toStrictEqual(defaultEslintConfig);
     expect(fileMap.get("tsconfig.eslint.json")).not.toBeUndefined();
   });
 
   test("creates configuration with an object argument", () => {
-    const config = eslintConfig({
+    const config = createEslintConfig({
       disabled: true,
       options: {
         disabled: true,
@@ -46,7 +46,7 @@ describe("ESLint configuration creation", () => {
   });
 
   test("creates configuration with a function argument", () => {
-    const config = eslintConfig((config) => {
+    const config = createEslintConfig((config) => {
       return { ...config, disabled: true };
     });
     expect(config).toStrictEqual({

@@ -11,7 +11,9 @@ export type AlterEslintConfig = (config: object) => object;
  * @param config Optional additional configuration or a function that alters the configuration.
  * @returns The resulting ESLint configuration.
  */
-export function eslintConfig(config?: object | AlterEslintConfig): object {
+export function createEslintConfig(
+  config?: object | AlterEslintConfig
+): object {
   // Write a TypeScript configuration for ESLint.
   jsonfile.writeFileSync("tsconfig.eslint.json", {
     extends: "./tsconfig.json",
