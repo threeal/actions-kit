@@ -10,4 +10,4 @@ export declare const defaultJestConfig: JestConfig;
  * @param config Optional additional configuration or a function that alters the configuration.
  * @returns The resulting Jest configuration.
  */
-export declare function jestConfig(config?: JestConfig | AlterJestConfig): JestConfig;
+export declare function createJestConfig(config?: JestConfig | AlterJestConfig): JestConfig;

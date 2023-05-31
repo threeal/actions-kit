@@ -1,9 +1,9 @@
 import { describe, expect, test } from "@jest/globals";
-import { defaultJestConfig, jestConfig, JestConfig } from "./jest";
+import { createJestConfig, defaultJestConfig, JestConfig } from "./jest";
 
 describe("Jest configuration creation", () => {
   test("creates configuration without any arguments", () => {
-    const config = jestConfig();
+    const config = createJestConfig();
     expect(config).toStrictEqual(defaultJestConfig);
   });
 
@@ -12,7 +12,7 @@ describe("Jest configuration creation", () => {
       collectCoverage: false,
       testMatch: ["**/*.test.ts", "!**/*helper.test.ts"],
     };
-    const config = jestConfig(customConfig);
+    const config = createJestConfig(customConfig);
     const expectedConfig: JestConfig = {
       ...defaultJestConfig,
       ...customConfig,
@@ -25,7 +25,7 @@ describe("Jest configuration creation", () => {
       config.collectCoverage = false;
       return config;
     };
-    const config = jestConfig(alterConfig);
+    const config = createJestConfig(alterConfig);
     const expectedConfig: JestConfig = {
       ...defaultJestConfig,
       collectCoverage: false,

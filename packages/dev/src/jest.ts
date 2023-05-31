@@ -34,7 +34,9 @@ export const defaultJestConfig: JestConfig = {
  * @param config Optional additional configuration or a function that alters the configuration.
  * @returns The resulting Jest configuration.
  */
-export function jestConfig(config?: JestConfig | AlterJestConfig): JestConfig {
+export function createJestConfig(
+  config?: JestConfig | AlterJestConfig
+): JestConfig {
   return typeof config === "function"
     ? config(defaultJestConfig)
     : { ...defaultJestConfig, ...config };
