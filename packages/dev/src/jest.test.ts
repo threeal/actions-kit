@@ -1,6 +1,5 @@
-import { Config } from "jest";
 import { describe, expect, test } from "@jest/globals";
-import { defaultJestConfig, jestConfig } from "./jest";
+import { defaultJestConfig, jestConfig, JestConfig } from "./jest";
 
 describe("Jest configuration creation", () => {
   test("creates configuration without any arguments", () => {
@@ -14,17 +13,20 @@ describe("Jest configuration creation", () => {
       testMatch: ["**/*.test.ts", "!**/*helper.test.ts"],
     };
     const config = jestConfig(customConfig);
-    const expectedConfig: Config = { ...defaultJestConfig, ...customConfig };
+    const expectedConfig: JestConfig = {
+      ...defaultJestConfig,
+      ...customConfig,
+    };
     expect(config).toStrictEqual(expectedConfig);
   });
 
   test("creates configuration with a function argument", () => {
-    const alterConfig = (config: Config): Config => {
+    const alterConfig = (config: JestConfig): JestConfig => {
       config.collectCoverage = false;
       return config;
     };
     const config = jestConfig(alterConfig);
-    const expectedConfig: Config = {
+    const expectedConfig: JestConfig = {
       ...defaultJestConfig,
       collectCoverage: false,
     };
