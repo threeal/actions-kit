@@ -24,7 +24,7 @@ export const defaultEslintConfig: object = {
   ignorePatterns: ["jest.config.ts", "lib/"],
 };
 
-export function eslintConfig(config: object): object {
+export function eslintConfig(config?: object): object {
   jsonfile.writeFileSync("tsconfig.eslint.json", {
     extends: "./tsconfig.json",
     exclude: [],
