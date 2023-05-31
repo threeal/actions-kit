@@ -1,6 +1,16 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, jest, test } from "@jest/globals";
 import { defaultEslintConfig } from "./default";
 import { eslintConfig } from "./index";
+
+jest.mock("./default", () => ({
+  ...jest.requireActual<object>("./default"),
+  defaultEslintConfig: {
+    enabled: false,
+    options: {
+      enabled: false,
+    },
+  },
+}));
 
 describe("ESLint configuration creation", () => {
   test("creates configuration without any arguments", () => {
@@ -9,15 +19,18 @@ describe("ESLint configuration creation", () => {
   });
 
   test("creates configuration with an object argument", () => {
-    const customConfig = {
-      rules: { "no-unused-var": "off" },
-      ignorePatterns: ["jest.config.ts", "lib/", "node_modules/"],
-    };
-    const config = eslintConfig(customConfig);
-    const expectedConfig: object = {
-      ...defaultEslintConfig,
-      ...customConfig,
-    };
-    expect(config).toStrictEqual(expectedConfig);
+    const config = eslintConfig({
+      disabled: true,
+      options: {
+        disabled: true,
+      },
+    });
+    expect(config).toStrictEqual({
+      enabled: false,
+      disabled: true,
+      options: {
+        disabled: true,
+      },
+    });
   });
 });

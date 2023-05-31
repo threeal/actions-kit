@@ -1,6 +1,18 @@
-import { describe, expect, test } from "@jest/globals";
+import { describe, expect, jest, test } from "@jest/globals";
 import { defaultJestConfig } from "./default";
-import { createJestConfig, JestConfig } from "./index";
+import { createJestConfig } from "./index";
+
+jest.mock("./default", () => ({
+  ...jest.requireActual<object>("./default"),
+  defaultJestConfig: {
+    clearMocks: false,
+    coverageThreshold: {
+      global: {
+        branches: 100,
+      },
+    },
+  },
+}));
 
 describe("Jest configuration creation", () => {
   test("creates configuration without any arguments", () => {
@@ -9,28 +21,38 @@ describe("Jest configuration creation", () => {
   });
 
   test("creates configuration with an object argument", () => {
-    const customConfig = {
+    const config = createJestConfig({
       collectCoverage: false,
-      testMatch: ["**/*.test.ts", "!**/*helper.test.ts"],
-    };
-    const config = createJestConfig(customConfig);
-    const expectedConfig: JestConfig = {
-      ...defaultJestConfig,
-      ...customConfig,
-    };
-    expect(config).toStrictEqual(expectedConfig);
+      coverageThreshold: {
+        global: {
+          functions: 100,
+        },
+      },
+    });
+    expect(config).toStrictEqual({
+      clearMocks: false,
+      collectCoverage: false,
+      coverageThreshold: {
+        global: {
+          functions: 100,
+        },
+      },
+    });
   });
 
   test("creates configuration with a function argument", () => {
-    const alterConfig = (config: JestConfig): JestConfig => {
+    const config = createJestConfig((config) => {
       config.collectCoverage = false;
       return config;
-    };
-    const config = createJestConfig(alterConfig);
-    const expectedConfig: JestConfig = {
-      ...defaultJestConfig,
+    });
+    expect(config).toStrictEqual({
+      clearMocks: false,
       collectCoverage: false,
-    };
-    expect(config).toStrictEqual(expectedConfig);
+      coverageThreshold: {
+        global: {
+          branches: 100,
+        },
+      },
+    });
   });
 });
