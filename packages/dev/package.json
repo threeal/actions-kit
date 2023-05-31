@@ -34,7 +34,8 @@
     "build": "tsc && chmod-cli lib/dev.js -m 0o777",
     "clean": "rimraf lib",
     "format": "prettier --write \"*.{js,json}\" \"src/**/*.ts\"",
-    "lint": "tsc && eslint src --ext .js,.ts"
+    "lint": "tsc && eslint src --ext .js,.ts",
+    "test": "tsc && jest"
   },
   "dependencies": {
     "commander": "^10.0.1",
