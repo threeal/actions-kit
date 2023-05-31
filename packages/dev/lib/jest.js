@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.jestConfig = exports.defaultJestConfig = void 0;
-/**
- * The default configuration for Jest.
- */
+/** The default configuration for Jest. */
 exports.defaultJestConfig = {
     clearMocks: true,
     collectCoverage: true,
@@ -24,11 +22,15 @@ exports.defaultJestConfig = {
     },
     verbose: true,
 };
+/**
+ * Create a Jest configuration with optional additional configuration or a function that alters the configuration.
+ * @param config Optional additional configuration or a function that alters the configuration.
+ * @returns The resulting Jest configuration.
+ */
 function jestConfig(config) {
-    return {
-        ...exports.defaultJestConfig,
-        ...config,
-    };
+    return typeof config === "function"
+        ? config(exports.defaultJestConfig)
+        : { ...exports.defaultJestConfig, ...config };
 }
 exports.jestConfig = jestConfig;
 //# sourceMappingURL=jest.js.map
