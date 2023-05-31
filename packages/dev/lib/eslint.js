@@ -23,36 +23,37 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.eslintConfig = void 0;
+exports.eslintConfig = exports.defaultEslintConfig = void 0;
 const jsonfile = __importStar(require("jsonfile"));
+/** The default configuration for ESLint. */
+exports.defaultEslintConfig = {
+    plugins: ["@typescript-eslint", "jest"],
+    extends: ["plugin:github/recommended"],
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+        ecmaVersion: 9,
+        project: "tsconfig.eslint.json",
+        sourceType: "module",
+    },
+    rules: {
+        camelcase: "off",
+        "i18n-text/no-en": "off",
+        "import/no-namespace": "off",
+        "no-shadow": "off",
+    },
+    env: {
+        es6: true,
+        "jest/globals": true,
+        node: true,
+    },
+    ignorePatterns: ["jest.config.ts", "lib/"],
+};
 function eslintConfig(config) {
     jsonfile.writeFileSync("tsconfig.eslint.json", {
         extends: "./tsconfig.json",
         exclude: [],
     });
-    return {
-        plugins: ["@typescript-eslint", "jest"],
-        extends: ["plugin:github/recommended"],
-        parser: "@typescript-eslint/parser",
-        parserOptions: {
-            ecmaVersion: 9,
-            project: "tsconfig.eslint.json",
-            sourceType: "module",
-        },
-        rules: {
-            camelcase: "off",
-            "i18n-text/no-en": "off",
-            "import/no-namespace": "off",
-            "no-shadow": "off",
-        },
-        env: {
-            es6: true,
-            "jest/globals": true,
-            node: true,
-        },
-        ignorePatterns: ["jest.config.ts", "lib/"],
-        ...config,
-    };
+    return { ...exports.defaultEslintConfig, ...config };
 }
 exports.eslintConfig = eslintConfig;
 //# sourceMappingURL=eslint.js.map
