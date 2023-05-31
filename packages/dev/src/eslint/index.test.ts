@@ -1,5 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
-import { defaultEslintConfig, eslintConfig } from "./eslint";
+import { defaultEslintConfig } from "./default";
+import { eslintConfig } from "./index";
 
 describe("ESLint configuration creation", () => {
   test("creates configuration without any arguments", () => {

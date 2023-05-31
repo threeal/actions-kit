@@ -1,5 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
-import { createJestConfig, defaultJestConfig, JestConfig } from "./jest";
+import { defaultJestConfig } from "./default";
+import { createJestConfig, JestConfig } from "./index";
 
 describe("Jest configuration creation", () => {
   test("creates configuration without any arguments", () => {

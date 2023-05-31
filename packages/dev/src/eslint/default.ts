@@ -1,5 +1,3 @@
-import * as jsonfile from "jsonfile";
-
 /** The default configuration for ESLint. */
 export const defaultEslintConfig: object = {
   plugins: ["@typescript-eslint", "jest"],
@@ -23,11 +21,3 @@ export const defaultEslintConfig: object = {
   },
   ignorePatterns: ["jest.config.ts", "lib/"],
 };
-
-export function eslintConfig(config?: object): object {
-  jsonfile.writeFileSync("tsconfig.eslint.json", {
-    extends: "./tsconfig.json",
-    exclude: [],
-  });
-  return { ...defaultEslintConfig, ...config };
-}
