@@ -1,2 +1,3 @@
 const dev = require("./lib");
-module.exports = dev.eslintConfig();
+
+module.exports = dev.createEslintConfig();

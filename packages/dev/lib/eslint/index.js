@@ -23,36 +23,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.eslintConfig = void 0;
+exports.createEslintConfig = void 0;
 const jsonfile = __importStar(require("jsonfile"));
-function eslintConfig(config) {
+const default_1 = require("./default");
+/**
+ * Create an ESLint configuration with optional additional configuration or a function that alters the configuration.
+ * This function also automatically creates a TypeScript configuration that will be used by the ESLint configuration.
+ * @param config Optional additional configuration or a function that alters the configuration.
+ * @returns The resulting ESLint configuration.
+ */
+function createEslintConfig(config) {
+    // Write a TypeScript configuration for ESLint.
     jsonfile.writeFileSync("tsconfig.eslint.json", {
         extends: "./tsconfig.json",
         exclude: [],
     });
-    return {
-        plugins: ["@typescript-eslint", "jest"],
-        extends: ["plugin:github/recommended"],
-        parser: "@typescript-eslint/parser",
-        parserOptions: {
-            ecmaVersion: 9,
-            project: "tsconfig.eslint.json",
-            sourceType: "module",
-        },
-        rules: {
-            camelcase: "off",
-            "i18n-text/no-en": "off",
-            "import/no-namespace": "off",
-            "no-shadow": "off",
-        },
-        env: {
-            es6: true,
-            "jest/globals": true,
-            node: true,
-        },
-        ignorePatterns: ["jest.config.ts", "lib/"],
-        ...config,
-    };
+    return typeof config === "function"
+        ? config(default_1.defaultEslintConfig)
+        : { ...default_1.defaultEslintConfig, ...config };
 }
-exports.eslintConfig = eslintConfig;
-//# sourceMappingURL=eslint.js.map
+exports.createEslintConfig = createEslintConfig;
+//# sourceMappingURL=index.js.map
