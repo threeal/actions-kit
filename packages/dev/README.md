@@ -22,6 +22,24 @@ Use the dev tool by running the following commands:
 - `dev lint`: Lints the source files using [ESLint](https://eslint.org/).
 - `dev test`: Runs tests using [Jest](https://jestjs.io/).
 
+### Configuring TypeScript
+
+Configure TypeScript by extending the `tsconfig.json` from `@actions-kit/dev/tsconfig.json`:
+
+```json
+{
+  "extends": "@actions-kit/dev/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "lib"
+  },
+  "include": ["src"],
+  ...
+}
+```
+
+Make sure to set the `compilerOptions.outDir` and `include` properties correctly according to the project's requirements.
+For more information on further modifications to the `tsconfig.json` file, refer to the [TSConfig reference](https://www.typescriptlang.org/tsconfig).
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
