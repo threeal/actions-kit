@@ -16,11 +16,28 @@ npm install @actions-kit/dev
 ### Using the Dev Tool
 
 Use the dev tool by running the following commands:
+
 - `dev build`: Compiles source files from [TypeScript](https://www.typescriptlang.org/) to JavaScript.
 - `dev clean`: Cleans the build output directory.
 - `dev format`: Formats the source files using [Prettier](https://prettier.io/).
 - `dev lint`: Lints the source files using [ESLint](https://eslint.org/).
 - `dev test`: Runs tests using [Jest](https://jestjs.io/).
+
+The dev tool can also be invoked as a script in the `package.json` file to simplify build commands during project development:
+
+```json
+{
+  ...
+  "scripts": {
+    "build": "dev build",
+    "clean": "dev clean",
+    "format": "dev format",
+    "lint": "dev lint",
+    "test": "dev test"
+  },
+  ...
+}
+```
 
 ### Configuring TypeScript
 
