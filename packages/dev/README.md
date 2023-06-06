@@ -3,7 +3,19 @@
 [![npm version](https://img.shields.io/npm/v/@actions-kit/dev)](https://www.npmjs.com/package/@actions-kit/dev)
 [![build status](https://img.shields.io/github/actions/workflow/status/threeal/actions-kit/build.yml?branch=dev@latest)](https://github.com/threeal/actions-kit/actions/workflows/build.yml?query=branch%3Adev%40latest)
 
-A development tool library of [Actions Kit](https://github.com/threeal/actions-kit), an additional [toolkit](https://github.com/actions/toolkit) for developing [GitHub Actions](https://github.com/features/actions).
+A development tool library for [Actions Kit](https://github.com/threeal/actions-kit), an additional [toolkit](https://github.com/actions/toolkit) for developing [GitHub Actions](https://github.com/features/actions).
+
+This package simplifies the development configuration of other packages in the Actions Kit and can also be used in other projects.
+It uses the following stacks for project development:
+
+- [TypeScript](https://www.typescriptlang.org/): The primary language for project development.
+- [Prettier](https://prettier.io/): A code formatter for TypeScript, JavaScript, and JSON source files.
+- [ESLint](https://eslint.org/): A linter for TypeScript and JavaScript code.
+- [Jest](https://jestjs.io/): A testing framework for TypeScript and JavaScript code.
+
+This package offers two main features:
+- A dev tool that serves as the primary entry point for executing various commands.
+- A default configuration along with the flexibility to modify it according to the specific requirements of a project.
 
 ## Installation
 
@@ -19,11 +31,11 @@ npm install @actions-kit/dev --save-dev
 
 Use the dev tool by running the following commands:
 
-- `dev build`: Compiles source files from [TypeScript](https://www.typescriptlang.org/) to JavaScript.
+- `dev build`: Compiles source files from TypeScript to JavaScript.
 - `dev clean`: Cleans the build output directory.
-- `dev format`: Formats the source files using [Prettier](https://prettier.io/).
-- `dev lint`: Lints the source files using [ESLint](https://eslint.org/).
-- `dev test`: Runs tests using [Jest](https://jestjs.io/).
+- `dev format`: Formats the source files using Prettier.
+- `dev lint`: Lints the source files using ESLint.
+- `dev test`: Runs tests using Jest.
 
 The dev tool can also be invoked as a script in the `package.json` file to simplify build commands during project development:
 
