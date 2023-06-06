@@ -11,6 +11,17 @@ A development tool library of [Actions Kit](https://github.com/threeal/actions-k
 npm install @actions-kit/dev
 ```
 
+## Usage
+
+### Using the Dev Tool
+
+Use the dev tool by running the following commands:
+- `dev build`: Compiles source files from [TypeScript](https://www.typescriptlang.org/) to JavaScript.
+- `dev clean`: Cleans the build output directory.
+- `dev format`: Formats the source files using [Prettier](https://prettier.io/).
+- `dev lint`: Lints the source files using [ESLint](https://eslint.org/).
+- `dev test`: Runs tests using [Jest](https://jestjs.io/).
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
