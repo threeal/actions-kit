@@ -13,10 +13,6 @@ jobs:
       matrix:
         os: [windows, ubuntu, macos]
     steps:
-      - name: Disable auto CRLF on Windows
-        if: matrix.os == 'windows'
-        run: git config --global core.autocrlf false
-
       - name: Checkout repository
         uses: actions/checkout@v3.5.2
         with:
@@ -35,6 +31,7 @@ jobs:
       - name: Build and test all packages
         if: github.event_name != 'pull_request'
         run: |
+          npx nx reset
           npm run clean -- --scope=@actions-kit/dev
           npm run build -- --scope=@actions-kit/dev
           npm run clean -- --ignore=@actions-kit/dev
@@ -43,6 +40,7 @@ jobs:
       - name: Build and test changed packages
         if: github.event_name == 'pull_request'
         run: |
+          npx nx reset
           npm run clean -- --scope=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
           npm run build -- --scope=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
           npm run clean -- --ignore=@actions-kit/dev "--since=origin/${{ github.base_ref }}"

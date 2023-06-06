@@ -4,7 +4,9 @@ import { spawnSync } from "child_process";
 import { Command } from "commander";
 
 function exec(command: string, ...args: string[]) {
-  spawnSync(command, args, { stdio: "inherit" });
+  const res = spawnSync(command, args, { stdio: "inherit", shell: true });
+  if (res.error !== undefined) throw res.error;
+  if (res.status !== 0) process.exit(res.status ?? -1);
 }
 
 const program = new Command();

@@ -4,7 +4,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
 const commander_1 = require("commander");
 function exec(command, ...args) {
-    (0, child_process_1.spawnSync)(command, args, { stdio: "inherit" });
+    const res = (0, child_process_1.spawnSync)(command, args, { stdio: "inherit", shell: true });
+    if (res.error !== undefined)
+        throw res.error;
+    if (res.status !== 0)
+        process.exit(res.status ?? -1);
 }
 const program = new commander_1.Command();
 program
