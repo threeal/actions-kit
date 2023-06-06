@@ -39,6 +39,7 @@ describe("ESLint configuration creation", () => {
       enabled: false,
       disabled: true,
       options: {
+        enabled: false,
         disabled: true,
       },
     });

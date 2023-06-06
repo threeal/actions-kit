@@ -1,3 +1,4 @@
+import merge from "deepmerge";
 import * as jsonfile from "jsonfile";
 import { defaultEslintConfig } from "./default";
 
@@ -21,5 +22,5 @@ export function createEslintConfig(
   });
   return typeof config === "function"
     ? config(defaultEslintConfig)
-    : { ...defaultEslintConfig, ...config };
+    : merge(defaultEslintConfig, config ?? {});
 }

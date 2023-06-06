@@ -34,6 +34,7 @@ describe("Jest configuration creation", () => {
       collectCoverage: false,
       coverageThreshold: {
         global: {
+          branches: 100,
           functions: 100,
         },
       },

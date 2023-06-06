@@ -22,8 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createEslintConfig = void 0;
+const deepmerge_1 = __importDefault(require("deepmerge"));
 const jsonfile = __importStar(require("jsonfile"));
 const default_1 = require("./default");
 /**
@@ -40,7 +44,7 @@ function createEslintConfig(config) {
     });
     return typeof config === "function"
         ? config(default_1.defaultEslintConfig)
-        : { ...default_1.defaultEslintConfig, ...config };
+        : (0, deepmerge_1.default)(default_1.defaultEslintConfig, config ?? {});
 }
 exports.createEslintConfig = createEslintConfig;
 //# sourceMappingURL=index.js.map
