@@ -7,8 +7,10 @@ A development tool library of [Actions Kit](https://github.com/threeal/actions-k
 
 ## Installation
 
+Run the following commmand to install the `@actions-kit/dev` package as a dev dependency:
+
 ```sh
-npm install @actions-kit/dev
+npm install @actions-kit/dev --save-dev
 ```
 
 ## Usage
