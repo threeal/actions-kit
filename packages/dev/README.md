@@ -40,6 +40,33 @@ Configure TypeScript by extending the `tsconfig.json` from `@actions-kit/dev/tsc
 Make sure to set the `compilerOptions.outDir` and `include` properties correctly according to the project's requirements.
 For more information on further modifications to the `tsconfig.json` file, refer to the [TSConfig reference](https://www.typescriptlang.org/tsconfig).
 
+### Configuring ESLint
+
+Set up a default ESLint configuration by importing `createEslintConfig` from `@actions-kit/dev` in the `.eslintrc.js` file:
+
+```js
+const dev = require("@actions-kit/dev");
+
+module.exports = dev.createEslintConfig();
+```
+
+To modify the default configuration, pass an object to the `createEslintConfig` function:
+
+```js
+module.exports = dev.createEslintConfig({ env: { browser: true } });
+```
+
+Alternatively, pass a function to the `createEslintConfig` to further modify the default configuration:
+
+```js
+module.exports = dev.createEslintConfig((config) => {
+  config.rules["no-shadow"] = 2;
+  return config;
+});
+```
+
+For more information on configuring ESLint, refer to the [ESLint configuration documentation](https://eslint.org/docs/latest/use/configure/).
+
 ### Configuring Jest
 
 Set up a default Jest configuration by importing `createJestConfig` from `@actions-kit/dev` in the `jest.config.ts` file:
