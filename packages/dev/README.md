@@ -40,6 +40,33 @@ Configure TypeScript by extending the `tsconfig.json` from `@actions-kit/dev/tsc
 Make sure to set the `compilerOptions.outDir` and `include` properties correctly according to the project's requirements.
 For more information on further modifications to the `tsconfig.json` file, refer to the [TSConfig reference](https://www.typescriptlang.org/tsconfig).
 
+### Configuring Jest
+
+Set up a default Jest configuration by importing `createJestConfig` from `@actions-kit/dev` in the `jest.config.ts` file:
+
+```ts
+import { createJestConfig } from "@actions-kit/dev";
+
+export default createJestConfig();
+```
+
+To modify the default configuration, pass an object to the `createJestConfig` function:
+
+```ts
+export default createJestConfig({ verbose: false });
+```
+
+Alternatively, pass a function to the `createJestConfig` to further modify the default configuration:
+
+```ts
+export default createJestConfig((config) => {
+  config.testMatch?.push("**/*.test.js");
+  return config;
+});
+```
+
+For more information on configuring Jest, refer to the [Jest configuration documentation](https://jestjs.io/docs/configuration).
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
