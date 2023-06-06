@@ -1,3 +1,4 @@
+import merge from "deepmerge";
 import { Config } from "jest";
 import { defaultJestConfig } from "./default";
 
@@ -18,5 +19,5 @@ export function createJestConfig(
 ): JestConfig {
   return typeof config === "function"
     ? config(defaultJestConfig)
-    : { ...defaultJestConfig, ...config };
+    : merge(defaultJestConfig, config ?? {});
 }
