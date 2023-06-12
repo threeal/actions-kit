@@ -10,8 +10,7 @@ An additional [toolKit](https://github.com/actions/toolkit) for developing [GitH
 - [@actions-kit/cache](./packages/cache)
   [WIP],
   a file caching library.
-- [@actions-kit/dev](./packages/dev)
-  [[v0.1.1]](https://github.com/threeal/actions-kit/releases/tag/dev%40v0.1.1),
+- [@actions-kit/dev](./packages/dev) [[v0.2.0]](https://github.com/threeal/actions-kit/releases/tag/dev%40v0.2.0),
   a development tool library.
 - [@actions-kit/envi](./packages/envi) [[v0.1.0]](https://github.com/threeal/actions-kit/releases/tag/envi%40v0.1.0), an environment management library.
 - [@actions-kit/exec](./packages/exec) [[v0.2.0]](https://github.com/threeal/actions-kit/releases/tag/exec%40v0.2.0), a command execution library.

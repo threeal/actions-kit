@@ -1,6 +1,7 @@
 import { createJestConfig } from "@actions-kit/dev";
 
-export default createJestConfig({
-  collectCoverage: false,
-  testMatch: ["**/*.test.ts", "!**/helper.test.ts"],
+export default createJestConfig((config) => {
+  config.collectCoverage = false;
+  config.testMatch?.push("!**/helper.test.ts");
+  return config;
 });
