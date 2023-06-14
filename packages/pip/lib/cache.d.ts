@@ -16,5 +16,5 @@ export declare class PackageContentCacheInfo {
     static accumulate(packageName: string): Promise<PackageContentCacheInfo>;
     static accumulatePaths(packageName: string): Promise<string[]>;
     save(): Promise<void>;
-    restore(): Promise<string | undefined>;
+    restore(): Promise<boolean>;
 }

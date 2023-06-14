@@ -1,2 +1,2 @@
-export { eslintConfig } from "./eslint";
-export { jestConfig } from "./jest";
+export { AlterEslintConfig, createEslintConfig } from "./eslint";
+export { AlterJestConfig, createJestConfig, JestConfig } from "./jest";

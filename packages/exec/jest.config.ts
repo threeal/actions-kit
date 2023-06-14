@@ -1,5 +1,5 @@
-import { jestConfig } from "@actions-kit/dev";
+import { createJestConfig } from "@actions-kit/dev";
 
-export default jestConfig({
+export default createJestConfig({
   testMatch: ["**/*.test.ts", "!**/*helper.test.ts"],
 });

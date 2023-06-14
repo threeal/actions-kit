@@ -1,2 +1,3 @@
 const dev = require("@actions-kit/dev");
-module.exports = dev.eslintConfig();
+
+module.exports = dev.createEslintConfig();
