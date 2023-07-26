@@ -27,7 +27,7 @@ jest.mock("@actions/cache", () => ({
   },
   async restoreCache(
     paths: string[],
-    primaryKey: string
+    primaryKey: string,
   ): Promise<string | undefined> {
     const root = Mock.caches.get(primaryKey);
     if (root === undefined) return undefined;
@@ -81,7 +81,7 @@ describe("saves and restores cache", () => {
             }),
           }),
         }),
-      })
+      }),
     );
   });
 
@@ -108,7 +108,7 @@ describe("saves and restores cache", () => {
             }),
           }),
         }),
-      })
+      }),
     );
   });
 

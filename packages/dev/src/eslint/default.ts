@@ -13,6 +13,7 @@ export const defaultEslintConfig: object = {
     "i18n-text/no-en": "off",
     "import/no-namespace": "off",
     "no-shadow": "off",
+    "prettier/prettier": "off",
   },
   env: {
     es6: true,

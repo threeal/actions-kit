@@ -7,7 +7,7 @@ jest.mock("@actions/exec", () => ({
   getExecOutput: async (
     commandLine: string,
     args: string[],
-    options: ExecOptions
+    options: ExecOptions,
   ): Promise<ExecOutput> => {
     expect(commandLine).toBe("test");
     expect(options.silent).toBe(args.includes("--silent"));

@@ -28,7 +28,7 @@ jest.mock("@actions/cache", () => ({
   ...jest.requireActual<object>("@actions/cache"),
   async restoreCache(
     paths: string[],
-    key: string
+    key: string,
   ): Promise<string | undefined> {
     const cache = mock.caches.get(key);
     if (cache === undefined) return undefined;
