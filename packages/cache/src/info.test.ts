@@ -127,7 +127,7 @@ describe("saves and restores cache using a cache info object", () => {
             }),
           }),
         }),
-      })
+      }),
     );
   });
 

@@ -52,12 +52,12 @@ export class PackageContentCacheInfo {
   paths: string[] = [];
 
   static async accumulate(
-    packageName: string
+    packageName: string,
   ): Promise<PackageContentCacheInfo> {
     const cacheInfo = new PackageContentCacheInfo();
     cacheInfo.name = packageName;
     cacheInfo.paths = await PackageContentCacheInfo.accumulatePaths(
-      packageName
+      packageName,
     );
     cacheInfo.key =
       `deps-pip-${os.type()}-${packageName}` +
@@ -69,7 +69,7 @@ export class PackageContentCacheInfo {
     const packageInfo = await showPackageInfo(packageName);
     if (packageInfo === undefined) {
       throw new Error(
-        `Could not get cache paths of unknown package: ${packageName}`
+        `Could not get cache paths of unknown package: ${packageName}`,
       );
     }
     const executables = await packageInfo.executables();
