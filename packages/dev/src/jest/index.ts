@@ -15,7 +15,7 @@ export type AlterJestConfig = (config: JestConfig) => JestConfig;
  * @returns The resulting Jest configuration.
  */
 export function createJestConfig(
-  config?: JestConfig | AlterJestConfig
+  config?: JestConfig | AlterJestConfig,
 ): JestConfig {
   return typeof config === "function"
     ? config(defaultJestConfig)

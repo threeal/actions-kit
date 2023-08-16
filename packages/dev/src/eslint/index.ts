@@ -13,7 +13,7 @@ export type AlterEslintConfig = (config: object) => object;
  * @returns The resulting ESLint configuration.
  */
 export function createEslintConfig(
-  config?: object | AlterEslintConfig
+  config?: object | AlterEslintConfig,
 ): object {
   // Write a TypeScript configuration for ESLint.
   jsonfile.writeFileSync("tsconfig.eslint.json", {
