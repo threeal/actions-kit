@@ -56,9 +56,8 @@ export class PackageContentCacheInfo {
   ): Promise<PackageContentCacheInfo> {
     const cacheInfo = new PackageContentCacheInfo();
     cacheInfo.name = packageName;
-    cacheInfo.paths = await PackageContentCacheInfo.accumulatePaths(
-      packageName,
-    );
+    cacheInfo.paths =
+      await PackageContentCacheInfo.accumulatePaths(packageName);
     cacheInfo.key =
       `deps-pip-${os.type()}-${packageName}` +
       `-content-${hash(cacheInfo.paths)}`;

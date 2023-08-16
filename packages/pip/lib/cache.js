@@ -79,7 +79,8 @@ class PackageContentCacheInfo {
     static async accumulate(packageName) {
         const cacheInfo = new PackageContentCacheInfo();
         cacheInfo.name = packageName;
-        cacheInfo.paths = await PackageContentCacheInfo.accumulatePaths(packageName);
+        cacheInfo.paths =
+            await PackageContentCacheInfo.accumulatePaths(packageName);
         cacheInfo.key =
             `deps-pip-${os.type()}-${packageName}` +
                 `-content-${(0, hash_it_1.default)(cacheInfo.paths)}`;
