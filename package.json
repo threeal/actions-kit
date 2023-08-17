@@ -10,7 +10,7 @@
     "test-all": "lerna run test"
   },
   "devDependencies": {
-    "lerna": "^7.1.4"
+    "lerna": "^7.1.5"
   },
   "workspaces": [
     "internal/*",
