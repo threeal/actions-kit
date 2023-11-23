@@ -35,7 +35,7 @@ jobs:
           npm run clean -- --scope=@actions-kit/dev
           npm run build -- --scope=@actions-kit/dev
           npm run clean -- --ignore=@actions-kit/dev
-          npm run test-all
+          npm run test
 
       - name: Build and test changed packages
         if: github.event_name == 'pull_request'
