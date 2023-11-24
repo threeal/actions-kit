@@ -15,7 +15,6 @@ An additional [toolKit](https://github.com/actions/toolkit) for developing [GitH
 - [@actions-kit/envi](./packages/envi) [[v0.1.0]](https://github.com/threeal/actions-kit/releases/tag/envi%40v0.1.0), an environment management library.
 - [@actions-kit/exec](./packages/exec) [[v0.2.0]](https://github.com/threeal/actions-kit/releases/tag/exec%40v0.2.0), a command execution library.
 - [@actions-kit/log](./packages/log) [WIP], a console log library.
-- [@actions-kit/pip](./packages/pip) [WIP], a [pip](https://pypi.org/project/pip) package management library.
 
 ## License
 
