@@ -53,6 +53,6 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "chmod-cli": "^1.0.4"
+    "chmod-cli": "^1.0.6"
   }
 }
