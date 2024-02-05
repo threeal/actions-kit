@@ -54,6 +54,6 @@
   },
   "devDependencies": {
     "@types/jsonfile": "6.1.4",
-    "chmod-cli": "^1.0.4"
+    "chmod-cli": "^2.0.1"
   }
 }
