@@ -25,10 +25,11 @@
     "directory": "packages/exec"
   },
   "scripts": {
-    "build": "rimraf lib && tsc",
-    "format": "prettier --write \"*.{js,ts,json}\" \"src/**/*.ts\"",
-    "lint": "eslint src --ext .js,.ts",
-    "test": "jest"
+    "build": "dev build",
+    "clean": "dev clean",
+    "format": "dev format",
+    "lint": "dev lint",
+    "test": "dev test"
   },
   "dependencies": {
     "@actions/exec": "^1.1.1"

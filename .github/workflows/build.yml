@@ -13,32 +13,38 @@ jobs:
       matrix:
         os: [windows, ubuntu, macos]
     steps:
-      - name: Disable auto CRLF on Windows
-        if: matrix.os == 'windows'
-        run: git config --global core.autocrlf false
-
       - name: Checkout repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
       - name: Cache dependencies
         id: cache-npm
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4.0.0
         with:
           path: node_modules
           key: node-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm run bootstrap
+        run: npm install
 
-      - name: Build and test
+      - name: Build and test all packages
         if: github.event_name != 'pull_request'
-        run: npm test
+        run: |
+          npx nx reset
+          npm run clean -- --scope=@actions-kit/dev
+          npm run build -- --scope=@actions-kit/dev
+          npm run clean -- --ignore=@actions-kit/dev
+          npm run test
 
-      - name: Build and test since target branch
+      - name: Build and test changed packages
         if: github.event_name == 'pull_request'
-        run: npm test -- "--since=origin/${{ github.base_ref }}"
+        run: |
+          npx nx reset
+          npm run clean -- --scope=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
+          npm run build -- --scope=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
+          npm run clean -- --ignore=@actions-kit/dev "--since=origin/${{ github.base_ref }}"
+          npm test -- "--since=origin/${{ github.base_ref }}"
 
       - name: Check diff
         run: git diff --exit-code HEAD
@@ -49,7 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pkg: [dev, envi, exec, log]
+        pkg: [cache, dev, envi, exec, log]
     steps:
       - name: Init project
         run: npm init --yes
